@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Domain\Access\Models\Invitation;
 use App\Domain\Access\Services\InvitationService;
+use App\Domain\Access\Services\MembershipDirectory;
 use App\Exceptions\DomainRuleViolation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AcceptInvitationRequest;
@@ -18,7 +19,10 @@ use Inertia\Response;
 
 class InvitationController extends Controller
 {
-    public function __construct(private readonly InvitationService $invitations) {}
+    public function __construct(
+        private readonly InvitationService $invitations,
+        private readonly MembershipDirectory $directory,
+    ) {}
 
     public function show(Request $request, string $token): Response
     {
@@ -62,7 +66,7 @@ class InvitationController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('access.invitations.accepted')]);
 
-        return redirect()->route('dashboard');
+        return redirect()->to($this->directory->homeFor($user));
     }
 
     private function pendingOrFail(string $token): Invitation

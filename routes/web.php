@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\InvitationController;
+use App\Http\Controllers\Console\DashboardController as ConsoleDashboardController;
+use App\Http\Controllers\Console\DepartmentDashboardController;
+use App\Http\Controllers\HubController;
+use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
@@ -11,7 +15,22 @@ Route::middleware('throttle:auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+    Route::get('hub', HubController::class)->name('hub');
+    Route::get('dashboard', [HubController::class, 'home'])->name('dashboard');
+
+    Route::prefix('admin')->name('console.')->group(function () {
+        Route::get('/', ConsoleDashboardController::class)
+            ->middleware(['super-admin', 'workspace:platform'])
+            ->name('dashboard');
+
+        Route::prefix('departments/{department:slug}')->name('departments.')->middleware('workspace:department')->group(function () {
+            Route::get('/', DepartmentDashboardController::class)->name('dashboard');
+        });
+    });
+
+    Route::prefix('t/{team:slug}')->name('workspace.')->middleware(['workspace:team', 'team.active'])->group(function () {
+        Route::get('/', WorkspaceDashboardController::class)->name('dashboard');
+    });
 });
 
 require __DIR__.'/settings.php';

@@ -60,7 +60,7 @@ it('lets a new person accept, creates their account and joins them to the team',
         'name_en' => 'New Coach',
         'password' => 'robotics2026',
         'password_confirmation' => 'robotics2026',
-    ])->assertRedirect(route('dashboard'));
+    ])->assertRedirect(route('workspace.dashboard', $this->team->slug));
 
     $user = User::query()->where('email', 'new@example.com')->sole();
 

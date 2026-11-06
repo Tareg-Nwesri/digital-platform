@@ -9,9 +9,14 @@
 
 @theme inline {
     --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        Manrope, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-arabic: 'Noto Kufi Arabic', Manrope, Tahoma, ui-sans-serif, sans-serif;
+
+    --color-brand: var(--brand);
+    --color-brand-strong: var(--brand-strong);
+    --color-brand-ink: var(--brand-ink);
+    --color-brand-soft: var(--brand-soft);
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -83,83 +88,101 @@
     body,
     html {
         --font-sans:
-            'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-            'Noto Color Emoji';
+            Manrope, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+            'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    }
+
+    /* Arabic pages use the Kufi face; numbers stay Western digits (D-11). */
+    html:lang(ar) body {
+        font-family: var(--font-arabic);
     }
 }
 
+/*
+  Digital Robotics brand tokens (ported from the v1 public redesign):
+  one orange accent, warm neutrals, dark ink. Light and dark themes.
+*/
 :root {
-    --background: hsl(0 0% 100%);
-    --foreground: hsl(0 0% 3.9%);
-    --card: hsl(0 0% 100%);
-    --card-foreground: hsl(0 0% 3.9%);
-    --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(0 0% 3.9%);
-    --primary: hsl(0 0% 9%);
-    --primary-foreground: hsl(0 0% 98%);
-    --secondary: hsl(0 0% 92.1%);
-    --secondary-foreground: hsl(0 0% 9%);
-    --muted: hsl(0 0% 96.1%);
-    --muted-foreground: hsl(0 0% 45.1%);
-    --accent: hsl(0 0% 96.1%);
-    --accent-foreground: hsl(0 0% 9%);
-    --destructive: hsl(0 84.2% 60.2%);
-    --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 92.8%);
-    --input: hsl(0 0% 89.8%);
-    --ring: hsl(0 0% 3.9%);
-    --chart-1: hsl(12 76% 61%);
-    --chart-2: hsl(173 58% 39%);
-    --chart-3: hsl(197 37% 24%);
-    --chart-4: hsl(43 74% 66%);
-    --chart-5: hsl(27 87% 67%);
-    --radius: 0.5rem;
-    --sidebar-background: hsl(0 0% 98%);
-    --sidebar-foreground: hsl(240 5.3% 26.1%);
-    --sidebar-primary: hsl(0 0% 10%);
-    --sidebar-primary-foreground: hsl(0 0% 98%);
-    --sidebar-accent: hsl(0 0% 94%);
-    --sidebar-accent-foreground: hsl(0 0% 30%);
-    --sidebar-border: hsl(0 0% 91%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    --sidebar: hsl(0 0% 98%);
+    --brand: #f8660b;
+    --brand-strong: #e8590c;
+    --brand-ink: #b54708;
+    --brand-soft: #fff1e6;
+
+    --background: #f7f6f2;
+    --foreground: #1b1915;
+    --card: #ffffff;
+    --card-foreground: #1b1915;
+    --popover: #ffffff;
+    --popover-foreground: #1b1915;
+    --primary: #f8660b;
+    --primary-foreground: #1b1915;
+    --secondary: #f0eee8;
+    --secondary-foreground: #1b1915;
+    --muted: #f0eee8;
+    --muted-foreground: #66625a;
+    --accent: #fff1e6;
+    --accent-foreground: #b54708;
+    --destructive: #b42318;
+    --destructive-foreground: #ffffff;
+    --border: #e6e3dc;
+    --input: #d3cfc6;
+    --ring: #b54708;
+    --chart-1: #f8660b;
+    --chart-2: #1d6b3a;
+    --chart-3: #3d3a34;
+    --chart-4: #d9a441;
+    --chart-5: #b54708;
+    --radius: 0.75rem;
+    --sidebar-background: #fbfaf7;
+    --sidebar-foreground: #3d3a34;
+    --sidebar-primary: #f8660b;
+    --sidebar-primary-foreground: #1b1915;
+    --sidebar-accent: #fff1e6;
+    --sidebar-accent-foreground: #b54708;
+    --sidebar-border: #e6e3dc;
+    --sidebar-ring: #b54708;
+    --sidebar: #fbfaf7;
 }
 
 .dark {
-    --background: hsl(0 0% 3.9%);
-    --foreground: hsl(0 0% 98%);
-    --card: hsl(0 0% 3.9%);
-    --card-foreground: hsl(0 0% 98%);
-    --popover: hsl(0 0% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
-    --primary: hsl(0 0% 98%);
-    --primary-foreground: hsl(0 0% 9%);
-    --secondary: hsl(0 0% 14.9%);
-    --secondary-foreground: hsl(0 0% 98%);
-    --muted: hsl(0 0% 16.08%);
-    --muted-foreground: hsl(0 0% 63.9%);
-    --accent: hsl(0 0% 14.9%);
-    --accent-foreground: hsl(0 0% 98%);
-    --destructive: hsl(0 84% 60%);
-    --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 14.9%);
-    --input: hsl(0 0% 14.9%);
-    --ring: hsl(0 0% 83.1%);
-    --chart-1: hsl(220 70% 50%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
-    --sidebar-background: hsl(0 0% 7%);
-    --sidebar-foreground: hsl(0 0% 95.9%);
-    --sidebar-primary: hsl(360, 100%, 100%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(0 0% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(0 0% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    --sidebar: hsl(240 5.9% 10%);
+    --brand: #f8660b;
+    --brand-strong: #ff7b29;
+    --brand-ink: #ff9a5c;
+    --brand-soft: #3a2415;
+
+    --background: #18160f;
+    --foreground: #f2efe8;
+    --card: #211e18;
+    --card-foreground: #f2efe8;
+    --popover: #211e18;
+    --popover-foreground: #f2efe8;
+    --primary: #f8660b;
+    --primary-foreground: #1b1915;
+    --secondary: #2a2720;
+    --secondary-foreground: #f2efe8;
+    --muted: #2a2720;
+    --muted-foreground: #b3ada2;
+    --accent: #3a2415;
+    --accent-foreground: #ff9a5c;
+    --destructive: #f04438;
+    --destructive-foreground: #ffffff;
+    --border: #3a362d;
+    --input: #4a453b;
+    --ring: #ff9a5c;
+    --chart-1: #f8660b;
+    --chart-2: #4ade80;
+    --chart-3: #e7e3da;
+    --chart-4: #fbbf24;
+    --chart-5: #ff9a5c;
+    --sidebar-background: #14120d;
+    --sidebar-foreground: #e7e3da;
+    --sidebar-primary: #f8660b;
+    --sidebar-primary-foreground: #1b1915;
+    --sidebar-accent: #2a2720;
+    --sidebar-accent-foreground: #ff9a5c;
+    --sidebar-border: #2a2720;
+    --sidebar-ring: #ff9a5c;
+    --sidebar: #14120d;
 }
 
 @layer base {
@@ -168,5 +191,10 @@
     }
     body {
         @apply bg-background text-foreground;
+        font-variant-numeric: lining-nums;
+    }
+
+    ::selection {
+        background: color-mix(in srgb, var(--brand) 25%, transparent);
     }
 }

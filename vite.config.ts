@@ -12,8 +12,13 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.ts'],
             refresh: true,
             fonts: [
-                bunny('Instrument Sans', {
-                    weights: [400, 500, 600],
+                bunny('Manrope', {
+                    weights: [400, 500, 600, 700, 800],
+                    optimizedFallbacks: false,
+                }),
+                bunny('Noto Kufi Arabic', {
+                    weights: [400, 500, 600, 700],
+                    optimizedFallbacks: false,
                 }),
             ],
         }),

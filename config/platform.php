@@ -8,6 +8,11 @@ return [
         'name' => env('SUPER_ADMIN_NAME', 'Platform Admin'),
     ],
 
+    /*
+    | Password for every @demo.test login created by DemoSeeder (local/staging only).
+    */
+    'demo_password' => env('DEMO_PASSWORD', 'password'),
+
     'currencies' => ['LYD', 'USD', 'EUR'],
 
     /*

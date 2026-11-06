@@ -7,6 +7,16 @@ use Laravel\Fortify\Features;
 
 abstract class TestCase extends BaseTestCase
 {
+    /**
+     * Feature tests assert on Inertia props; they must not depend on a front-end build.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
+
     protected function skipUnlessFortifyHas(string $feature, ?string $message = null): void
     {
         if (! Features::enabled($feature)) {

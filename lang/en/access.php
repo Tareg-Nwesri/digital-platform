@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'two_factor_required' => 'Turn on two-factor authentication to continue.',
+    'impersonation' => [
+        'blocked' => 'This action is not available while acting as another user.',
+    ],
     'roles' => [
         'captain' => 'Captain',
         'coach' => 'Coach',

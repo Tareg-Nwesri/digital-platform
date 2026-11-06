@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'two_factor_required' => 'فعّل التحقق بخطوتين للمتابعة.',
+    'impersonation' => [
+        'blocked' => 'هذا الإجراء غير متاح أثناء العمل بحساب مستخدم آخر.',
+    ],
     'roles' => [
         'captain' => 'القائد',
         'coach' => 'المدرب',

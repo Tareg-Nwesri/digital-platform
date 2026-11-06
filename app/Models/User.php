@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Fortify\Contracts\PasskeyUser;
 use Laravel\Fortify\PasskeyAuthenticatable;
@@ -99,6 +100,17 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
             Workspace::platform(),
             fn (): bool => $this->unsetRelation('roles')->hasRole(self::SUPER_ADMIN),
         );
+    }
+
+    /**
+     * Super admins and department admins must use two-factor authentication.
+     */
+    public function requiresTwoFactor(): bool
+    {
+        return $this->isSuperAdmin() || DB::table('department_members')
+            ->where('user_id', $this->getKey())
+            ->where('is_admin', true)
+            ->exists();
     }
 
     public function forgetSuperAdminCache(): void

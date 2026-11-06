@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\InvitationController;
 use App\Http\Controllers\Console\DashboardController as ConsoleDashboardController;
 use App\Http\Controllers\Console\DepartmentDashboardController;
+use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,11 @@ Route::middleware('throttle:auth')->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('hub', HubController::class)->name('hub');
     Route::get('dashboard', [HubController::class, 'home'])->name('dashboard');
+
+    Route::post('admin/users/{user}/impersonate', [ImpersonationController::class, 'take'])
+        ->middleware('not-impersonating')
+        ->name('impersonate.take');
+    Route::post('impersonate/leave', [ImpersonationController::class, 'leave'])->name('impersonate.leave');
 
     Route::prefix('admin')->name('console.')->group(function () {
         Route::get('/', ConsoleDashboardController::class)

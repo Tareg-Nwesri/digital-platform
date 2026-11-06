@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -40,8 +41,27 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'impersonating' => $this->impersonating(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
+    }
+
+    /**
+     * Data for the "acting as" banner while the super admin impersonates someone.
+     *
+     * @return array{originalName: string}|null
+     */
+    private function impersonating(): ?array
+    {
+        $manager = app('impersonate');
+
+        if (! $manager->isImpersonating()) {
+            return null;
+        }
+
+        $original = User::query()->find($manager->getImpersonatorId());
+
+        return $original === null ? null : ['originalName' => $original->name];
     }
 }

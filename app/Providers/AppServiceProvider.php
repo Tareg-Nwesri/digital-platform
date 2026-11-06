@@ -2,15 +2,19 @@
 
 namespace App\Providers;
 
+use App\Domain\Access\Listeners\LogImpersonation;
 use App\Domain\Access\Services\WorkspaceContext;
 use App\Domain\Teams\Services\TeamFeatures;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Lab404\Impersonate\Events\LeaveImpersonation;
+use Lab404\Impersonate\Events\TakeImpersonation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,7 +42,13 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function configureAuthorization(): void
     {
-        Gate::before(fn (User $user): ?bool => $user->isSuperAdmin() ? true : null);
+        Gate::before(fn (User $user, string $ability): ?bool => $ability !== 'impersonate' && $user->isSuperAdmin() ? true : null);
+
+        Gate::define('impersonate', fn (User $actor, User $target): bool => $actor->canImpersonate()
+            && $actor->isNot($target)
+            && $target->canBeImpersonated());
+
+        Event::listen([TakeImpersonation::class, LeaveImpersonation::class], LogImpersonation::class);
     }
 
     /**

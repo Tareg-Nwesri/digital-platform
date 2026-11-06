@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Middleware\EnsureNotImpersonating;
 use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\EnsureTeamActive;
+use App\Http\Middleware\EnsureTwoFactorWhenRequired;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ResolveWorkspace;
@@ -24,10 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'workspace' => ResolveWorkspace::class,
             'team.active' => EnsureTeamActive::class,
             'super-admin' => EnsureSuperAdmin::class,
+            'not-impersonating' => EnsureNotImpersonating::class,
         ]);
 
         $middleware->web(append: [
             HandleAppearance::class,
+            EnsureTwoFactorWhenRequired::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);

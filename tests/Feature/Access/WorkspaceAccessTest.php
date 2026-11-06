@@ -16,9 +16,9 @@ beforeEach(function () {
     $this->members = app(TeamMemberService::class);
 });
 
-function makeSuperAdmin(): User
+function makeSuperAdmin(bool $withTwoFactor = false): User
 {
-    $user = User::factory()->create();
+    $user = ($withTwoFactor ? User::factory()->withTwoFactor() : User::factory())->create();
     app(WorkspaceContext::class)->within(Workspace::platform(), fn () => $user->assignRole(User::SUPER_ADMIN));
 
     return $user->fresh();
@@ -89,7 +89,7 @@ it('forbids department pages to people outside the department', function () {
 
 it('keeps the platform console for the super admin only', function () {
     $this->actingAs(User::factory()->create())->get(route('console.dashboard'))->assertForbidden();
-    $this->actingAs(makeSuperAdmin())->get(route('console.dashboard'))
+    $this->actingAs(makeSuperAdmin(withTwoFactor: true))->get(route('console.dashboard'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page->component('console/Dashboard'));
 });

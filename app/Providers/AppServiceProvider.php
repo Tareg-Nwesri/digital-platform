@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Domain\Access\Services\WorkspaceContext;
+use App\Domain\Teams\Services\TeamFeatures;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->configureAuthorization();
+        TeamFeatures::define();
     }
 
     /**

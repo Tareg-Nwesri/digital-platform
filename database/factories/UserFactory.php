@@ -25,7 +25,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name_en' => fake()->name(),
+            'name_ar' => null,
+            'locale' => 'en',
+            'is_active' => true,
+            'can_login' => true,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -44,6 +48,28 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * A team member recorded without a login (e.g. a young student).
+     */
+    public function withoutLogin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email' => null,
+            'email_verified_at' => null,
+            'password' => null,
+            'can_login' => false,
+            'birthdate' => fake()->dateTimeBetween('-17 years', '-9 years'),
+        ]);
+    }
+
+    /**
+     * Indicate that the account is deactivated.
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => ['is_active' => false]);
     }
 
     /**

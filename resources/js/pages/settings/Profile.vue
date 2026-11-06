@@ -45,17 +45,30 @@ const user = computed(() => page.props.auth.user);
             v-slot="{ errors, processing }"
         >
             <div class="grid gap-2">
-                <Label for="name">Name</Label>
+                <Label for="name_en">Name (English)</Label>
                 <Input
-                    id="name"
+                    id="name_en"
                     class="mt-1 block w-full"
-                    name="name"
-                    :default-value="user.name"
+                    name="name_en"
+                    :default-value="user.name_en"
                     required
                     autocomplete="name"
                     placeholder="Full name"
                 />
-                <InputError class="mt-2" :message="errors.name" />
+                <InputError class="mt-2" :message="errors.name_en" />
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="name_ar">Name (Arabic)</Label>
+                <Input
+                    id="name_ar"
+                    class="mt-1 block w-full"
+                    name="name_ar"
+                    dir="rtl"
+                    :default-value="user.name_ar ?? ''"
+                    placeholder="الاسم الكامل"
+                />
+                <InputError class="mt-2" :message="errors.name_ar" />
             </div>
 
             <div class="grid gap-2">

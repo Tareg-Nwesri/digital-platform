@@ -29,13 +29,13 @@ Media: `avatar` (single, conversions `thumb`).
 | Column | Type | Notes |
 | --- | --- | --- |
 | id | bigint | Spatie `team_foreign_key` points here |
-| type | varchar(16) | `WorkspaceType` |
+| type | varchar(16) | `WorkspaceType`: `platform` (exactly one row), `team`, `department` |
 | timestamps | | |
 
 ### Spatie Permission tables
 - Published with `teams => true` and `team_foreign_key => 'workspace_id'`.
-- `roles.workspace_id` is nullable: global roles have null.
-- `model_has_roles` and `model_has_permissions` include `workspace_id` in their primary keys.
+- `model_has_roles` and `model_has_permissions` include `workspace_id` in their primary keys, so it can never be null there.
+- **Platform workspace:** global roles such as `super-admin` are assigned in one reserved workspace row with `type = platform` (`Workspace::platform()`), not with a null key. `User::isSuperAdmin()` checks the role inside that workspace, and `Gate::before` uses it.
 
 ### invitations
 | Column | Type | Null | Notes |

@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Domain\Access\Services\WorkspaceContext;
+use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -15,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->scoped(WorkspaceContext::class);
     }
 
     /**
@@ -24,6 +27,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureAuthorization();
+    }
+
+    /**
+     * The super admin passes every gate check (HLD 6.4). Routes that must stay
+     * blocked while impersonating are guarded separately by middleware.
+     */
+    protected function configureAuthorization(): void
+    {
+        Gate::before(fn (User $user): ?bool => $user->isSuperAdmin() ? true : null);
     }
 
     /**

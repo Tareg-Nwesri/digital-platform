@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Spatie\Honeypot\Honeypot;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -44,6 +45,11 @@ class HandleInertiaRequests extends Middleware
                 'impersonating' => $this->impersonating(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'honeypot' => fn (): array => (new Honeypot(config('honeypot')))->toArray(),
+            'turnstile' => fn (): array => [
+                'enabled' => (bool) config('turnstile.enabled'),
+                'siteKey' => config('turnstile.sitekey'),
+            ],
         ];
     }
 

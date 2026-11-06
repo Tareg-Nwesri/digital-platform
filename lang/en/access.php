@@ -2,6 +2,10 @@
 
 return [
     'two_factor_required' => 'Turn on two-factor authentication to continue.',
+    'spam' => [
+        'rejected' => 'We could not verify this request. Please wait a moment and try again.',
+        'turnstile_failed' => 'Please complete the security check.',
+    ],
     'impersonation' => [
         'blocked' => 'This action is not available while acting as another user.',
     ],

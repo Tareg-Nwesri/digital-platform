@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import BotGuard from '@/components/forms/BotGuard.vue';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
@@ -75,6 +76,8 @@ const inputEmail = ref(props.email);
                 />
                 <InputError :message="errors.password_confirmation" />
             </div>
+
+            <BotGuard :errors="errors" />
 
             <Button
                 type="submit"

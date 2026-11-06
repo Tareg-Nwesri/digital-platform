@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
+import BotGuard from '@/components/forms/BotGuard.vue';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -47,6 +48,8 @@ defineProps<{
             </div>
 
             <div class="my-6 flex items-center justify-start">
+                <BotGuard :errors="errors" />
+
                 <Button
                     class="w-full"
                     :disabled="processing"

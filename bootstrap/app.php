@@ -6,6 +6,7 @@ use App\Http\Middleware\EnsureTeamActive;
 use App\Http\Middleware\EnsureTwoFactorWhenRequired;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\ProtectAgainstBots;
 use App\Http\Middleware\ResolveWorkspace;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -27,11 +28,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'team.active' => EnsureTeamActive::class,
             'super-admin' => EnsureSuperAdmin::class,
             'not-impersonating' => EnsureNotImpersonating::class,
+            'bot-protected' => ProtectAgainstBots::class,
         ]);
 
         $middleware->web(append: [
             HandleAppearance::class,
             EnsureTwoFactorWhenRequired::class,
+            ProtectAgainstBots::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);

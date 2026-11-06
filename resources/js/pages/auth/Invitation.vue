@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InvitationController from '@/actions/App/Http/Controllers/Auth/InvitationController';
+import BotGuard from '@/components/forms/BotGuard.vue';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
@@ -112,6 +113,8 @@ defineProps<{
             </div>
 
             <InputError :message="errors.members ?? errors.user ?? errors.role" />
+
+            <BotGuard :errors="errors" />
 
             <Button
                 type="submit"

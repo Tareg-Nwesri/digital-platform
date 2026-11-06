@@ -5,10 +5,15 @@ use App\Http\Controllers\Console\DashboardController as ConsoleDashboardControll
 use App\Http\Controllers\Console\DepartmentDashboardController;
 use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\HubController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
+
+Route::post('locale/{locale}', LocaleController::class)
+    ->whereIn('locale', ['en', 'ar'])
+    ->name('locale.update');
 
 Route::middleware('throttle:auth')->group(function () {
     Route::get('invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');

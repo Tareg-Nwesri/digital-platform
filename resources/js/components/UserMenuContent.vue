@@ -7,6 +7,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import LocaleSwitch from '@/components/app/LocaleSwitch.vue';
 import UserInfo from '@/components/UserInfo.vue';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
@@ -33,10 +34,11 @@ defineProps<Props>();
     <DropdownMenuGroup>
         <DropdownMenuItem :as-child="true">
             <Link class="block w-full cursor-pointer" :href="edit()" prefetch>
-                <Settings class="mr-2 h-4 w-4" />
-                Settings
+                <Settings class="me-2 h-4 w-4" />
+                {{ $t('Settings') }}
             </Link>
         </DropdownMenuItem>
+        <LocaleSwitch />
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuItem :as-child="true">
@@ -47,8 +49,8 @@ defineProps<Props>();
             as="button"
             data-test="logout-button"
         >
-            <LogOut class="mr-2 h-4 w-4" />
-            Log out
+            <LogOut class="me-2 h-4 w-4" />
+            {{ $t('Log out') }}
         </Link>
     </DropdownMenuItem>
 </template>

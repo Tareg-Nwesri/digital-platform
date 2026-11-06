@@ -1,9 +1,11 @@
 import { createInertiaApp } from '@inertiajs/vue3';
+import { i18nVue } from 'laravel-vue-i18n';
 import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
+import { currentLocale, resolveTranslations } from '@/lib/i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -22,6 +24,12 @@ void createInertiaApp({
         }
     },
     withApp: (app) => {
+        app.use(i18nVue, {
+            lang: currentLocale(),
+            fallbackLang: 'en',
+            resolve: resolveTranslations,
+        });
+
         app.directive('focus', {
             mounted: (el: HTMLElement, shouldFocus) => {
                 if (shouldFocus.value !== false) {
@@ -31,7 +39,7 @@ void createInertiaApp({
         });
     },
     progress: {
-        color: '#4B5563',
+        color: '#f8660b',
     },
 });
 

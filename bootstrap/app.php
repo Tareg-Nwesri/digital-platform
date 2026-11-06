@@ -9,11 +9,13 @@ use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ProtectAgainstBots;
 use App\Http\Middleware\ResolveWorkspace;
 use App\Http\Middleware\SetLocale;
+use App\Http\Responses\ErrorPage;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -45,4 +47,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        $exceptions->respond(function (Response $response, Throwable $exception, Request $request): Response {
+            return ErrorPage::shouldRender($request, $response->getStatusCode())
+                ? ErrorPage::render($request, $response->getStatusCode())
+                : $response;
+        });
     })->create();

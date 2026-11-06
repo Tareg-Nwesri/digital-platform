@@ -45,3 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
+
+// Unknown URLs still run the web middleware, so the 404 page knows the
+// viewer's language and whether to link them to the hub.
+Route::any('{fallbackPlaceholder}', fn () => abort(404))
+    ->where('fallbackPlaceholder', '.*')
+    ->fallback();

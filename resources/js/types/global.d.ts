@@ -20,6 +20,16 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
+            locale: 'en' | 'ar';
+            dir: 'ltr' | 'rtl';
+            workspace: {
+                type: 'team' | 'department';
+                slug: string;
+                name: string;
+            } | null;
+            can: Record<string, boolean>;
+            features: Record<string, boolean | number>;
+            nav: { key: string; label: string; href: string; icon: string }[];
             [key: string]: unknown;
         };
     }

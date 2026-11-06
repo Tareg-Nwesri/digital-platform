@@ -16,6 +16,7 @@ export type User = {
 export type Auth = {
     user: User;
     impersonating: { originalName: string } | null;
+    workspaces: { type: 'team' | 'department'; slug: string; name: string }[];
 };
 
 export type Passkey = {

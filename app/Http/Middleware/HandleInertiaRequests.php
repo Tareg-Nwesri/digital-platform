@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Domain\Access\Services\Navigation;
+use App\Domain\Access\Services\WorkspaceProps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -42,10 +44,15 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'locale' => app()->getLocale(),
             'dir' => app()->getLocale() === 'ar' ? 'rtl' : 'ltr',
-            'auth' => [
+            'auth' => fn (): array => [
                 'user' => $request->user(),
                 'impersonating' => $this->impersonating(),
+                'workspaces' => app(WorkspaceProps::class)->switcher($request->user()),
             ],
+            'workspace' => fn (): ?array => app(WorkspaceProps::class)->workspace(),
+            'can' => fn (): array => app(WorkspaceProps::class)->can($request->user()),
+            'features' => fn (): array => app(WorkspaceProps::class)->features(),
+            'nav' => fn (): array => app(Navigation::class)->for($request->user()),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'honeypot' => fn (): array => (new Honeypot(config('honeypot')))->toArray(),
             'turnstile' => fn (): array => [

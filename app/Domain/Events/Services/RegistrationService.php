@@ -369,7 +369,7 @@ final class RegistrationService
      */
     private function violation(array $violations): DomainRuleViolation
     {
-        return DomainRuleViolation::with(['registration' => array_map(fn (RuleViolation $violation): string => $violation->message, $violations)]);
+        return DomainRuleViolation::with(['registration' => implode(' ', array_map(fn (RuleViolation $violation): string => $violation->message, $violations))]);
     }
 
     /**

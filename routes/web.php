@@ -7,6 +7,9 @@ use App\Http\Controllers\Console\DepartmentController;
 use App\Http\Controllers\Console\DepartmentInvitationController;
 use App\Http\Controllers\Console\DepartmentMemberController;
 use App\Http\Controllers\Console\DepartmentPermissionController;
+use App\Http\Controllers\Console\EventController;
+use App\Http\Controllers\Console\EventRegistrationController;
+use App\Http\Controllers\Console\EventSetupController;
 use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\Console\TeamController;
 use App\Http\Controllers\Console\TeamFeatureController;
@@ -66,6 +69,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::patch('{team:slug}/status', TeamStatusController::class)->name('status');
             Route::patch('{team:slug}/tier', TeamTierController::class)->name('tier');
             Route::put('{team:slug}/features', TeamFeatureController::class)->name('features');
+        });
+
+        Route::prefix('events')->name('events.')->middleware('workspace:platform')->group(function () {
+            Route::get('/', [EventController::class, 'index'])->name('index');
+            Route::post('/', [EventController::class, 'store'])->name('store');
+            Route::get('{event:slug}', [EventController::class, 'show'])->name('show');
+            Route::patch('{event:slug}', [EventController::class, 'update'])->name('update');
+            Route::delete('{event:slug}', [EventController::class, 'destroy'])->name('destroy');
+            Route::patch('{event:slug}/status', [EventSetupController::class, 'status'])->name('status');
+            Route::put('{event:slug}/categories', [EventSetupController::class, 'categories'])->name('categories');
+            Route::post('{event:slug}/invitations', [EventSetupController::class, 'invite'])->name('invitations.store');
+            Route::delete('{event:slug}/invitations/{team}', [EventSetupController::class, 'uninvite'])->name('invitations.destroy');
+            Route::post('{event:slug}/registrations', [EventRegistrationController::class, 'store'])->name('registrations.store');
+            Route::post('{event:slug}/waitlist/promote', [EventRegistrationController::class, 'promote'])->name('waitlist.promote');
+            Route::put('{event:slug}/results', [EventSetupController::class, 'results'])->name('results');
+            Route::post('{event:slug}/results/publish', [EventSetupController::class, 'publishResults'])->name('results.publish');
+        });
+
+        Route::prefix('registrations/{registration}')->name('registrations.')->middleware('workspace:platform')->group(function () {
+            Route::post('approve', [EventRegistrationController::class, 'approve'])->name('approve');
+            Route::post('reject', [EventRegistrationController::class, 'reject'])->name('reject');
+            Route::post('waitlist', [EventRegistrationController::class, 'waitlist'])->name('waitlist');
+            Route::post('withdraw', [EventRegistrationController::class, 'withdraw'])->name('withdraw');
         });
 
         Route::prefix('departments/{department:slug}')->name('departments.')->middleware('workspace:department')->group(function () {

@@ -70,7 +70,7 @@ final class MembershipDirectory
         }
 
         if ($teams === [] && count($departments) === 1) {
-            return route('console.departments.dashboard', $departments[0]['slug']);
+            return route('console.departments.show', $departments[0]['slug']);
         }
 
         return route('hub');

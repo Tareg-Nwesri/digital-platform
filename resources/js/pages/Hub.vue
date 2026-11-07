@@ -4,7 +4,7 @@ import Heading from '@/components/Heading.vue';
 import { Badge } from '@/components/ui/badge';
 import { hub } from '@/routes';
 import { dashboard as consoleDashboard } from '@/routes/console';
-import { dashboard as departmentDashboard } from '@/routes/console/departments';
+import { show as departmentDashboard } from '@/routes/console/departments';
 import { dashboard as teamDashboard } from '@/routes/workspace';
 
 defineOptions({

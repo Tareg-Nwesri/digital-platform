@@ -125,7 +125,7 @@ final class Navigation
             ->get();
 
         foreach ($departments as $department) {
-            $items[] = $this->item('department', 'department-'.$department->slug, route('console.departments.dashboard', $department->slug), 'building-2', $department->localized('name'));
+            $items[] = $this->item('department', 'department-'.$department->slug, route('console.departments.show', $department->slug), 'building-2', $department->localized('name'));
         }
 
         foreach (self::CONSOLE_ITEMS as [$key, $route, $permission, $icon]) {

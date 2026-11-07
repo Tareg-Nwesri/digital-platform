@@ -72,7 +72,7 @@ it('shares a department member\'s granted permissions in that department', funct
     app(DepartmentService::class)->addMember($department, $admin, isAdmin: true);
     app(DepartmentPermissionService::class)->syncMember($department, $member, ['events.view'], $admin);
 
-    $this->actingAs($member)->get(route('console.departments.dashboard', $department->slug))
+    $this->actingAs($member)->get(route('console.departments.show', $department->slug))
         ->assertInertia(fn (Assert $page) => $page
             ->where('workspace.type', 'department')
             ->where('can', fn ($values) => $values['events.view'] === true)

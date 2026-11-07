@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\Auth\InvitationController;
 use App\Http\Controllers\Console\DashboardController as ConsoleDashboardController;
-use App\Http\Controllers\Console\DepartmentDashboardController;
+use App\Http\Controllers\Console\DepartmentCeilingController;
+use App\Http\Controllers\Console\DepartmentController;
+use App\Http\Controllers\Console\DepartmentInvitationController;
+use App\Http\Controllers\Console\DepartmentMemberController;
+use App\Http\Controllers\Console\DepartmentPermissionController;
 use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
@@ -34,8 +38,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->middleware(['super-admin', 'workspace:platform'])
             ->name('dashboard');
 
+        Route::middleware(['super-admin', 'workspace:platform'])->group(function () {
+            Route::get('departments', [DepartmentController::class, 'index'])->name('departments.index');
+            Route::post('departments', [DepartmentController::class, 'store'])->name('departments.store');
+        });
+
         Route::prefix('departments/{department:slug}')->name('departments.')->middleware('workspace:department')->group(function () {
-            Route::get('/', DepartmentDashboardController::class)->name('dashboard');
+            Route::get('/', [DepartmentController::class, 'show'])->name('show');
+            Route::patch('/', [DepartmentController::class, 'update'])->name('update');
+            Route::put('ceiling', DepartmentCeilingController::class)->name('ceiling');
+            Route::patch('members/{user}/admin', [DepartmentMemberController::class, 'setAdmin'])->name('members.admin');
+            Route::delete('members/{user}', [DepartmentMemberController::class, 'destroy'])->name('members.destroy');
+            Route::put('members/{user}/permissions', DepartmentPermissionController::class)
+                ->middleware('not-impersonating')
+                ->name('permissions.sync');
+            Route::post('invitations', [DepartmentInvitationController::class, 'store'])->name('invitations.store');
+            Route::delete('invitations/{invitation}', [DepartmentInvitationController::class, 'destroy'])->name('invitations.destroy');
         });
     });
 

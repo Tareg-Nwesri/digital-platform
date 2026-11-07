@@ -9,4 +9,14 @@ return [
         'member_only' => 'Permissions can only be given to non-admin members of this department.',
         'already_member' => 'This person is already in the department.',
     ],
+    'flash' => [
+        'created' => 'Department created.',
+        'updated' => 'Department updated.',
+        'ceiling_saved' => 'Permission ceiling saved.',
+        'permissions_saved' => 'Permissions for :name saved.',
+        'admin_changed' => 'Admin role for :name updated.',
+        'member_removed' => ':name was removed from the department.',
+        'invited' => 'Invitation sent to :email.',
+        'invitation_revoked' => 'Invitation revoked.',
+    ],
 ];

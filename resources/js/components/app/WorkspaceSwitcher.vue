@@ -16,7 +16,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { hub } from '@/routes';
-import { dashboard as departmentDashboard } from '@/routes/console/departments';
+import { show as departmentDashboard } from '@/routes/console/departments';
 import { dashboard as teamDashboard } from '@/routes/workspace';
 
 const page = usePage();
@@ -40,9 +40,19 @@ function href(workspace: { type: string; slug: string }) {
                         class="border bg-sidebar-accent/40"
                         data-test="workspace-switcher"
                     >
-                        <div class="grid flex-1 text-start text-sm leading-tight">
-                            <span class="truncate text-xs text-muted-foreground">
-                                {{ current?.type === 'department' ? 'Department' : current ? 'Team' : 'Workspace' }}
+                        <div
+                            class="grid flex-1 text-start text-sm leading-tight"
+                        >
+                            <span
+                                class="truncate text-xs text-muted-foreground"
+                            >
+                                {{
+                                    current?.type === 'department'
+                                        ? 'Department'
+                                        : current
+                                          ? 'Team'
+                                          : 'Workspace'
+                                }}
                             </span>
                             <span class="truncate font-semibold">
                                 {{ current?.name ?? 'Choose a workspace' }}
@@ -60,11 +70,20 @@ function href(workspace: { type: string; slug: string }) {
                         :key="`${workspace.type}-${workspace.slug}`"
                         :as-child="true"
                     >
-                        <Link :href="href(workspace)" class="flex w-full items-center gap-2">
+                        <Link
+                            :href="href(workspace)"
+                            class="flex w-full items-center gap-2"
+                        >
                             <span class="truncate">{{ workspace.name }}</span>
-                            <span class="ms-auto text-xs text-muted-foreground capitalize">{{ workspace.type }}</span>
+                            <span
+                                class="ms-auto text-xs text-muted-foreground capitalize"
+                                >{{ workspace.type }}</span
+                            >
                             <Check
-                                v-if="current?.type === workspace.type && current?.slug === workspace.slug"
+                                v-if="
+                                    current?.type === workspace.type &&
+                                    current?.slug === workspace.slug
+                                "
                                 class="size-4"
                             />
                         </Link>

@@ -83,8 +83,8 @@ it('forbids department pages to people outside the department', function () {
     $insider = User::factory()->create();
     app(DepartmentService::class)->addMember($department, $insider);
 
-    $this->actingAs($outsider)->get(route('console.departments.dashboard', $department->slug))->assertForbidden();
-    $this->actingAs($insider)->get(route('console.departments.dashboard', $department->slug))->assertOk();
+    $this->actingAs($outsider)->get(route('console.departments.show', $department->slug))->assertForbidden();
+    $this->actingAs($insider)->get(route('console.departments.show', $department->slug))->assertOk();
 });
 
 it('keeps the platform console for the super admin only', function () {

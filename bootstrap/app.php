@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\DomainRuleViolation;
 use App\Http\Middleware\EnsureNotImpersonating;
 use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\EnsureTeamActive;
@@ -44,6 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->map(DomainRuleViolation::class, fn (DomainRuleViolation $violation) => $violation->toValidationException());
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

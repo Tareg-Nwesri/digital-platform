@@ -32,7 +32,7 @@ defineProps<{
 
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-xl border bg-card p-5" data-test="members-tile">
-                <p class="text-sm text-muted-foreground">Members</p>
+                <p class="text-sm text-muted-foreground">{{ $t('Members') }}</p>
                 <p class="mt-1 text-3xl font-semibold tabular-nums">
                     {{ stats.members.used }}
                     <span class="text-base font-normal text-muted-foreground"

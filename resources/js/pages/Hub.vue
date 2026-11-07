@@ -27,12 +27,12 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Your workspaces" />
+    <Head :title="$t('Your workspaces')" />
 
     <div class="flex flex-col gap-8 p-4 md:p-6">
         <Heading
-            title="Your workspaces"
-            description="Choose where you want to work."
+            :title="$t('Your workspaces')"
+            :description="$t('Choose where you want to work.')"
         />
 
         <Link
@@ -41,14 +41,16 @@ defineProps<{
             class="rounded-xl border bg-card p-5 transition hover:border-foreground/30"
             data-test="hub-console"
         >
-            <p class="font-semibold">Organisation console</p>
+            <p class="font-semibold">{{ $t('Organisation console') }}</p>
             <p class="text-sm text-muted-foreground">
-                Departments, teams, tiers and platform settings.
+                {{ $t('Departments, teams, tiers and platform settings.') }}
             </p>
         </Link>
 
         <section v-if="teams.length" class="grid gap-3">
-            <h2 class="text-sm font-semibold text-muted-foreground">Teams</h2>
+            <h2 class="text-sm font-semibold text-muted-foreground">
+                {{ $t('Teams') }}
+            </h2>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 <Link
                     v-for="team in teams"
@@ -75,7 +77,7 @@ defineProps<{
 
         <section v-if="departments.length" class="grid gap-3">
             <h2 class="text-sm font-semibold text-muted-foreground">
-                Departments
+                {{ $t('Departments') }}
             </h2>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 <Link
@@ -86,9 +88,9 @@ defineProps<{
                     data-test="hub-department"
                 >
                     <p class="truncate font-semibold">{{ department.name }}</p>
-                    <Badge v-if="department.isAdmin" variant="outline"
-                        >Admin</Badge
-                    >
+                    <Badge v-if="department.isAdmin" variant="outline">{{
+                        $t('Admin')
+                    }}</Badge>
                 </Link>
             </div>
         </section>
@@ -97,8 +99,11 @@ defineProps<{
             v-if="!isSuperAdmin && !teams.length && !departments.length"
             class="rounded-xl border border-dashed p-6 text-sm text-muted-foreground"
         >
-            You are not part of any team or department yet. Ask an organiser to
-            invite you.
+            {{
+                $t(
+                    'You are not part of any team or department yet. Ask an organiser to invite you.',
+                )
+            }}
         </p>
     </div>
 </template>

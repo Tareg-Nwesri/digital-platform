@@ -12,7 +12,8 @@ import { Spinner } from '@/components/ui/spinner';
 defineOptions({
     layout: {
         title: 'Accept your invitation',
-        description: 'Join your team or department on the Digital Robotics platform',
+        description:
+            'Join your team or department on the Digital Robotics platform',
     },
 });
 
@@ -32,7 +33,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Accept invitation" />
+    <Head :title="$t('Accept invitation')" />
 
     <div
         class="mb-6 rounded-lg border bg-muted/40 p-4 text-sm"
@@ -51,7 +52,11 @@ defineProps<{
 
     <Form
         v-bind="InvitationController.accept.form(token)"
-        :reset-on-success="['password', 'password_confirmation', 'current_password']"
+        :reset-on-success="[
+            'password',
+            'password_confirmation',
+            'current_password',
+        ]"
         v-slot="{ errors, processing }"
     >
         <div class="grid gap-6">
@@ -59,7 +64,7 @@ defineProps<{
 
             <template v-if="!existingAccount">
                 <div class="grid gap-2">
-                    <Label for="name_en">Full name (English)</Label>
+                    <Label for="name_en">{{ $t('Full name (English)') }}</Label>
                     <Input
                         id="name_en"
                         name="name_en"
@@ -71,13 +76,15 @@ defineProps<{
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="name_ar">Full name (Arabic, optional)</Label>
+                    <Label for="name_ar">{{
+                        $t('Full name (Arabic, optional)')
+                    }}</Label>
                     <Input id="name_ar" name="name_ar" dir="rtl" />
                     <InputError :message="errors.name_ar" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">Password</Label>
+                    <Label for="password">{{ $t('Password') }}</Label>
                     <PasswordInput
                         id="password"
                         name="password"
@@ -88,7 +95,9 @@ defineProps<{
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password_confirmation">Confirm password</Label>
+                    <Label for="password_confirmation">{{
+                        $t('Confirm password')
+                    }}</Label>
                     <PasswordInput
                         id="password_confirmation"
                         name="password_confirmation"
@@ -112,7 +121,9 @@ defineProps<{
                 <InputError :message="errors.current_password" />
             </div>
 
-            <InputError :message="errors.members ?? errors.user ?? errors.role" />
+            <InputError
+                :message="errors.members ?? errors.user ?? errors.role"
+            />
 
             <BotGuard :errors="errors" />
 
@@ -123,7 +134,7 @@ defineProps<{
                 data-test="accept-invitation-button"
             >
                 <Spinner v-if="processing" />
-                Accept invitation
+                {{ $t('Accept invitation') }}
             </Button>
         </div>
     </Form>

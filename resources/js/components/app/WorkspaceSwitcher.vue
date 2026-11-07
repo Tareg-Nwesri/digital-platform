@@ -63,7 +63,7 @@ function href(workspace: { type: string; slug: string }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent class="w-64" align="start">
                     <DropdownMenuLabel class="text-xs text-muted-foreground">
-                        Switch workspace
+                        {{ $t('Switch workspace') }}
                     </DropdownMenuLabel>
                     <DropdownMenuItem
                         v-for="workspace in workspaces"
@@ -90,7 +90,9 @@ function href(workspace: { type: string; slug: string }) {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem :as-child="true">
-                        <Link :href="hub()" class="w-full">All workspaces</Link>
+                        <Link :href="hub()" class="w-full">{{
+                            $t('All workspaces')
+                        }}</Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

@@ -24,7 +24,7 @@ const impersonating = computed(() => page.props.auth.impersonating);
             as="button"
             class="rounded-md bg-amber-950 px-3 py-1 text-amber-50 hover:bg-amber-900"
         >
-            Leave
+            {{ $t('Leave') }}
         </Link>
     </div>
 </template>

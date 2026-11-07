@@ -9,9 +9,11 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
         <AppLogoIcon class="size-7" />
     </div>
     <div class="ms-1 grid flex-1 text-start text-sm leading-tight">
-        <span class="truncate font-bold tracking-tight">Digital</span>
-        <span class="truncate text-xs text-muted-foreground"
-            >Robotics Foundation Libya</span
-        >
+        <span class="truncate font-bold tracking-tight">{{
+            $t('Digital')
+        }}</span>
+        <span class="truncate text-xs text-muted-foreground">{{
+            $t('Robotics Foundation Libya')
+        }}</span>
     </div>
 </template>

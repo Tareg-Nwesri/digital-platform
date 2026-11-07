@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Domain\Access\Models\Workspace;
 use App\Domain\Access\Services\WorkspaceContext;
+use App\Domain\Organisation\Models\Department;
+use App\Domain\Teams\Models\Team;
 use App\Support\Concerns\HasLocalizedFields;
 use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -88,6 +91,22 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         return Attribute::get(fn (): string => (string) $this->localized('name'));
     }
 
+    /**
+     * @return BelongsToMany<Team, $this>
+     */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_members')->withTimestamps();
+    }
+
+    /**
+     * @return BelongsToMany<Department, $this>
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'department_members')->withTimestamps();
+    }
+
     public function preferredLocale(): string
     {
         return $this->locale;
@@ -99,6 +118,17 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
             Workspace::platform(),
             fn (): bool => $this->unsetRelation('roles')->hasRole(self::SUPER_ADMIN),
         );
+    }
+
+    /**
+     * Set the cached super-admin flag when it is already known, so lists
+     * of users do not query roles once per row.
+     */
+    public function rememberSuperAdmin(bool $isSuperAdmin): static
+    {
+        $this->superAdminCache = $isSuperAdmin;
+
+        return $this;
     }
 
     public function forgetSuperAdminCache(): void

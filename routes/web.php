@@ -12,6 +12,7 @@ use App\Http\Controllers\Console\TeamController;
 use App\Http\Controllers\Console\TeamFeatureController;
 use App\Http\Controllers\Console\TeamStatusController;
 use App\Http\Controllers\Console\TeamTierController;
+use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
@@ -45,6 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware(['super-admin', 'workspace:platform'])->group(function () {
             Route::get('departments', [DepartmentController::class, 'index'])->name('departments.index');
             Route::post('departments', [DepartmentController::class, 'store'])->name('departments.store');
+            Route::get('users', [UserController::class, 'index'])->name('users.index');
+            Route::patch('users/{user}/active', [UserController::class, 'toggleActive'])
+                ->middleware('not-impersonating')
+                ->name('users.active');
         });
 
         Route::prefix('teams')->name('teams.')->middleware('workspace:platform')->group(function () {

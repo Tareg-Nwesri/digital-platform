@@ -31,4 +31,9 @@ return [
             'expires' => 'This invitation expires on :date.',
         ],
     ],
+    'users' => [
+        'activated' => ':name can sign in again.',
+        'deactivated' => ':name has been deactivated and signed out.',
+    ],
+    'inactive' => 'This account has been deactivated. Contact the platform administrator.',
 ];

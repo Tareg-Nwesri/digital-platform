@@ -15,8 +15,12 @@ const impersonating = computed(() => page.props.auth.impersonating);
         data-test="impersonation-banner"
     >
         <span>
-            Acting as {{ page.props.auth.user?.name }} (signed in as
-            {{ impersonating.originalName }})
+            {{
+                $t('Acting as :name (signed in as :original)', {
+                    name: page.props.auth.user?.name ?? '',
+                    original: impersonating.originalName,
+                })
+            }}
         </span>
         <Link
             :href="leave()"

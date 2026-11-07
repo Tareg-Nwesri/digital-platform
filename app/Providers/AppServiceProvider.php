@@ -49,11 +49,15 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Department::class, DepartmentPolicy::class);
         Gate::policy(Team::class, TeamPolicy::class);
 
-        Gate::before(fn (User $user, string $ability): ?bool => $ability !== 'impersonate' && $user->isSuperAdmin() ? true : null);
+        Gate::before(fn (User $user, string $ability): ?bool => ! in_array($ability, ['impersonate', 'toggle-active'], true) && $user->isSuperAdmin() ? true : null);
 
         Gate::define('impersonate', fn (User $actor, User $target): bool => $actor->canImpersonate()
             && $actor->isNot($target)
             && $target->canBeImpersonated());
+
+        Gate::define('toggle-active', fn (User $actor, User $target): bool => $actor->isSuperAdmin()
+            && $actor->isNot($target)
+            && ! $target->isSuperAdmin());
 
         Event::listen([TakeImpersonation::class, LeaveImpersonation::class], LogImpersonation::class);
     }

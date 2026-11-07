@@ -12,6 +12,7 @@ use App\Http\Controllers\Console\TeamController;
 use App\Http\Controllers\Console\TeamFeatureController;
 use App\Http\Controllers\Console\TeamStatusController;
 use App\Http\Controllers\Console\TeamTierController;
+use App\Http\Controllers\Console\TierController;
 use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
@@ -47,6 +48,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('departments', [DepartmentController::class, 'index'])->name('departments.index');
             Route::post('departments', [DepartmentController::class, 'store'])->name('departments.store');
             Route::get('users', [UserController::class, 'index'])->name('users.index');
+            Route::get('tiers', [TierController::class, 'index'])->name('tiers.index');
+            Route::post('tiers', [TierController::class, 'store'])->name('tiers.store');
+            Route::patch('tiers/{tier:slug}', [TierController::class, 'update'])->name('tiers.update');
+            Route::patch('tiers/{tier:slug}/default', [TierController::class, 'setDefault'])->name('tiers.default');
+            Route::delete('tiers/{tier:slug}', [TierController::class, 'destroy'])->name('tiers.destroy');
             Route::patch('users/{user}/active', [UserController::class, 'toggleActive'])
                 ->middleware('not-impersonating')
                 ->name('users.active');

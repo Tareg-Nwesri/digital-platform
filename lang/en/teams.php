@@ -14,6 +14,8 @@ return [
         'viewer' => 'Viewer',
     ],
     'errors' => [
+        'tier_in_use' => 'Teams still use this tier. Move them to another tier first.',
+        'tier_is_default' => 'This is the default tier for new teams. Make another tier the default first.',
         'reason_required' => 'A reason is required for this status change.',
         'offline_role' => 'Members without a login can only be members or viewers.',
         'already_member' => 'This person is already in the team.',
@@ -27,6 +29,10 @@ return [
         'remove_captain' => 'The captain cannot be removed. Transfer captaincy first.',
     ],
     'flash' => [
+        'tier_created' => 'The :name tier was created.',
+        'tier_updated' => 'The :name tier was saved. Its teams use the new values now.',
+        'tier_default' => 'New teams will start on :name.',
+        'tier_deleted' => 'The :name tier was deleted.',
         'created' => 'Team created.',
         'created_pending' => 'Team created. It is waiting for approval by a department admin.',
         'updated' => 'Team updated.',

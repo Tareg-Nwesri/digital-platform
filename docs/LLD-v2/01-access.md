@@ -114,9 +114,8 @@ Team member limits are checked by `TeamMemberService::join()`, which throws `Dom
 - **Otherwise:** `hub`.
 
 ### Two-factor requirement
-- Middleware `EnsureTwoFactorWhenRequired`: if the user is a super admin or any department admin, **and** `two_factor_confirmed_at` is null, redirect to `account.security` with a flash.
-- Allowed through regardless: `account.security.*`, `logout`, and the Fortify 2FA routes.
-- `RequireRecentTwoFactor:{minutes}` checks `session('auth.2fa_confirmed_at')` and is used by finance approvals (07). A step-up prompt re-asks for the TOTP code.
+- Two-factor authentication is optional for every user; no role is forced to enable it.
+- Finance approvals (07) use Laravel's `password.confirm` step-up instead of a 2FA code, because 2FA is optional.
 
 ### `ImpersonationGuard`
 - Middleware `EnsureNotImpersonating` returns 403 when `app('impersonate')->isImpersonating()`.
@@ -148,7 +147,7 @@ Team member limits are checked by `TeamMemberService::join()`, which throws `Dom
 | GET/POST | `/two-factor-challenge` | Fortify | Fortify | guest |
 | GET | `/invitations/{token}` | `invitations.show` | `Auth\InvitationController@show` | throttle:auth |
 | POST | `/invitations/{token}` | `invitations.accept` | `Auth\InvitationController@accept` | throttle:auth, honeypot, turnstile |
-| GET | `/hub` | `hub` | `HubController` | auth, 2fa.required |
+| GET | `/hub` | `hub` | `HubController` | auth |
 | GET | `/account/profile` | `account.profile` | `Account\ProfileController@edit` | auth |
 | PATCH | `/account/profile` | `account.profile.update` | `@update` | auth |
 | GET | `/account/security` | `account.security` | `Account\SecurityController@edit` | auth, not-impersonating |
@@ -192,7 +191,6 @@ Fortify `registration` is **disabled** in `config/fortify.php`, so no `/register
 - `accepting an invitation for an existing account adds the membership without a new user`
 - `registration route does not exist`
 - `login redirects the super admin to the console, single-membership users to their workspace and others to the hub`
-- `department admins without 2fa are redirected to security until enabled`
 - `only the super admin can impersonate, and not another super admin`
 - `security, permission and finance approval routes return 403 while impersonating`
 - `impersonation start and end are logged with both users`

@@ -121,7 +121,7 @@ public function departmentsWith(User $u, string $permission): Collection;     //
 | | `setCeiling` | Super admin |
 | | `grant(User, Department, User $member)` | `manageMembers` and the member is not an admin |
 
-## 6. Routes (all under `/admin`, middleware `auth`, `2fa.required`)
+## 6. Routes (all under `/admin`, middleware `auth`)
 
 | Method | URI | Name | Controller@action | Ability |
 | --- | --- | --- | --- | --- |

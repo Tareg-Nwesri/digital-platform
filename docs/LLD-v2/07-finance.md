@@ -229,7 +229,7 @@ public function propose(Money $amount, Sponsorship $s): array;
 
 ## 5. Routes
 
-**Console** (`/admin/finance`, middleware auth, 2fa.required; approve routes also `not-impersonating`, `2fa.recent:15`):
+**Console** (`/admin/finance`, middleware auth; approve routes also `not-impersonating`, `password.confirm`):
 
 | Method | URI | Name |
 | --- | --- | --- |
@@ -314,5 +314,5 @@ public function propose(Money $amount, Sponsorship $s): array;
 - `a payout leaves the ledger only when marked paid with a reference`
 - `team captains see only their own team's budgets; members see none`
 - `My earnings lists only the signed-in user's payouts`
-- `finance approval routes require 2fa within 15 minutes and are blocked while impersonating`
+- `finance approval routes require a recent password confirmation and are blocked while impersonating`
 - `private finance files are only served to authorised users`

@@ -169,7 +169,7 @@ public function leave(Team $t, User $u): void;
 
 ## 7. Routes
 
-**Console** (`/admin`, middleware auth, 2fa.required):
+**Console** (`/admin`, middleware auth):
 
 | Method | URI | Name | Action |
 | --- | --- | --- | --- |

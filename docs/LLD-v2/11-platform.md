@@ -27,8 +27,6 @@ SRS: 3.11–3.13 · HLD: 11–13 · Plan: phases 1 and 5
 | (web, appended) | `SetLocale` | Uses the user's locale on app routes, the cookie otherwise; shares `locale` and `dir` with the views |
 | `workspace:team` · `workspace:department` · `workspace:any` | `ResolveWorkspace` | Resolves the route-bound Team or Department, checks membership (a super admin bypasses for departments only), calls `WorkspaceContext::set`; a team non-member gets 404, a department non-member 403 |
 | `team.active` | `EnsureTeamActive` | 403 on writes when the team is not active |
-| `2fa.required` | `EnsureTwoFactorWhenRequired` | 01 §4 |
-| `2fa.recent:{min}` | `RequireRecentTwoFactor` | Finance approvals (07) |
 | `not-impersonating` | `EnsureNotImpersonating` | 01 §4 |
 | `super-admin` | `EnsureSuperAdmin` | Global console areas |
 | `public.cache-headers` | `PublicCacheHeaders` | 09 §4 |
@@ -148,13 +146,13 @@ The host's cron entry is the only one needed:
 
 | Module | Unit | Feature | Isolation (A vs B) | Security |
 | --- | --- | --- | --- | --- |
-| 01 Access | Invitation token hashing | Login redirects, invitations, 2FA requirement | — | Honeypot, Turnstile, impersonation guards |
+| 01 Access | Invitation token hashing | Login redirects, invitations | — | Honeypot, Turnstile, impersonation guards |
 | 02 Organisation | DepartmentPermissionService rules | Ceiling, grants, removal | Department A vs B | Reserved permissions |
 | 03 Teams | TeamFeatures resolution | Members, captaincy, status | Team A vs B (every workspace route) | Suspended read-only |
 | 04 Work | BomCalculator | Publish rules, BOM sync | Cross-team project and robot | HTML sanitising |
 | 05 Catalogue | Search filters | Suggest, approve, merge | Suggestion visibility | — |
 | 06 Events | EntryRules (datasets) | Apply, add, approve, waitlist, withdraw | Department scoping | Invite-only visibility |
-| 07 Finance | SplitCalculator, Money | Ledger post, reverse, documents | Team budgets, My earnings | Maker-checker, 2FA recent, private files |
+| 07 Finance | SplitCalculator, Money | Ledger post, reverse, documents | Team budgets, My earnings | Maker-checker, password step-up, private files |
 | 08 Content | — | Posts, inbox, featured, report | Inbox per department | Secrets never logged |
 | 09 Public | SeoMeta | Every page | Public scopes (no private data) | Contact protections |
 | 10 Front end | Vitest composables | — | — | — |

@@ -4,7 +4,6 @@ use App\Exceptions\DomainRuleViolation;
 use App\Http\Middleware\EnsureNotImpersonating;
 use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\EnsureTeamActive;
-use App\Http\Middleware\EnsureTwoFactorWhenRequired;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ProtectAgainstBots;
@@ -38,7 +37,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleAppearance::class,
             SetLocale::class,
-            EnsureTwoFactorWhenRequired::class,
             ProtectAgainstBots::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,

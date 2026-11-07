@@ -125,7 +125,7 @@ watch(
                             <div
                                 v-for="i in 5"
                                 :key="`col-${i}`"
-                                class="border-r border-border last:border-r-0"
+                                class="border-e border-border last:border-e-0"
                             />
                         </div>
                         <div
@@ -222,7 +222,7 @@ watch(
                                     />
                                     <button
                                         @click="copy(manualSetupKey || '')"
-                                        class="relative block h-auto border-l border-border px-3 hover:bg-muted"
+                                        class="relative block h-auto border-s border-border px-3 hover:bg-muted"
                                     >
                                         <Check
                                             v-if="copied"

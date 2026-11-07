@@ -27,7 +27,7 @@ class UserFactory extends Factory
         return [
             'name_en' => fake()->name(),
             'name_ar' => null,
-            'locale' => 'en',
+            'locale' => null,
             'is_active' => true,
             'can_login' => true,
             'email' => fake()->unique()->safeEmail(),

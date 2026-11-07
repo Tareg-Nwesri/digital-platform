@@ -125,7 +125,7 @@ Each public controller calls `SeoMeta::for($model)` or `SeoMeta::page('about')`.
 The JSON translations are loaded by `laravel-vue-i18n` from `lang/{locale}.json` and `lang/{locale}/*.php`, through the Vite plugin.
 
 ## 6. Tests (rewritten from v1 `PublicSiteTest`, `PublicFoundationTest`)
-- `root redirects to the cookie locale, else Arabic for ar browsers, else English`
+- `root redirects to the cookie locale, else the platform default (Arabic, RTL first)`
 - `invalid locale returns 404`
 - `drafts, private, suspended and archived records return 404 on every public route` (dataset over the models)
 - `team pages never expose rosters, ages or contact data` (`assertInertia` where `props.team` is missing those keys)

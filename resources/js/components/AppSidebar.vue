@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDirection } from '@/composables/useDirection';
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import WorkspaceSwitcher from '@/components/app/WorkspaceSwitcher.vue';
@@ -30,10 +31,12 @@ const mainNavItems = computed<NavItem[]>(() =>
         icon: navIcon(item.icon),
     })),
 );
+
+const { start } = useDirection();
 </script>
 
 <template>
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar collapsible="icon" variant="inset" :side="start">
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>

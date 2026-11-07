@@ -39,7 +39,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $password
  * @property string|null $phone
  * @property Carbon|null $birthdate
- * @property string $locale
+ * @property string|null $locale
  * @property bool $is_active
  * @property bool $can_login
  * @property Carbon|null $last_login_at
@@ -107,9 +107,12 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         return $this->belongsToMany(Department::class, 'department_members')->withTimestamps();
     }
 
+    /**
+     * The user's own choice, else the platform default.
+     */
     public function preferredLocale(): string
     {
-        return $this->locale;
+        return $this->locale ?? (string) config('app.locale');
     }
 
     public function isSuperAdmin(): bool

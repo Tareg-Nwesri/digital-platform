@@ -8,6 +8,10 @@ use App\Http\Controllers\Console\DepartmentInvitationController;
 use App\Http\Controllers\Console\DepartmentMemberController;
 use App\Http\Controllers\Console\DepartmentPermissionController;
 use App\Http\Controllers\Console\ImpersonationController;
+use App\Http\Controllers\Console\TeamController;
+use App\Http\Controllers\Console\TeamFeatureController;
+use App\Http\Controllers\Console\TeamStatusController;
+use App\Http\Controllers\Console\TeamTierController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
@@ -41,6 +45,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware(['super-admin', 'workspace:platform'])->group(function () {
             Route::get('departments', [DepartmentController::class, 'index'])->name('departments.index');
             Route::post('departments', [DepartmentController::class, 'store'])->name('departments.store');
+        });
+
+        Route::prefix('teams')->name('teams.')->middleware('workspace:platform')->group(function () {
+            Route::get('/', [TeamController::class, 'index'])->name('index');
+            Route::post('/', [TeamController::class, 'store'])->name('store');
+            Route::get('{team:slug}', [TeamController::class, 'show'])->name('show');
+            Route::patch('{team:slug}', [TeamController::class, 'update'])->name('update');
+            Route::patch('{team:slug}/status', TeamStatusController::class)->name('status');
+            Route::patch('{team:slug}/tier', TeamTierController::class)->name('tier');
+            Route::put('{team:slug}/features', TeamFeatureController::class)->name('features');
         });
 
         Route::prefix('departments/{department:slug}')->name('departments.')->middleware('workspace:department')->group(function () {

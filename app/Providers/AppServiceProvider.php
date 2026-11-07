@@ -6,6 +6,8 @@ use App\Domain\Access\Listeners\LogImpersonation;
 use App\Domain\Access\Services\WorkspaceContext;
 use App\Domain\Organisation\Models\Department;
 use App\Domain\Organisation\Policies\DepartmentPolicy;
+use App\Domain\Teams\Models\Team;
+use App\Domain\Teams\Policies\TeamPolicy;
 use App\Domain\Teams\Services\TeamFeatures;
 use App\Models\User;
 use Carbon\CarbonImmutable;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
     protected function configureAuthorization(): void
     {
         Gate::policy(Department::class, DepartmentPolicy::class);
+        Gate::policy(Team::class, TeamPolicy::class);
 
         Gate::before(fn (User $user, string $ability): ?bool => $ability !== 'impersonate' && $user->isSuperAdmin() ? true : null);
 

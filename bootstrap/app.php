@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\DomainRuleViolation;
+use App\Exceptions\InvalidTransition;
 use App\Http\Middleware\EnsureNotImpersonating;
 use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\EnsureTeamActive;
@@ -15,6 +16,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -44,6 +46,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->map(DomainRuleViolation::class, fn (DomainRuleViolation $violation) => $violation->toValidationException());
+        $exceptions->map(InvalidTransition::class, fn (InvalidTransition $invalid) => ValidationException::withMessages(['status' => $invalid->getMessage()]));
 
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),

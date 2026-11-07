@@ -22,6 +22,16 @@ return [
         'one_captain' => 'A team can only have one captain. Transfer captaincy instead.',
         'use_transfer' => 'Use "transfer captaincy" to change the captain.',
         'captain_needs_login' => 'The new captain must be a team member with a login.',
+        'department_required' => 'Choose the department that supervises this team.',
+        'department_not_allowed' => 'You can only place teams under departments where you can edit teams.',
         'remove_captain' => 'The captain cannot be removed. Transfer captaincy first.',
+    ],
+    'flash' => [
+        'created' => 'Team created.',
+        'created_pending' => 'Team created. It is waiting for approval by a department admin.',
+        'updated' => 'Team updated.',
+        'status_changed' => 'Team status changed to :status.',
+        'tier_changed' => 'Team moved to the :tier tier.',
+        'features_saved' => 'Feature overrides saved.',
     ],
 ];

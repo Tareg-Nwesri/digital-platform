@@ -117,6 +117,37 @@ final class CatalogueService
     }
 
     /**
+     * Replace a part's approved offers with the given rows: rows with an id
+     * update that offer, others are upserted, and offers left out are removed.
+     * Suggested offers are untouched; they go through the review queue.
+     *
+     * @param  list<array<string, mixed>>  $rows
+     */
+    public function syncOffers(Part $part, array $rows, ?User $by = null): void
+    {
+        DB::transaction(function () use ($part, $rows, $by): void {
+            $existing = $part->offers()->where('status', CatalogueStatus::Approved)->get()->keyBy('id');
+            $kept = [];
+
+            foreach ($rows as $row) {
+                $offer = isset($row['id']) ? $existing->get((int) $row['id']) : null;
+
+                if ($offer !== null) {
+                    $offer->update(self::offerAttributes($row));
+                } else {
+                    $offer = $this->upsertOffer($part, $row, $by);
+                }
+
+                $kept[] = $offer->getKey();
+            }
+
+            $existing->except($kept)->each(fn (VendorOffer $offer) => $this->removeOffer($offer, $by));
+
+            $this->log($part, $by, 'catalogue.offers_synced');
+        });
+    }
+
+    /**
      * Offers no bill of materials uses are deleted. Once BOM lines exist
      * (phase 3) an offer in use is archived instead.
      */

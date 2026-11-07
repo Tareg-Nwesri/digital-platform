@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\InvitationController;
+use App\Http\Controllers\Console\CatalogueCategoryController;
+use App\Http\Controllers\Console\CataloguePartController;
+use App\Http\Controllers\Console\CatalogueSuggestionController;
+use App\Http\Controllers\Console\CatalogueVendorController;
 use App\Http\Controllers\Console\DashboardController as ConsoleDashboardController;
 use App\Http\Controllers\Console\DepartmentCeilingController;
 use App\Http\Controllers\Console\DepartmentController;
@@ -85,6 +89,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{event:slug}/waitlist/promote', [EventRegistrationController::class, 'promote'])->name('waitlist.promote');
             Route::put('{event:slug}/results', [EventSetupController::class, 'results'])->name('results');
             Route::post('{event:slug}/results/publish', [EventSetupController::class, 'publishResults'])->name('results.publish');
+        });
+
+        Route::prefix('catalogue')->name('catalogue.')->middleware('workspace:platform')->group(function () {
+            Route::get('parts', [CataloguePartController::class, 'index'])->name('parts.index');
+            Route::post('parts', [CataloguePartController::class, 'store'])->name('parts.store');
+            Route::get('parts/{part}', [CataloguePartController::class, 'show'])->name('parts.show');
+            Route::patch('parts/{part}', [CataloguePartController::class, 'update'])->name('parts.update');
+            Route::delete('parts/{part}', [CataloguePartController::class, 'destroy'])->name('parts.destroy');
+            Route::patch('parts/{part}/restore', [CataloguePartController::class, 'restore'])->name('parts.restore');
+            Route::put('parts/{part}/offers', [CataloguePartController::class, 'offers'])->name('parts.offers');
+
+            Route::get('vendors', [CatalogueVendorController::class, 'index'])->name('vendors.index');
+            Route::post('vendors', [CatalogueVendorController::class, 'store'])->name('vendors.store');
+            Route::patch('vendors/{vendor}', [CatalogueVendorController::class, 'update'])->name('vendors.update');
+            Route::delete('vendors/{vendor}', [CatalogueVendorController::class, 'destroy'])->name('vendors.destroy');
+            Route::patch('vendors/{vendor}/restore', [CatalogueVendorController::class, 'restore'])->name('vendors.restore');
+
+            Route::get('categories', [CatalogueCategoryController::class, 'index'])->name('categories.index');
+            Route::post('categories', [CatalogueCategoryController::class, 'store'])->name('categories.store');
+            Route::patch('categories/{category}', [CatalogueCategoryController::class, 'update'])->name('categories.update');
+            Route::delete('categories/{category}', [CatalogueCategoryController::class, 'destroy'])->name('categories.destroy');
+
+            Route::get('suggestions', [CatalogueSuggestionController::class, 'index'])->name('suggestions.index');
+            Route::post('suggestions/{type}/{id}/approve', [CatalogueSuggestionController::class, 'approve'])
+                ->whereIn('type', ['part', 'vendor', 'offer'])->whereNumber('id')->name('suggestions.approve');
+            Route::post('suggestions/{type}/{id}/reject', [CatalogueSuggestionController::class, 'reject'])
+                ->whereIn('type', ['part', 'vendor', 'offer'])->whereNumber('id')->name('suggestions.reject');
+            Route::post('suggestions/{type}/{id}/merge', [CatalogueSuggestionController::class, 'merge'])
+                ->whereIn('type', ['part', 'vendor'])->whereNumber('id')->name('suggestions.merge');
         });
 
         Route::prefix('registrations/{registration}')->name('registrations.')->middleware('workspace:platform')->group(function () {

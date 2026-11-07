@@ -61,3 +61,20 @@ it('still lets admins reach security settings and log out while 2fa is missing',
 
     $this->actingAs($admin)->post(route('logout'))->assertRedirect();
 });
+
+it('tells an admin without 2fa why the security page is the only place they can go', function () {
+    $this->actingAs(superAdmin(false))
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->get(route('security.edit'))
+        ->assertInertia(fn ($page) => $page->component('settings/Security')->where('twoFactorRequired', true));
+
+    $this->actingAs(superAdmin(true))
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->get(route('security.edit'))
+        ->assertInertia(fn ($page) => $page->where('twoFactorRequired', false));
+
+    $this->actingAs(User::factory()->create())
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->get(route('security.edit'))
+        ->assertInertia(fn ($page) => $page->where('twoFactorRequired', false));
+});

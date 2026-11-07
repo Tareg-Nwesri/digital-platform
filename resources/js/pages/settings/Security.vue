@@ -4,6 +4,7 @@ import SecurityController from '@/actions/App/Http/Controllers/Settings/Security
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/security';
@@ -15,6 +16,7 @@ import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
 // oxfmt-ignore
 type Props = {
     passwordRules: string;
+    twoFactorRequired?: boolean;
 } & ManagePasskeysProps &
     ManageTwoFactorProps;
 
@@ -36,6 +38,24 @@ defineOptions({
     <Head title="Security settings" />
 
     <h1 class="sr-only">Security settings</h1>
+
+    <Alert
+        v-if="props.twoFactorRequired"
+        variant="destructive"
+        class="mb-6"
+        data-test="two-factor-required"
+    >
+        <AlertTitle>{{
+            $t('Two-factor authentication is required')
+        }}</AlertTitle>
+        <AlertDescription>
+            {{
+                $t(
+                    'Your account is an admin account, so the rest of the app stays locked until you turn on two-factor authentication below and confirm it with a code from your authenticator app.',
+                )
+            }}
+        </AlertDescription>
+    </Alert>
 
     <div class="space-y-6">
         <Heading

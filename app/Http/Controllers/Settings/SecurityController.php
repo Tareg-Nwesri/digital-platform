@@ -38,6 +38,7 @@ class SecurityController extends Controller
                     ->all()
                 : [],
             'passwordRules' => Password::defaults()->toPasswordRulesString(),
+            'twoFactorRequired' => $request->user()->two_factor_confirmed_at === null && $request->user()->requiresTwoFactor(),
         ];
 
         if (Features::canManageTwoFactorAuthentication()) {

@@ -72,5 +72,7 @@
     "action.edit": "تعديل",
     "action.approve": "اعتماد",
     "role.department-member": "عضو القسم",
-    "role.department-admin": "مشرف القسم"
+    "role.department-admin": "مشرف القسم",
+    "Two-factor authentication is required": "المصادقة الثنائية مطلوبة",
+    "Your account is an admin account, so the rest of the app stays locked until you turn on two-factor authentication below and confirm it with a code from your authenticator app.": "حسابك حساب مشرف، لذلك تبقى بقية التطبيق مقفلة حتى تفعّل المصادقة الثنائية أدناه وتؤكدها برمز من تطبيق المصادقة."
 }

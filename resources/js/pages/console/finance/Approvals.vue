@@ -24,6 +24,11 @@ import {
     reverse,
 } from '@/routes/console/finance/transactions';
 import {
+    approve as approvePayout,
+    paid as markPayoutPaid,
+    reject as rejectPayout,
+} from '@/routes/console/finance/payouts';
+import {
     post as postReceipt,
     reject as rejectReceipt,
 } from '@/routes/console/finance/receipts';
@@ -59,9 +64,24 @@ type PendingReceipt = {
     lines: { account: string; amount: MoneyValue }[];
 };
 
+type PendingPayout = {
+    id: number;
+    payee: string;
+    type: string;
+    amount: MoneyValue;
+    source: string;
+    reason: string;
+    guardian: string | null;
+    needsSecondApproval: boolean;
+    stage: 'approve' | 'second' | 'pay';
+    isOwn: boolean;
+};
+
 const props = defineProps<{
     transactions: Pending[];
     receipts: PendingReceipt[];
+    payouts: PendingPayout[];
+    paymentMethods: string[];
     reversible: Row[];
 }>();
 
@@ -89,7 +109,12 @@ const pageError = computed(
         errors.value.account,
 );
 
-type Action = 'approve' | 'reject' | 'reverse' | 'reject-receipt';
+type Action =
+    | 'approve'
+    | 'reject'
+    | 'reverse'
+    | 'reject-receipt'
+    | 'reject-payout';
 const active = ref<{ row: Row; action: Action } | null>(null);
 const reason = ref('');
 const processing = ref(false);
@@ -99,6 +124,55 @@ const wouldOverdraw = (row: Pending) =>
 
 function quickApprove(row: Pending): void {
     router.post(approve(row.id).url, {}, { preserveScroll: true });
+}
+
+function approvePayoutNow(payout: PendingPayout): void {
+    router.post(approvePayout(payout.id).url, {}, { preserveScroll: true });
+}
+
+function openPayoutRejection(payout: PendingPayout): void {
+    open(
+        {
+            id: payout.id,
+            number: null,
+            date: '',
+            description: `${payout.payee}: ${payout.reason}`,
+            type: 'payout',
+            from: payout.source,
+            to: payout.payee,
+            amount: payout.amount,
+        },
+        'reject-payout',
+    );
+}
+
+const paying = ref<PendingPayout | null>(null);
+const payment = ref({
+    method: 'bank',
+    reference: '',
+    paid_on: new Date().toISOString().slice(0, 10),
+});
+
+function openPayment(payout: PendingPayout): void {
+    paying.value = payout;
+    payment.value = {
+        method: props.paymentMethods[0] ?? 'bank',
+        reference: '',
+        paid_on: new Date().toISOString().slice(0, 10),
+    };
+}
+
+function confirmPayment(): void {
+    if (!paying.value) {
+        return;
+    }
+
+    router.post(markPayoutPaid(paying.value.id).url, payment.value, {
+        preserveScroll: true,
+        onStart: () => (processing.value = true),
+        onFinish: () => (processing.value = false),
+        onSuccess: () => (paying.value = null),
+    });
 }
 
 function approveReceipt(receipt: PendingReceipt): void {
@@ -137,6 +211,7 @@ function confirm(): void {
         reject,
         reverse,
         'reject-receipt': rejectReceipt,
+        'reject-payout': rejectPayout,
     }[action];
 
     router.post(
@@ -156,6 +231,7 @@ const titles: Record<Action, string> = {
     reject: 'Reject transaction',
     reverse: 'Reverse transaction',
     'reject-receipt': 'Reject receipt',
+    'reject-payout': 'Reject payout',
 };
 const descriptions: Record<Action, string> = {
     approve:
@@ -164,6 +240,7 @@ const descriptions: Record<Action, string> = {
     reverse:
         'An opposite entry is posted today and linked to the original. This cannot be undone.',
     'reject-receipt': 'The person who recorded it sees this reason.',
+    'reject-payout': 'The person who prepared it sees this reason.',
 };
 </script>
 
@@ -183,10 +260,157 @@ const descriptions: Record<Action, string> = {
         <FinanceNav
             current="approvals"
             can-approve
-            :pending="transactions.length + receipts.length"
+            :pending="transactions.length + receipts.length + payouts.length"
         />
 
         <InputError :message="pageError" />
+
+        <section v-if="payouts.length > 0" class="grid gap-3">
+            <h3 class="font-semibold">{{ $t('Payouts') }}</h3>
+            <ul class="grid gap-3">
+                <li
+                    v-for="payout in payouts"
+                    :key="payout.id"
+                    class="flex flex-wrap items-start justify-between gap-4 rounded-xl border bg-card p-4"
+                    :data-test="`pending-payout-${payout.id}`"
+                >
+                    <div class="grid gap-1">
+                        <p class="font-medium">{{ payout.payee }}</p>
+                        <p class="text-sm text-muted-foreground">
+                            {{ $t(`finance.payout_type.${payout.type}`) }} ·
+                            {{ payout.reason }}
+                        </p>
+                        <p class="text-xs text-muted-foreground">
+                            {{ $t('from :name', { name: payout.source }) }}
+                        </p>
+                        <p
+                            v-if="payout.guardian"
+                            class="text-xs text-muted-foreground"
+                        >
+                            {{
+                                $t('Guardian: :name', { name: payout.guardian })
+                            }}
+                        </p>
+                        <p class="text-xs font-medium">
+                            {{
+                                payout.stage === 'pay'
+                                    ? $t('Approved; waiting to be paid')
+                                    : payout.stage === 'second'
+                                      ? $t('Waiting for the second approval')
+                                      : $t('Waiting for approval')
+                            }}
+                        </p>
+                    </div>
+                    <div class="grid justify-items-end gap-2">
+                        <p class="text-lg font-semibold">
+                            <Money :value="payout.amount" />
+                        </p>
+                        <p
+                            v-if="payout.isOwn && payout.stage !== 'pay'"
+                            class="text-xs text-muted-foreground"
+                        >
+                            {{ $t('Someone else must approve this.') }}
+                        </p>
+                        <div v-else class="flex flex-wrap gap-2">
+                            <Button
+                                v-if="payout.stage === 'pay'"
+                                size="sm"
+                                :data-test="`pay-payout-${payout.id}`"
+                                @click="openPayment(payout)"
+                                >{{ $t('Mark as paid') }}</Button
+                            >
+                            <template v-else>
+                                <Button
+                                    size="sm"
+                                    :data-test="`approve-payout-${payout.id}`"
+                                    @click="approvePayoutNow(payout)"
+                                    >{{ $t('Approve') }}</Button
+                                >
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    class="text-destructive"
+                                    @click="openPayoutRejection(payout)"
+                                    >{{ $t('Reject') }}</Button
+                                >
+                            </template>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <Dialog
+            :open="paying !== null"
+            @update:open="(value) => !value && (paying = null)"
+        >
+            <DialogContent class="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>{{ $t('Mark as paid') }}</DialogTitle>
+                    <DialogDescription>{{
+                        $t(
+                            'The money leaves the account now. Enter how it was paid.',
+                        )
+                    }}</DialogDescription>
+                </DialogHeader>
+                <p v-if="paying" class="text-sm">
+                    {{ paying.payee }} · <Money :value="paying.amount" />
+                </p>
+                <div class="grid gap-3">
+                    <div class="grid gap-1.5">
+                        <Label for="payment-method">{{ $t('How') }}</Label>
+                        <select
+                            id="payment-method"
+                            v-model="payment.method"
+                            class="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
+                        >
+                            <option
+                                v-for="method in paymentMethods"
+                                :key="method"
+                                :value="method"
+                            >
+                                {{ $t(`finance.payment_method.${method}`) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="grid gap-1.5">
+                        <Label for="payment-reference">{{
+                            $t('Reference')
+                        }}</Label>
+                        <Input
+                            id="payment-reference"
+                            v-model="payment.reference"
+                            dir="ltr"
+                            maxlength="120"
+                        />
+                        <InputError :message="errors.reference" />
+                    </div>
+                    <div class="grid gap-1.5">
+                        <Label for="payment-date">{{ $t('Paid on') }}</Label>
+                        <Input
+                            id="payment-date"
+                            v-model="payment.paid_on"
+                            type="date"
+                            dir="ltr"
+                        />
+                        <InputError :message="errors.paid_on ?? pageError" />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button variant="outline" @click="paying = null">{{
+                        $t('Cancel')
+                    }}</Button>
+                    <Button
+                        :disabled="
+                            processing || payment.reference.trim() === ''
+                        "
+                        data-test="confirm-payment"
+                        @click="confirmPayment"
+                        >{{ $t('Mark as paid') }}</Button
+                    >
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
         <section v-if="receipts.length > 0" class="grid gap-3">
             <h3 class="font-semibold">

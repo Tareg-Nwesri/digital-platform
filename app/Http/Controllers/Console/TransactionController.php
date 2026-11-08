@@ -71,7 +71,7 @@ class TransactionController extends Controller
             'to_account_id' => (int) $data['to_account_id'],
             'amount' => $request->amount(),
             'date' => $data['date'],
-            'type' => TransactionType::Adjustment,
+            'type' => TransactionType::from($data['type'] ?? TransactionType::Adjustment->value),
             'description' => $data['description'],
             'reference' => $data['reference'] ?? null,
             'rate_to_lyd' => $data['rate_to_lyd'] ?? null,

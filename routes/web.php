@@ -18,6 +18,7 @@ use App\Http\Controllers\Console\FinanceAccountController;
 use App\Http\Controllers\Console\FinanceController;
 use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\Console\InboxController;
+use App\Http\Controllers\Console\PayoutController;
 use App\Http\Controllers\Console\PostController;
 use App\Http\Controllers\Console\ReceiptController;
 use App\Http\Controllers\Console\SettingsController;
@@ -123,6 +124,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('sponsorships/{sponsorship}', [SponsorshipController::class, 'show'])->name('sponsorships.show');
             Route::patch('sponsorships/{sponsorship}', [SponsorshipController::class, 'update'])->name('sponsorships.update');
 
+            Route::get('payouts', [PayoutController::class, 'index'])->name('payouts.index');
+            Route::post('payouts', [PayoutController::class, 'store'])->name('payouts.store');
+            Route::post('payouts/{payout}/submit', [PayoutController::class, 'submit'])->name('payouts.submit');
+            Route::post('payouts/{payout}/cancel', [PayoutController::class, 'cancel'])->name('payouts.cancel');
+
             Route::get('receipts', [ReceiptController::class, 'index'])->name('receipts.index');
             Route::post('receipts', [ReceiptController::class, 'store'])->name('receipts.store');
             Route::get('receipts/{receipt}', [ReceiptController::class, 'show'])->name('receipts.show');
@@ -136,6 +142,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::post('periods/{period}/close', [FinanceController::class, 'closePeriod'])->name('periods.close');
                 Route::post('receipts/{receipt}/post', [ReceiptController::class, 'post'])->name('receipts.post');
                 Route::post('receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
+                Route::post('payouts/{payout}/approve', [PayoutController::class, 'approve'])->name('payouts.approve');
+                Route::post('payouts/{payout}/reject', [PayoutController::class, 'reject'])->name('payouts.reject');
+                Route::post('payouts/{payout}/paid', [PayoutController::class, 'paid'])->name('payouts.paid');
             });
         });
 

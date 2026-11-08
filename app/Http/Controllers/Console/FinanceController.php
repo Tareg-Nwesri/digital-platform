@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Console;
 
 use App\Domain\Finance\Enums\DocumentStatus;
+use App\Domain\Finance\Enums\PayoutStatus;
 use App\Domain\Finance\Enums\TransactionStatus;
 use App\Domain\Finance\Enums\TransactionType;
 use App\Domain\Finance\Models\FinanceAccount;
 use App\Domain\Finance\Models\FiscalPeriod;
 use App\Domain\Finance\Models\LedgerTransaction;
+use App\Domain\Finance\Models\Payout;
 use App\Domain\Finance\Models\Receipt;
 use App\Domain\Finance\Services\LedgerService;
 use App\Http\Controllers\Controller;
@@ -86,6 +88,24 @@ class FinanceController extends Controller
                     ])->all(),
                 ])
                 ->all(),
+            'payouts' => Payout::query()->whereIn('status', [PayoutStatus::Submitted, PayoutStatus::Approved])
+                ->with(['payee', 'source'])->oldest('updated_at')->get()
+                ->map(function (Payout $payout) use ($userId): array {
+                    $stage = match (true) {
+                        $payout->status === PayoutStatus::Approved => 'pay',
+                        $payout->approved_by !== null => 'second',
+                        default => 'approve',
+                    };
+
+                    return [
+                        ...PayoutController::row($payout),
+                        'stage' => $stage,
+                        'isOwn' => in_array($userId, [$payout->created_by, $payout->submitted_by], true)
+                            || ($stage === 'second' && $payout->approved_by === $userId),
+                    ];
+                })
+                ->all(),
+            'paymentMethods' => PayoutController::paymentMethods(),
             'reversible' => LedgerTransaction::query()
                 ->where('status', TransactionStatus::Posted)
                 ->whereNull('reversed_by_id')

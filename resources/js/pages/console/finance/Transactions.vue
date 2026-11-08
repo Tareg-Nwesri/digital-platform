@@ -65,6 +65,7 @@ defineOptions({
 
 const open = ref(false);
 const form = useForm({
+    type: 'allocation',
     date: new Date().toISOString().slice(0, 10),
     from_account_id: null as number | null,
     to_account_id: null as number | null,
@@ -267,7 +268,7 @@ const columns: ListColumn<TransactionRow>[] = [
             <template v-if="can.edit" #actions>
                 <Button data-test="new-transaction" @click="open = true">
                     <Plus class="size-4" />
-                    {{ $t('New adjustment') }}
+                    {{ $t('New movement') }}
                 </Button>
             </template>
         </DataTable>
@@ -275,7 +276,7 @@ const columns: ListColumn<TransactionRow>[] = [
         <Dialog v-model:open="open">
             <DialogContent class="sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>{{ $t('New adjustment') }}</DialogTitle>
+                    <DialogTitle>{{ $t('New movement') }}</DialogTitle>
                     <DialogDescription>{{
                         $t(
                             'Saved as a draft. Another person approves it before the money moves.',
@@ -283,6 +284,26 @@ const columns: ListColumn<TransactionRow>[] = [
                     }}</DialogDescription>
                 </DialogHeader>
                 <form class="grid gap-4" @submit.prevent="create">
+                    <div class="grid gap-2">
+                        <Label for="tx-type">{{
+                            $t('Kind of movement')
+                        }}</Label>
+                        <select
+                            id="tx-type"
+                            v-model="form.type"
+                            :class="selectClass"
+                        >
+                            <option value="allocation">
+                                {{ $t('finance.transaction_type.allocation') }}
+                                — {{ $t('moving money between funds') }}
+                            </option>
+                            <option value="adjustment">
+                                {{ $t('finance.transaction_type.adjustment') }}
+                                — {{ $t('correcting a balance') }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.type" />
+                    </div>
                     <div class="grid gap-2">
                         <Label for="tx-from">{{ $t('From account') }}</Label>
                         <select

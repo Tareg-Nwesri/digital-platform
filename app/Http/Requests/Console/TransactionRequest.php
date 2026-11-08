@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Console;
 
+use App\Domain\Finance\Enums\TransactionType;
 use App\Domain\Finance\Models\FinanceAccount;
 use Brick\Money\Money;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -26,6 +27,7 @@ class TransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => ['sometimes', Rule::in([TransactionType::Adjustment->value, TransactionType::Allocation->value])],
             'date' => ['required', 'date'],
             'from_account_id' => ['required', 'integer', Rule::exists('finance_accounts', 'id')->where('is_archived', false)],
             'to_account_id' => ['required', 'integer', 'different:from_account_id', Rule::exists('finance_accounts', 'id')->where('is_archived', false)],

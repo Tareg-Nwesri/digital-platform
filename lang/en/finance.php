@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'account_type' => [
+        'general_fund' => 'General fund',
+        'earmarked_fund' => 'Earmarked fund',
+        'reinvestment_pool' => 'Reinvestment pool',
+        'team_budget' => 'Team budget',
+        'project_budget' => 'Project budget',
+        'event_budget' => 'Event budget',
+        'external_sponsor' => 'Sponsor',
+        'external_vendor' => 'Vendor',
+        'external_person' => 'Person',
+        'external_other' => 'Other party',
+    ],
+    'transaction_type' => [
+        'income' => 'Income',
+        'allocation' => 'Allocation',
+        'funding' => 'Funding',
+        'expense' => 'Expense',
+        'payout' => 'Payout',
+        'return' => 'Return',
+        'reversal' => 'Reversal',
+        'adjustment' => 'Adjustment',
+    ],
+    'transaction_status' => [
+        'draft' => 'Draft',
+        'submitted' => 'Waiting for approval',
+        'posted' => 'Posted',
+        'rejected' => 'Rejected',
+        'reversed' => 'Reversed',
+    ],
+    'reversal_of' => 'Reversal of :number: :reason',
+    'errors' => [
+        'accounts' => 'Choose two different accounts.',
+        'currency_mismatch' => 'Both accounts must use the transaction’s currency.',
+        'amount_positive' => 'The amount must be more than zero.',
+        'rate_required' => 'Enter the exchange rate to Libyan dinars.',
+        'maker_checker' => 'Someone other than the person who prepared or submitted this must approve it.',
+        'not_approver' => 'Only finance approvers can do this.',
+        'wrong_status' => 'This transaction is not in a status that allows this.',
+        'cannot_reverse' => 'Only posted transactions that have not been reversed can be reversed.',
+        'archived_account' => 'One of the accounts is archived.',
+        'period_closed' => 'The period for this date is closed or does not exist.',
+        'insufficient_balance' => ':account does not have enough money. A finance admin can override with a reason.',
+    ],
+];

@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'account_type' => [
+        'general_fund' => 'الصندوق العام',
+        'earmarked_fund' => 'صندوق مخصص',
+        'reinvestment_pool' => 'صندوق إعادة الاستثمار',
+        'team_budget' => 'ميزانية فريق',
+        'project_budget' => 'ميزانية مشروع',
+        'event_budget' => 'ميزانية فعالية',
+        'external_sponsor' => 'راعٍ',
+        'external_vendor' => 'مورّد',
+        'external_person' => 'شخص',
+        'external_other' => 'طرف آخر',
+    ],
+    'transaction_type' => [
+        'income' => 'إيراد',
+        'allocation' => 'تخصيص',
+        'funding' => 'تمويل',
+        'expense' => 'مصروف',
+        'payout' => 'دفعة',
+        'return' => 'إرجاع',
+        'reversal' => 'عكس قيد',
+        'adjustment' => 'تسوية',
+    ],
+    'transaction_status' => [
+        'draft' => 'مسودة',
+        'submitted' => 'بانتظار الاعتماد',
+        'posted' => 'مرحّل',
+        'rejected' => 'مرفوض',
+        'reversed' => 'معكوس',
+    ],
+    'reversal_of' => 'عكس القيد :number: :reason',
+    'errors' => [
+        'accounts' => 'اختر حسابين مختلفين.',
+        'currency_mismatch' => 'يجب أن يستخدم الحسابان عملة الحركة نفسها.',
+        'amount_positive' => 'يجب أن يكون المبلغ أكبر من صفر.',
+        'rate_required' => 'أدخل سعر الصرف مقابل الدينار الليبي.',
+        'maker_checker' => 'يجب أن يعتمد الحركة شخص غير من أعدّها أو قدّمها.',
+        'not_approver' => 'لا يقوم بهذا إلا معتمدو المالية.',
+        'wrong_status' => 'حالة هذه الحركة لا تسمح بذلك.',
+        'cannot_reverse' => 'لا يُعكس إلا القيد المرحّل الذي لم يُعكس من قبل.',
+        'archived_account' => 'أحد الحسابين مؤرشف.',
+        'period_closed' => 'الفترة المالية لهذا التاريخ مغلقة أو غير موجودة.',
+        'insufficient_balance' => 'رصيد :account غير كافٍ. يمكن لمسؤول المالية التجاوز مع ذكر السبب.',
+    ],
+];

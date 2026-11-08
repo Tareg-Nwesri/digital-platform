@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PermissionCatalogueSeeder::class,
             TierSeeder::class,
             SuperAdminSeeder::class,
+            FinanceSeeder::class,
         ]);
     }
 }

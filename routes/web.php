@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\InvitationController;
+use App\Http\Controllers\Console\AuditController;
 use App\Http\Controllers\Console\CatalogueCategoryController;
 use App\Http\Controllers\Console\CataloguePartController;
 use App\Http\Controllers\Console\CatalogueSuggestionController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Console\InboxController;
 use App\Http\Controllers\Console\PayoutController;
 use App\Http\Controllers\Console\PostController;
 use App\Http\Controllers\Console\ReceiptController;
+use App\Http\Controllers\Console\ReportController;
 use App\Http\Controllers\Console\SettingsController;
 use App\Http\Controllers\Console\SponsorController;
 use App\Http\Controllers\Console\SponsorshipController;
@@ -67,6 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('departments', [DepartmentController::class, 'store'])->name('departments.store');
             Route::get('users', [UserController::class, 'index'])->name('users.index');
             Route::get('tiers', [TierController::class, 'index'])->name('tiers.index');
+            Route::get('audit', [AuditController::class, 'index'])->name('audit.index');
             Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
             Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
             Route::post('tiers', [TierController::class, 'store'])->name('tiers.store');
@@ -201,6 +204,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('waitlist', [EventRegistrationController::class, 'waitlist'])->name('waitlist');
             Route::post('withdraw', [EventRegistrationController::class, 'withdraw'])->name('withdraw');
         });
+
+        Route::get('departments/{department:slug}/report', [ReportController::class, 'department'])
+            ->middleware('workspace:department')
+            ->name('reports.department');
 
         Route::prefix('departments/{department:slug}')->name('departments.')->middleware('workspace:department')->group(function () {
             Route::get('/', [DepartmentController::class, 'show'])->name('show');

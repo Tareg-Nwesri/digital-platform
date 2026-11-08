@@ -84,6 +84,7 @@ class DepartmentController extends Controller
             'isAdmin' => $department->isAdmin($user),
             'canEditCeiling' => $user->can('setCeiling', $department),
             'canEditDetails' => $user->can('update', $department),
+            'canViewReport' => $user->can('view-department-report', $department),
             'canManageMembers' => $canManageMembers,
             'stats' => [
                 'members' => $department->members()->count(),

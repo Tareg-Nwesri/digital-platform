@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Form, Head, router } from '@inertiajs/vue3';
+import { department as departmentReport } from '@/routes/console/reports';
+import { Form, Head, Link, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { computed, reactive, ref, watch } from 'vue';
 import Heading from '@/components/Heading.vue';
@@ -51,6 +52,7 @@ const props = defineProps<{
     isAdmin: boolean;
     canEditCeiling: boolean;
     canEditDetails: boolean;
+    canViewReport: boolean;
     canManageMembers: boolean;
     stats: { members: number; admins: number; teams: number };
     myPermissions: string[];
@@ -214,6 +216,13 @@ const isPublicDraft = ref(props.department.is_public);
             <Badge :variant="department.is_public ? 'secondary' : 'outline'">
                 {{ department.is_public ? $t('Public') : $t('Internal') }}
             </Badge>
+            <Link
+                v-if="canViewReport"
+                :href="departmentReport(department.slug)"
+                class="ms-auto text-sm font-medium text-primary hover:underline"
+                data-test="department-report"
+                >{{ $t('Report') }}</Link
+            >
         </div>
 
         <nav class="flex gap-1 overflow-x-auto border-b" role="tablist">

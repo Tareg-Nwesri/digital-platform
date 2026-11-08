@@ -14,6 +14,7 @@ use App\Domain\Events\Policies\EventPolicy;
 use App\Domain\Finance\Policies\FinancePolicy;
 use App\Domain\Organisation\Models\Department;
 use App\Domain\Organisation\Policies\DepartmentPolicy;
+use App\Domain\Reports\Policies\ReportPolicy;
 use App\Domain\Teams\Models\Team;
 use App\Domain\Teams\Policies\TeamPolicy;
 use App\Domain\Teams\Services\TeamFeatures;
@@ -59,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(EventModel::class, EventPolicy::class);
         CataloguePolicy::register();
         FinancePolicy::register();
+        ReportPolicy::register();
         Gate::policy(Post::class, PostPolicy::class);
         Gate::policy(ContactMessage::class, ContactMessagePolicy::class);
 

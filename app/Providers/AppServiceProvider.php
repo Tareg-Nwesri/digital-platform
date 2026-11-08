@@ -5,6 +5,10 @@ namespace App\Providers;
 use App\Domain\Access\Listeners\LogImpersonation;
 use App\Domain\Access\Services\WorkspaceContext;
 use App\Domain\Catalogue\Policies\CataloguePolicy;
+use App\Domain\Content\Models\ContactMessage;
+use App\Domain\Content\Models\Post;
+use App\Domain\Content\Policies\ContactMessagePolicy;
+use App\Domain\Content\Policies\PostPolicy;
 use App\Domain\Events\Models\Event as EventModel;
 use App\Domain\Events\Policies\EventPolicy;
 use App\Domain\Organisation\Models\Department;
@@ -53,6 +57,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Team::class, TeamPolicy::class);
         Gate::policy(EventModel::class, EventPolicy::class);
         CataloguePolicy::register();
+        Gate::policy(Post::class, PostPolicy::class);
+        Gate::policy(ContactMessage::class, ContactMessagePolicy::class);
 
         Gate::before(fn (User $user, string $ability): ?bool => ! in_array($ability, ['impersonate', 'toggle-active'], true) && $user->isSuperAdmin() ? true : null);
 

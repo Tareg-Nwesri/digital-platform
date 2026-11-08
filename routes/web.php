@@ -15,6 +15,9 @@ use App\Http\Controllers\Console\EventController;
 use App\Http\Controllers\Console\EventRegistrationController;
 use App\Http\Controllers\Console\EventSetupController;
 use App\Http\Controllers\Console\ImpersonationController;
+use App\Http\Controllers\Console\InboxController;
+use App\Http\Controllers\Console\PostController;
+use App\Http\Controllers\Console\SettingsController;
 use App\Http\Controllers\Console\TeamController;
 use App\Http\Controllers\Console\TeamFeatureController;
 use App\Http\Controllers\Console\TeamStatusController;
@@ -56,6 +59,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('departments', [DepartmentController::class, 'store'])->name('departments.store');
             Route::get('users', [UserController::class, 'index'])->name('users.index');
             Route::get('tiers', [TierController::class, 'index'])->name('tiers.index');
+            Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+            Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
             Route::post('tiers', [TierController::class, 'store'])->name('tiers.store');
             Route::patch('tiers/{tier:slug}', [TierController::class, 'update'])->name('tiers.update');
             Route::patch('tiers/{tier:slug}/default', [TierController::class, 'setDefault'])->name('tiers.default');
@@ -89,6 +94,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{event:slug}/waitlist/promote', [EventRegistrationController::class, 'promote'])->name('waitlist.promote');
             Route::put('{event:slug}/results', [EventSetupController::class, 'results'])->name('results');
             Route::post('{event:slug}/results/publish', [EventSetupController::class, 'publishResults'])->name('results.publish');
+        });
+
+        Route::prefix('posts')->name('posts.')->middleware('workspace:platform')->group(function () {
+            Route::get('/', [PostController::class, 'index'])->name('index');
+            Route::post('/', [PostController::class, 'store'])->name('store');
+            Route::get('{post}', [PostController::class, 'edit'])->name('edit');
+            Route::patch('{post}', [PostController::class, 'update'])->name('update');
+            Route::delete('{post}', [PostController::class, 'destroy'])->name('destroy');
+            Route::post('{post}/submit', [PostController::class, 'submit'])->name('submit');
+            Route::post('{post}/publish', [PostController::class, 'publish'])->name('publish');
+            Route::post('{post}/unpublish', [PostController::class, 'unpublish'])->name('unpublish');
+        });
+
+        Route::prefix('inbox')->name('inbox.')->middleware('workspace:platform')->group(function () {
+            Route::get('/', [InboxController::class, 'index'])->name('index');
+            Route::get('{message}', [InboxController::class, 'show'])->name('show');
+            Route::patch('{message}', [InboxController::class, 'update'])->name('update');
+            Route::post('{message}/notes', [InboxController::class, 'notes'])->name('notes');
         });
 
         Route::prefix('catalogue')->name('catalogue.')->middleware('workspace:platform')->group(function () {

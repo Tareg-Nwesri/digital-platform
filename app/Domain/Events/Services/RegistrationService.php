@@ -2,6 +2,7 @@
 
 namespace App\Domain\Events\Services;
 
+use App\Domain\Content\Services\SettingsRepository;
 use App\Domain\Events\Enums\RegistrationSource;
 use App\Domain\Events\Enums\RegistrationStatus;
 use App\Domain\Events\Models\Event;
@@ -206,7 +207,7 @@ final class RegistrationService
 
     public static function autoPromotes(): bool
     {
-        return (bool) (config('platform.settings')['events.auto_promote_waitlist'] ?? true);
+        return (bool) (app(SettingsRepository::class)->get('events.auto_promote_waitlist') ?? true);
     }
 
     /**

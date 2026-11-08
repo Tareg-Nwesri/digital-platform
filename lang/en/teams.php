@@ -29,6 +29,13 @@ return [
         'remove_captain' => 'The captain cannot be removed. Transfer captaincy first.',
     ],
     'flash' => [
+        'invited' => 'Invitation sent to :email.',
+        'invitation_revoked' => 'Invitation withdrawn.',
+        'member_added' => 'Member added.',
+        'role_changed' => 'Role changed.',
+        'captain_transferred' => ':name is now the captain.',
+        'member_removed' => 'Member removed from the team.',
+        'left' => 'You left :team.',
         'tier_created' => 'The :name tier was created.',
         'tier_updated' => 'The :name tier was saved. Its teams use the new values now.',
         'tier_default' => 'New teams will start on :name.',

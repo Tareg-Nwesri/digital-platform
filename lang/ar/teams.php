@@ -29,6 +29,13 @@ return [
         'remove_captain' => 'لا يمكن إزالة القائد. انقل القيادة أولًا.',
     ],
     'flash' => [
+        'invited' => 'أُرسلت الدعوة إلى :email.',
+        'invitation_revoked' => 'سُحبت الدعوة.',
+        'member_added' => 'أُضيف العضو.',
+        'role_changed' => 'تغيّر الدور.',
+        'captain_transferred' => 'أصبح :name قائد الفريق.',
+        'member_removed' => 'أُزيل العضو من الفريق.',
+        'left' => 'غادرت فريق :team.',
         'tier_created' => 'تم إنشاء مستوى :name.',
         'tier_updated' => 'تم حفظ مستوى :name، وأصبحت فرقه تستخدم القيم الجديدة.',
         'tier_default' => 'ستبدأ الفرق الجديدة على مستوى :name.',

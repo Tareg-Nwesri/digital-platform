@@ -115,11 +115,21 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         return $this->locale ?? (string) config('app.locale');
     }
 
+    /**
+     * Checked in the platform scope. The roles loaded for that check are
+     * dropped again, so later permission checks in a team or department
+     * scope never read platform-scoped roles from the relation cache.
+     */
     public function isSuperAdmin(): bool
     {
         return $this->superAdminCache ??= app(WorkspaceContext::class)->within(
             Workspace::platform(),
-            fn (): bool => $this->unsetRelation('roles')->hasRole(self::SUPER_ADMIN),
+            function (): bool {
+                $isSuperAdmin = $this->unsetRelation('roles')->hasRole(self::SUPER_ADMIN);
+                $this->unsetRelation('roles')->unsetRelation('permissions');
+
+                return $isSuperAdmin;
+            },
         );
     }
 

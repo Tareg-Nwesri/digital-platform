@@ -36,6 +36,7 @@ use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
+use App\Http\Controllers\Workspace\MemberController as WorkspaceMemberController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
@@ -225,6 +226,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('t/{team:slug}')->name('workspace.')->middleware(['workspace:team', 'team.active'])->group(function () {
         Route::get('/', WorkspaceDashboardController::class)->name('dashboard');
+        Route::get('members', [WorkspaceMemberController::class, 'index'])->name('members.index');
+        Route::post('members/offline', [WorkspaceMemberController::class, 'offline'])->name('members.offline');
+        Route::patch('members/{user}/role', [WorkspaceMemberController::class, 'role'])->name('members.role');
+        Route::post('members/{user}/captain', [WorkspaceMemberController::class, 'captain'])->name('members.captain');
+        Route::delete('members/{user}', [WorkspaceMemberController::class, 'destroy'])->name('members.destroy');
+        Route::post('invitations', [WorkspaceMemberController::class, 'invite'])->name('invitations.store');
+        Route::delete('invitations/{invitation}', [WorkspaceMemberController::class, 'revokeInvitation'])->name('invitations.destroy');
+        Route::post('leave', [WorkspaceMemberController::class, 'leave'])->name('leave');
     });
 });
 

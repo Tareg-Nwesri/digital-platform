@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Console;
 
+use App\Domain\Finance\Enums\DocumentStatus;
 use App\Domain\Finance\Enums\TransactionStatus;
 use App\Domain\Finance\Enums\TransactionType;
 use App\Domain\Finance\Models\FinanceAccount;
 use App\Domain\Finance\Models\FiscalPeriod;
 use App\Domain\Finance\Models\LedgerTransaction;
+use App\Domain\Finance\Models\Receipt;
 use App\Domain\Finance\Services\LedgerService;
 use App\Http\Controllers\Controller;
 use App\Support\Money\MoneyFormatter;
@@ -61,6 +63,7 @@ class FinanceController extends Controller
 
         return Inertia::render('console/finance/Approvals', [
             'transactions' => LedgerTransaction::query()->where('status', TransactionStatus::Submitted)
+                ->where(fn ($query) => $query->whereNull('source_type')->orWhere('source_type', '!=', (new Receipt)->getMorphClass()))
                 ->with(['from', 'to', 'creator'])->oldest('submitted_at')->get()
                 ->map(fn (LedgerTransaction $transaction): array => [
                     ...TransactionController::row($transaction),
@@ -69,6 +72,18 @@ class FinanceController extends Controller
                     'fromBalance' => MoneyFormatter::toArray($transaction->from->balance()),
                     'fromIsInternal' => $transaction->from->type->isInternal(),
                     'isOwn' => in_array($userId, [$transaction->created_by, $transaction->submitted_by], true),
+                ])
+                ->all(),
+            'receipts' => Receipt::query()->where('status', DocumentStatus::Submitted)
+                ->with(['payer', 'sponsorship', 'creator', 'transactions.to'])->oldest('date')->get()
+                ->map(fn (Receipt $receipt): array => [
+                    ...ReceiptController::row($receipt),
+                    'createdBy' => $receipt->creator?->name,
+                    'isOwn' => $receipt->created_by === $userId,
+                    'lines' => $receipt->transactions->map(fn (LedgerTransaction $line): array => [
+                        'account' => (string) $line->to->localized('name'),
+                        'amount' => MoneyFormatter::toArray($line->amount),
+                    ])->all(),
                 ])
                 ->all(),
             'reversible' => LedgerTransaction::query()

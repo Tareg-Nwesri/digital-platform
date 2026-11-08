@@ -3,6 +3,8 @@ import { Link } from '@inertiajs/vue3';
 import { approvals, dashboard } from '@/routes/console/finance';
 import { index as accounts } from '@/routes/console/finance/accounts';
 import { index as periods } from '@/routes/console/finance/periods';
+import { index as receipts } from '@/routes/console/finance/receipts';
+import { index as sponsors } from '@/routes/console/finance/sponsors';
 import { index as transactions } from '@/routes/console/finance/transactions';
 
 defineProps<{
@@ -10,6 +12,8 @@ defineProps<{
         | 'dashboard'
         | 'accounts'
         | 'transactions'
+        | 'sponsors'
+        | 'receipts'
         | 'approvals'
         | 'periods';
     canApprove?: boolean;
@@ -20,6 +24,8 @@ const links = [
     ['dashboard', 'Overview', dashboard()],
     ['accounts', 'Accounts', accounts()],
     ['transactions', 'Transactions', transactions()],
+    ['sponsors', 'Sponsors', sponsors()],
+    ['receipts', 'Receipts', receipts()],
     ['approvals', 'Approvals', approvals()],
     ['periods', 'Periods', periods()],
 ] as const;

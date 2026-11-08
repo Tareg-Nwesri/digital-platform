@@ -23,6 +23,10 @@ import {
     reject,
     reverse,
 } from '@/routes/console/finance/transactions';
+import {
+    post as postReceipt,
+    reject as rejectReceipt,
+} from '@/routes/console/finance/receipts';
 
 type MoneyValue = { amountMinor: number; currency: string; formatted: string };
 type Row = {
@@ -43,8 +47,21 @@ type Pending = Row & {
     isOwn: boolean;
 };
 
+type PendingReceipt = {
+    id: number;
+    date: string;
+    payer: string;
+    sponsorship: string | null;
+    source: string;
+    amount: MoneyValue;
+    createdBy: string | null;
+    isOwn: boolean;
+    lines: { account: string; amount: MoneyValue }[];
+};
+
 const props = defineProps<{
     transactions: Pending[];
+    receipts: PendingReceipt[];
     reversible: Row[];
 }>();
 
@@ -72,7 +89,7 @@ const pageError = computed(
         errors.value.account,
 );
 
-type Action = 'approve' | 'reject' | 'reverse';
+type Action = 'approve' | 'reject' | 'reverse' | 'reject-receipt';
 const active = ref<{ row: Row; action: Action } | null>(null);
 const reason = ref('');
 const processing = ref(false);
@@ -82,6 +99,26 @@ const wouldOverdraw = (row: Pending) =>
 
 function quickApprove(row: Pending): void {
     router.post(approve(row.id).url, {}, { preserveScroll: true });
+}
+
+function approveReceipt(receipt: PendingReceipt): void {
+    router.post(postReceipt(receipt.id).url, {}, { preserveScroll: true });
+}
+
+function openReceiptRejection(receipt: PendingReceipt): void {
+    open(
+        {
+            id: receipt.id,
+            number: null,
+            date: receipt.date,
+            description: receipt.sponsorship ?? receipt.payer,
+            type: 'income',
+            from: receipt.payer,
+            to: '',
+            amount: receipt.amount,
+        },
+        'reject-receipt',
+    );
 }
 
 function open(row: Row, action: Action): void {
@@ -95,8 +132,12 @@ function confirm(): void {
     }
 
     const { row, action } = active.value;
-    const route =
-        action === 'approve' ? approve : action === 'reject' ? reject : reverse;
+    const route = {
+        approve,
+        reject,
+        reverse,
+        'reject-receipt': rejectReceipt,
+    }[action];
 
     router.post(
         route(row.id).url,
@@ -114,6 +155,7 @@ const titles: Record<Action, string> = {
     approve: 'Approve with an overdraft',
     reject: 'Reject transaction',
     reverse: 'Reverse transaction',
+    'reject-receipt': 'Reject receipt',
 };
 const descriptions: Record<Action, string> = {
     approve:
@@ -121,6 +163,7 @@ const descriptions: Record<Action, string> = {
     reject: 'The person who prepared it sees this reason.',
     reverse:
         'An opposite entry is posted today and linked to the original. This cannot be undone.',
+    'reject-receipt': 'The person who recorded it sees this reason.',
 };
 </script>
 
@@ -140,10 +183,84 @@ const descriptions: Record<Action, string> = {
         <FinanceNav
             current="approvals"
             can-approve
-            :pending="transactions.length"
+            :pending="transactions.length + receipts.length"
         />
 
         <InputError :message="pageError" />
+
+        <section v-if="receipts.length > 0" class="grid gap-3">
+            <h3 class="font-semibold">
+                {{ $t('Receipts waiting for approval') }}
+            </h3>
+            <ul class="grid gap-3">
+                <li
+                    v-for="receipt in receipts"
+                    :key="receipt.id"
+                    class="flex flex-wrap items-start justify-between gap-4 rounded-xl border bg-card p-4"
+                    :data-test="`pending-receipt-${receipt.id}`"
+                >
+                    <div class="grid gap-1">
+                        <p class="font-medium">
+                            {{
+                                receipt.sponsorship ??
+                                $t(`finance.income_source.${receipt.source}`)
+                            }}
+                        </p>
+                        <p class="text-sm text-muted-foreground">
+                            {{ $t('from :name', { name: receipt.payer }) }}
+                        </p>
+                        <ul
+                            class="mt-1 grid gap-0.5 text-xs text-muted-foreground"
+                        >
+                            <li
+                                v-for="(line, index) in receipt.lines"
+                                :key="index"
+                            >
+                                {{ line.account }}:
+                                <Money :value="line.amount" />
+                            </li>
+                        </ul>
+                        <p class="text-xs text-muted-foreground">
+                            {{
+                                $t('Prepared by :name', {
+                                    name: receipt.createdBy ?? '—',
+                                })
+                            }}
+                        </p>
+                    </div>
+                    <div class="grid justify-items-end gap-2">
+                        <p class="text-lg font-semibold">
+                            <Money :value="receipt.amount" />
+                        </p>
+                        <p
+                            v-if="receipt.isOwn"
+                            class="text-xs text-muted-foreground"
+                        >
+                            {{
+                                $t(
+                                    'You prepared this; someone else must approve it.',
+                                )
+                            }}
+                        </p>
+                        <div v-else class="flex flex-wrap gap-2">
+                            <Button
+                                size="sm"
+                                :data-test="`approve-receipt-${receipt.id}`"
+                                @click="approveReceipt(receipt)"
+                                >{{ $t('Approve') }}</Button
+                            >
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                class="text-destructive"
+                                @click="openReceiptRejection(receipt)"
+                                >{{ $t('Reject') }}</Button
+                            >
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
 
         <section class="grid gap-3">
             <h3 class="font-semibold">{{ $t('Waiting for approval') }}</h3>
@@ -341,9 +458,9 @@ const descriptions: Record<Action, string> = {
                         {{
                             active?.action === 'approve'
                                 ? $t('Approve')
-                                : active?.action === 'reject'
-                                  ? $t('Reject')
-                                  : $t('Reverse')
+                                : active?.action === 'reverse'
+                                  ? $t('Reverse')
+                                  : $t('Reject')
                         }}
                     </Button>
                 </DialogFooter>

@@ -19,7 +19,10 @@ use App\Http\Controllers\Console\FinanceController;
 use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\Console\InboxController;
 use App\Http\Controllers\Console\PostController;
+use App\Http\Controllers\Console\ReceiptController;
 use App\Http\Controllers\Console\SettingsController;
+use App\Http\Controllers\Console\SponsorController;
+use App\Http\Controllers\Console\SponsorshipController;
 use App\Http\Controllers\Console\TeamController;
 use App\Http\Controllers\Console\TeamFeatureController;
 use App\Http\Controllers\Console\TeamStatusController;
@@ -110,12 +113,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('transactions/{transaction}/submit', [TransactionController::class, 'submit'])->name('transactions.submit');
             Route::get('periods', [FinanceController::class, 'periods'])->name('periods.index');
 
+            Route::get('sponsors', [SponsorController::class, 'index'])->name('sponsors.index');
+            Route::post('sponsors', [SponsorController::class, 'store'])->name('sponsors.store');
+            Route::get('sponsors/{sponsor}', [SponsorController::class, 'show'])->name('sponsors.show');
+            Route::patch('sponsors/{sponsor}', [SponsorController::class, 'update'])->name('sponsors.update');
+            Route::post('sponsors/{sponsor}/contacts', [SponsorController::class, 'storeContact'])->name('sponsors.contacts.store');
+            Route::delete('sponsors/{sponsor}/contacts/{contact}', [SponsorController::class, 'destroyContact'])->name('sponsors.contacts.destroy');
+            Route::post('sponsors/{sponsor}/sponsorships', [SponsorshipController::class, 'store'])->name('sponsorships.store');
+            Route::get('sponsorships/{sponsorship}', [SponsorshipController::class, 'show'])->name('sponsorships.show');
+            Route::patch('sponsorships/{sponsorship}', [SponsorshipController::class, 'update'])->name('sponsorships.update');
+
+            Route::get('receipts', [ReceiptController::class, 'index'])->name('receipts.index');
+            Route::post('receipts', [ReceiptController::class, 'store'])->name('receipts.store');
+            Route::get('receipts/{receipt}', [ReceiptController::class, 'show'])->name('receipts.show');
+            Route::post('receipts/{receipt}/submit', [ReceiptController::class, 'submit'])->name('receipts.submit');
+
             Route::middleware(['not-impersonating', RequirePassword::class])->group(function () {
                 Route::get('approvals', [FinanceController::class, 'approvals'])->name('approvals');
                 Route::post('transactions/{transaction}/approve', [TransactionController::class, 'approve'])->name('transactions.approve');
                 Route::post('transactions/{transaction}/reject', [TransactionController::class, 'reject'])->name('transactions.reject');
                 Route::post('transactions/{transaction}/reverse', [TransactionController::class, 'reverse'])->name('transactions.reverse');
                 Route::post('periods/{period}/close', [FinanceController::class, 'closePeriod'])->name('periods.close');
+                Route::post('receipts/{receipt}/post', [ReceiptController::class, 'post'])->name('receipts.post');
+                Route::post('receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
             });
         });
 

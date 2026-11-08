@@ -14,6 +14,8 @@ use App\Http\Controllers\Console\DepartmentPermissionController;
 use App\Http\Controllers\Console\EventController;
 use App\Http\Controllers\Console\EventRegistrationController;
 use App\Http\Controllers\Console\EventSetupController;
+use App\Http\Controllers\Console\FinanceAccountController;
+use App\Http\Controllers\Console\FinanceController;
 use App\Http\Controllers\Console\ImpersonationController;
 use App\Http\Controllers\Console\InboxController;
 use App\Http\Controllers\Console\PostController;
@@ -23,10 +25,12 @@ use App\Http\Controllers\Console\TeamFeatureController;
 use App\Http\Controllers\Console\TeamStatusController;
 use App\Http\Controllers\Console\TeamTierController;
 use App\Http\Controllers\Console\TierController;
+use App\Http\Controllers\Console\TransactionController;
 use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
@@ -94,6 +98,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{event:slug}/waitlist/promote', [EventRegistrationController::class, 'promote'])->name('waitlist.promote');
             Route::put('{event:slug}/results', [EventSetupController::class, 'results'])->name('results');
             Route::post('{event:slug}/results/publish', [EventSetupController::class, 'publishResults'])->name('results.publish');
+        });
+
+        Route::prefix('finance')->name('finance.')->middleware('workspace:platform')->group(function () {
+            Route::get('/', [FinanceController::class, 'dashboard'])->name('dashboard');
+            Route::get('accounts', [FinanceAccountController::class, 'index'])->name('accounts.index');
+            Route::post('accounts', [FinanceAccountController::class, 'store'])->name('accounts.store');
+            Route::get('accounts/{account}', [FinanceAccountController::class, 'show'])->name('accounts.show');
+            Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
+            Route::post('transactions', [TransactionController::class, 'store'])->name('transactions.store');
+            Route::post('transactions/{transaction}/submit', [TransactionController::class, 'submit'])->name('transactions.submit');
+            Route::get('periods', [FinanceController::class, 'periods'])->name('periods.index');
+
+            Route::middleware(['not-impersonating', RequirePassword::class])->group(function () {
+                Route::get('approvals', [FinanceController::class, 'approvals'])->name('approvals');
+                Route::post('transactions/{transaction}/approve', [TransactionController::class, 'approve'])->name('transactions.approve');
+                Route::post('transactions/{transaction}/reject', [TransactionController::class, 'reject'])->name('transactions.reject');
+                Route::post('transactions/{transaction}/reverse', [TransactionController::class, 'reverse'])->name('transactions.reverse');
+                Route::post('periods/{period}/close', [FinanceController::class, 'closePeriod'])->name('periods.close');
+            });
         });
 
         Route::prefix('posts')->name('posts.')->middleware('workspace:platform')->group(function () {

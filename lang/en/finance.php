@@ -31,6 +31,15 @@ return [
         'reversed' => 'Reversed',
     ],
     'reversal_of' => 'Reversal of :number: :reason',
+    'flash' => [
+        'account_created' => 'Account opened.',
+        'drafted' => 'Transaction saved as a draft.',
+        'submitted' => 'Sent for approval.',
+        'posted' => 'Transaction approved and posted.',
+        'rejected' => 'Transaction rejected.',
+        'reversed' => 'Transaction reversed.',
+        'period_closed' => 'Period closed. Nothing more can be posted to it.',
+    ],
     'errors' => [
         'accounts' => 'Choose two different accounts.',
         'currency_mismatch' => 'Both accounts must use the transaction’s currency.',

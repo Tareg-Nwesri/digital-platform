@@ -143,6 +143,22 @@ class Team extends Model
     }
 
     /**
+     * @return HasMany<Project, $this>
+     */
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
+     * @return HasMany<Robot, $this>
+     */
+    public function robots(): HasMany
+    {
+        return $this->hasMany(Robot::class);
+    }
+
+    /**
      * @param  Builder<static>  $query
      */
     public function scopeActive(Builder $query): void

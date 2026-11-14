@@ -6,6 +6,8 @@ use App\Domain\Access\Models\Workspace;
 use App\Domain\Organisation\Models\Department;
 use App\Domain\Teams\Enums\TeamFeature;
 use App\Domain\Teams\Enums\TeamStatus;
+use App\Domain\Work\Models\Project;
+use App\Domain\Work\Models\Robot;
 use App\Models\User;
 use App\Support\Concerns\HasLocalizedFields;
 use App\Support\Concerns\HasStatusTransitions;

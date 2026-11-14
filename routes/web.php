@@ -37,6 +37,8 @@ use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use App\Http\Controllers\Workspace\MemberController as WorkspaceMemberController;
+use App\Http\Controllers\Workspace\ProjectController as WorkspaceProjectController;
+use App\Http\Controllers\Workspace\RobotController as WorkspaceRobotController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
@@ -234,6 +236,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('invitations', [WorkspaceMemberController::class, 'invite'])->name('invitations.store');
         Route::delete('invitations/{invitation}', [WorkspaceMemberController::class, 'revokeInvitation'])->name('invitations.destroy');
         Route::post('leave', [WorkspaceMemberController::class, 'leave'])->name('leave');
+
+        Route::get('projects', [WorkspaceProjectController::class, 'index'])->name('projects.index');
+        Route::post('projects', [WorkspaceProjectController::class, 'store'])->name('projects.store');
+        Route::get('projects/{project:slug}/edit', [WorkspaceProjectController::class, 'edit'])->name('projects.edit');
+        Route::patch('projects/{project:slug}', [WorkspaceProjectController::class, 'update'])->name('projects.update');
+        Route::delete('projects/{project:slug}', [WorkspaceProjectController::class, 'destroy'])->name('projects.destroy');
+        Route::post('projects/{project:slug}/publish', [WorkspaceProjectController::class, 'publish'])->name('projects.publish');
+        Route::delete('projects/{project:slug}/publish', [WorkspaceProjectController::class, 'unpublish'])->name('projects.unpublish');
+
+        Route::get('robots', [WorkspaceRobotController::class, 'index'])->name('robots.index');
+        Route::post('robots', [WorkspaceRobotController::class, 'store'])->name('robots.store');
+        Route::get('robots/{robot:slug}', [WorkspaceRobotController::class, 'show'])->name('robots.show');
+        Route::patch('robots/{robot:slug}', [WorkspaceRobotController::class, 'update'])->name('robots.update');
+        Route::delete('robots/{robot:slug}', [WorkspaceRobotController::class, 'destroy'])->name('robots.destroy');
+        Route::put('robots/{robot:slug}/bom', [WorkspaceRobotController::class, 'bom'])->name('robots.bom');
+        Route::get('catalogue/parts/search', [WorkspaceRobotController::class, 'search'])->name('catalogue.search');
     });
 });
 

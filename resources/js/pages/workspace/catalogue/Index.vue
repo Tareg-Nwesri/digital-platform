@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ExternalLink, Lightbulb, Search } from '@lucide/vue';
 import { computed, ref, watch } from 'vue';
@@ -177,9 +179,6 @@ const statusVariant: Record<
 };
 
 const urlPlaceholder = 'https:' + '//';
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -226,20 +225,18 @@ const selectClass =
                         data-test="catalogue-search"
                     />
                 </div>
-                <select
-                    v-model="categoryId"
-                    :class="selectClass"
-                    :aria-label="$t('Category')"
-                >
-                    <option :value="null">{{ $t('All categories') }}</option>
-                    <option
+                <FormSelect v-model="categoryId" :aria-label="$t('Category')">
+                    <FormOption :value="null">{{
+                        $t('All categories')
+                    }}</FormOption>
+                    <FormOption
                         v-for="category in categories"
                         :key="category.id"
                         :value="category.id"
                     >
                         {{ category.name }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
                 <Label class="flex items-center gap-2 font-normal">
                     <Checkbox v-model="inStock" />
                     {{ $t('In stock') }}
@@ -456,20 +453,19 @@ const selectClass =
                                 <Label for="part-category">{{
                                     $t('Category')
                                 }}</Label>
-                                <select
+                                <FormSelect
                                     id="part-category"
                                     v-model="partForm.category_id"
-                                    :class="selectClass"
                                 >
-                                    <option :value="null">—</option>
-                                    <option
+                                    <FormOption :value="null">—</FormOption>
+                                    <FormOption
                                         v-for="category in categories"
                                         :key="category.id"
                                         :value="category.id"
                                     >
                                         {{ category.name }}
-                                    </option>
-                                </select>
+                                    </FormOption>
+                                </FormSelect>
                             </div>
                         </div>
                         <div class="grid gap-2">

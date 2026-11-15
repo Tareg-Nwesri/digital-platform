@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { computed, ref } from 'vue';
@@ -74,9 +76,6 @@ function create(): void {
         onSuccess: () => (open.value = false),
     });
 }
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -178,39 +177,34 @@ const selectClass =
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div class="grid gap-2">
                             <Label for="account-type">{{ $t('Type') }}</Label>
-                            <select
-                                id="account-type"
-                                v-model="form.type"
-                                :class="selectClass"
-                            >
-                                <option
+                            <FormSelect id="account-type" v-model="form.type">
+                                <FormOption
                                     v-for="type in creatable"
                                     :key="type"
                                     :value="type"
                                 >
                                     {{ $t(`finance.account_type.${type}`) }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError :message="form.errors.type" />
                         </div>
                         <div class="grid gap-2">
                             <Label for="account-currency">{{
                                 $t('Currency')
                             }}</Label>
-                            <select
+                            <FormSelect
                                 id="account-currency"
                                 v-model="form.currency"
-                                :class="selectClass"
                                 dir="ltr"
                             >
-                                <option
+                                <FormOption
                                     v-for="currency in currencies"
                                     :key="currency"
                                     :value="currency"
                                 >
                                     {{ currency }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                     </div>
                     <div class="grid gap-2">

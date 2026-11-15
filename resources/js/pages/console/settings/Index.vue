@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
@@ -42,9 +44,6 @@ function save(): void {
         public_contact_email_display: data.public_contact_email_display || null,
     })).put(update().url, { preserveScroll: true });
 }
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -67,22 +66,21 @@ const selectClass =
                     <Label for="inbox-department">{{
                         $t('Department that receives contact messages')
                     }}</Label>
-                    <select
+                    <FormSelect
                         id="inbox-department"
                         v-model="form.inbox_department_id"
-                        :class="selectClass"
                     >
-                        <option :value="null">
+                        <FormOption :value="null">
                             {{ $t('The super admin') }}
-                        </option>
-                        <option
+                        </FormOption>
+                        <FormOption
                             v-for="department in departments"
                             :key="department.id"
                             :value="department.id"
                         >
                             {{ department.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <InputError :message="form.errors.inbox_department_id" />
                 </div>
                 <div class="grid gap-2">

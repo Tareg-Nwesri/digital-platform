@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -106,8 +108,6 @@ function submitForApproval(row: TransactionRow): void {
     router.post(submit(row.id).url, {}, { preserveScroll: true });
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const filterClass =
     'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
@@ -226,44 +226,50 @@ const columns: ListColumn<TransactionRow>[] = [
             :only="['transactions']"
         >
             <template #filters="{ filter }">
-                <select
+                <FormSelect
                     v-model="filter.status"
                     :class="filterClass"
                     :aria-label="$t('Status')"
                 >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`finance.transaction_status.${status}`) }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.type"
                     :class="filterClass"
                     :aria-label="$t('Type')"
                 >
-                    <option :value="undefined">{{ $t('All types') }}</option>
-                    <option v-for="type in types" :key="type" :value="type">
+                    <FormOption :value="undefined">{{
+                        $t('All types')
+                    }}</FormOption>
+                    <FormOption v-for="type in types" :key="type" :value="type">
                         {{ $t(`finance.transaction_type.${type}`) }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.account"
                     :class="filterClass"
                     :aria-label="$t('Account')"
                 >
-                    <option :value="undefined">{{ $t('All accounts') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All accounts')
+                    }}</FormOption>
+                    <FormOption
                         v-for="account in accounts"
                         :key="account.id"
                         :value="String(account.id)"
                     >
                         {{ account.name }} ({{ account.currency }})
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </template>
             <template v-if="can.edit" #actions>
                 <Button data-test="new-transaction" @click="open = true">
@@ -288,62 +294,56 @@ const columns: ListColumn<TransactionRow>[] = [
                         <Label for="tx-type">{{
                             $t('Kind of movement')
                         }}</Label>
-                        <select
-                            id="tx-type"
-                            v-model="form.type"
-                            :class="selectClass"
-                        >
-                            <option value="allocation">
+                        <FormSelect id="tx-type" v-model="form.type">
+                            <FormOption value="allocation">
                                 {{ $t('finance.transaction_type.allocation') }}
                                 — {{ $t('moving money between funds') }}
-                            </option>
-                            <option value="adjustment">
+                            </FormOption>
+                            <FormOption value="adjustment">
                                 {{ $t('finance.transaction_type.adjustment') }}
                                 — {{ $t('correcting a balance') }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.type" />
                     </div>
                     <div class="grid gap-2">
                         <Label for="tx-from">{{ $t('From account') }}</Label>
-                        <select
+                        <FormSelect
                             id="tx-from"
                             v-model="form.from_account_id"
-                            :class="selectClass"
                             required
                         >
-                            <option :value="null" disabled>
+                            <FormOption :value="null" disabled>
                                 {{ $t('Choose an account') }}
-                            </option>
-                            <option
+                            </FormOption>
+                            <FormOption
                                 v-for="account in accounts"
                                 :key="account.id"
                                 :value="account.id"
                             >
                                 {{ account.name }} ({{ account.currency }})
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.from_account_id" />
                     </div>
                     <div class="grid gap-2">
                         <Label for="tx-to">{{ $t('To account') }}</Label>
-                        <select
+                        <FormSelect
                             id="tx-to"
                             v-model="form.to_account_id"
-                            :class="selectClass"
                             required
                         >
-                            <option :value="null" disabled>
+                            <FormOption :value="null" disabled>
                                 {{ $t('Choose an account') }}
-                            </option>
-                            <option
+                            </FormOption>
+                            <FormOption
                                 v-for="account in toOptions"
                                 :key="account.id"
                                 :value="account.id"
                             >
                                 {{ account.name }} ({{ account.currency }})
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.to_account_id" />
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2">

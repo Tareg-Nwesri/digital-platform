@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import FinanceNav from '@/components/finance/FinanceNav.vue';
@@ -359,19 +361,19 @@ const descriptions: Record<Action, string> = {
                 <div class="grid gap-3">
                     <div class="grid gap-1.5">
                         <Label for="payment-method">{{ $t('How') }}</Label>
-                        <select
+                        <FormSelect
                             id="payment-method"
                             v-model="payment.method"
                             class="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
                         >
-                            <option
+                            <FormOption
                                 v-for="method in paymentMethods"
                                 :key="method"
                                 :value="method"
                             >
                                 {{ $t(`finance.payment_method.${method}`) }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                     </div>
                     <div class="grid gap-1.5">
                         <Label for="payment-reference">{{

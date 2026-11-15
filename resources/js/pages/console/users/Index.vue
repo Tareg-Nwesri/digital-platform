@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { LogIn, Power, PowerOff } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -44,9 +46,6 @@ defineOptions({
 });
 
 defineProps<{ users: TableResult<UserRow> }>();
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const confirming = ref<UserRow | null>(null);
 const processing = ref(false);
@@ -211,16 +210,17 @@ const columns: ListColumn<UserRow>[] = [
             :only="['users']"
         >
             <template #filters="{ filter }">
-                <select
+                <FormSelect
                     v-model="filter.active"
-                    :class="selectClass"
                     :aria-label="$t('Status')"
                     data-test="filter-active"
                 >
-                    <option :value="undefined">{{ $t('All users') }}</option>
-                    <option value="1">{{ $t('Active') }}</option>
-                    <option value="0">{{ $t('Inactive') }}</option>
-                </select>
+                    <FormOption :value="undefined">{{
+                        $t('All users')
+                    }}</FormOption>
+                    <FormOption value="1">{{ $t('Active') }}</FormOption>
+                    <FormOption value="0">{{ $t('Inactive') }}</FormOption>
+                </FormSelect>
             </template>
         </DataTable>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import InputError from '@/components/InputError.vue';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -22,32 +24,24 @@ defineProps<{
 const draft = defineModel<OfferDraft>({ required: true });
 
 const urlPlaceholder = 'https:' + '//';
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
     <div class="grid gap-4">
         <div class="grid gap-2">
             <Label for="offer-vendor">{{ $t('Vendor') }}</Label>
-            <select
-                id="offer-vendor"
-                v-model="draft.vendor_id"
-                required
-                :class="selectClass"
-            >
-                <option :value="null" disabled>
+            <FormSelect id="offer-vendor" v-model="draft.vendor_id" required>
+                <FormOption :value="null" disabled>
                     {{ $t('Choose a vendor') }}
-                </option>
-                <option
+                </FormOption>
+                <FormOption
                     v-for="vendor in vendors"
                     :key="vendor.id"
                     :value="vendor.id"
                 >
                     {{ vendor.name }}
-                </option>
-            </select>
+                </FormOption>
+            </FormSelect>
             <InputError :message="errors.vendor_id ?? errors.part_id" />
         </div>
         <div class="grid grid-cols-[1fr_7rem] gap-4">
@@ -64,19 +58,15 @@ const selectClass =
             </div>
             <div class="grid gap-2">
                 <Label for="offer-currency">{{ $t('Currency') }}</Label>
-                <select
-                    id="offer-currency"
-                    v-model="draft.currency"
-                    :class="selectClass"
-                >
-                    <option
+                <FormSelect id="offer-currency" v-model="draft.currency">
+                    <FormOption
                         v-for="currency in currencies"
                         :key="currency"
                         :value="currency"
                     >
                         {{ currency }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </div>
         </div>
         <div class="grid gap-2">

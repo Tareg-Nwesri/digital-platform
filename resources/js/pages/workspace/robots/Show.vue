@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -176,8 +178,6 @@ function remove(): void {
     }
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const sizeFields = [
     ['weight_g', 'Weight (g)'],
     ['length_mm', 'Length (mm)'],
@@ -279,25 +279,24 @@ const sizeFields = [
                                 />
                             </td>
                             <td class="py-2 pe-3">
-                                <select
+                                <FormSelect
                                     v-model="line.offerId"
-                                    :class="selectClass"
                                     class="min-w-44"
                                     :disabled="!can.edit"
                                     :aria-label="$t('Price')"
                                 >
-                                    <option :value="null">
+                                    <FormOption :value="null">
                                         {{ $t('No price') }}
-                                    </option>
-                                    <option
+                                    </FormOption>
+                                    <FormOption
                                         v-for="offer in line.offers"
                                         :key="offer.id"
                                         :value="offer.id"
                                     >
                                         {{ offer.vendor }} ·
                                         {{ offer.formatted }}
-                                    </option>
-                                </select>
+                                    </FormOption>
+                                </FormSelect>
                             </td>
                             <td class="py-2 pe-3">
                                 <Input
@@ -434,40 +433,38 @@ const sizeFields = [
                     </div>
                     <div class="grid gap-2">
                         <Label for="robot-status">{{ $t('Status') }}</Label>
-                        <select
+                        <FormSelect
                             id="robot-status"
                             v-model="details.status"
-                            :class="selectClass"
                             :disabled="!can.edit"
                         >
-                            <option
+                            <FormOption
                                 v-for="status in statuses"
                                 :key="status"
                                 :value="status"
                             >
                                 {{ $t(`work.robot_status.${status}`) }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                     </div>
                     <div class="grid gap-2">
                         <Label for="robot-project">{{ $t('Project') }}</Label>
-                        <select
+                        <FormSelect
                             id="robot-project"
                             v-model="details.project_id"
-                            :class="selectClass"
                             :disabled="!can.edit"
                         >
-                            <option :value="null">
+                            <FormOption :value="null">
                                 {{ $t('No project') }}
-                            </option>
-                            <option
+                            </FormOption>
+                            <FormOption
                                 v-for="project in projects"
                                 :key="project.id"
                                 :value="project.id"
                             >
                                 {{ project.title }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="details.errors.project_id" />
                     </div>
                 </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -118,8 +120,6 @@ function removeContact(id: number): void {
 }
 
 const creating = ref(false);
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -285,13 +285,12 @@ const selectClass =
                     </div>
                     <div class="grid gap-2">
                         <Label for="sponsor-type">{{ $t('Type') }}</Label>
-                        <select
+                        <FormSelect
                             id="sponsor-type"
                             v-model="details.type"
-                            :class="selectClass"
                             :disabled="!can.edit"
                         >
-                            <option
+                            <FormOption
                                 v-for="type in [
                                     'company',
                                     'organisation',
@@ -302,8 +301,8 @@ const selectClass =
                                 :value="type"
                             >
                                 {{ $t(`finance.sponsor_type.${type}`) }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                     </div>
                     <div class="grid gap-2">
                         <Label for="sponsor-website">{{ $t('Website') }}</Label>

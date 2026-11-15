@@ -48,7 +48,7 @@ import { dashboard, login } from '@/routes';
                     </p>
                     <ul class="mb-4 flex flex-col lg:mb-6">
                         <li
-                            class="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:start-[0.4rem] before:border-s before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
+                            class="relative flex items-center gap-4 py-2 before:absolute before:start-[0.4rem] before:top-1/2 before:bottom-0 before:border-s before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
                         >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"
@@ -87,7 +87,7 @@ import { dashboard, login } from '@/routes';
                             </span>
                         </li>
                         <li
-                            class="relative flex items-center gap-4 py-2 before:absolute before:top-0 before:bottom-1/2 before:start-[0.4rem] before:border-s before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
+                            class="relative flex items-center gap-4 py-2 before:absolute before:start-[0.4rem] before:top-0 before:bottom-1/2 before:border-s before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
                         >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"
@@ -139,7 +139,7 @@ import { dashboard, login } from '@/routes';
                     </ul>
                 </div>
                 <div
-                    class="relative -mb-px aspect-[335/364] w-full shrink-0 overflow-hidden rounded-t-lg bg-[#fff2f2] lg:mb-0 lg:-ms-px lg:aspect-auto lg:w-[438px] lg:rounded-t-none lg:rounded-e-lg dark:bg-[#1D0002]"
+                    class="relative -mb-px aspect-[335/364] w-full shrink-0 overflow-hidden rounded-t-lg bg-[#fff2f2] lg:-ms-px lg:mb-0 lg:aspect-auto lg:w-[438px] lg:rounded-e-lg lg:rounded-t-none dark:bg-[#1D0002]"
                 >
                     <!-- Laravel Logo -->
                     <svg
@@ -180,7 +180,7 @@ import { dashboard, login } from '@/routes';
 
                     <!-- 13 -->
                     <svg
-                        class="relative -mt-[6.6rem] -ms-8 w-[438px] max-w-none [--stroke-color:#1B1B18] lg:ms-0 dark:[--stroke-color:#FF750F]"
+                        class="relative -ms-8 -mt-[6.6rem] w-[438px] max-w-none [--stroke-color:#1B1B18] lg:ms-0 dark:[--stroke-color:#FF750F]"
                         viewBox="0 0 440 392"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -426,7 +426,7 @@ import { dashboard, login } from '@/routes';
                         </g>
                     </svg>
                     <div
-                        class="absolute inset-0 rounded-t-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] lg:rounded-t-none lg:rounded-e-lg dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"
+                        class="absolute inset-0 rounded-t-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] lg:rounded-e-lg lg:rounded-t-none dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"
                     ></div>
                 </div>
             </main>

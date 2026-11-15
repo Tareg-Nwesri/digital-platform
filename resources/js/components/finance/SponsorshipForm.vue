@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -111,9 +113,6 @@ function submit(): void {
         form.post(store(props.sponsorId).url, options);
     }
 }
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -132,55 +131,52 @@ const selectClass =
         <div class="grid gap-4 sm:grid-cols-3">
             <div class="grid gap-2">
                 <Label for="sponsorship-kind">{{ $t('Kind') }}</Label>
-                <select
+                <FormSelect
                     id="sponsorship-kind"
                     v-model="form.kind"
-                    :class="selectClass"
                     :disabled="disabled"
                 >
-                    <option
+                    <FormOption
                         v-for="kind in options.kinds"
                         :key="kind"
                         :value="kind"
                     >
                         {{ $t(`finance.sponsorship_kind.${kind}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </div>
             <div class="grid gap-2">
                 <Label for="sponsorship-status">{{ $t('Status') }}</Label>
-                <select
+                <FormSelect
                     id="sponsorship-status"
                     v-model="form.status"
-                    :class="selectClass"
                     :disabled="disabled"
                 >
-                    <option
+                    <FormOption
                         v-for="status in options.statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`finance.sponsorship_status.${status}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </div>
             <div class="grid gap-2">
                 <Label for="sponsorship-currency">{{ $t('Currency') }}</Label>
-                <select
+                <FormSelect
                     id="sponsorship-currency"
                     v-model="form.currency"
-                    :class="selectClass"
                     dir="ltr"
                     :disabled="disabled"
                 >
-                    <option
+                    <FormOption
                         v-for="currency in options.currencies"
                         :key="currency"
                         :value="currency"
                     >
                         {{ currency }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </div>
         </div>
         <div class="grid gap-4 sm:grid-cols-3">
@@ -246,31 +242,33 @@ const selectClass =
                 class="grid gap-1"
             >
                 <div class="flex flex-wrap items-center gap-2">
-                    <select
+                    <FormSelect
                         v-model="rule.account_id"
-                        :class="selectClass"
                         class="min-w-40 flex-1"
                         :aria-label="$t('Account')"
                         :disabled="disabled"
                     >
-                        <option
+                        <FormOption
                             v-for="account in accounts"
                             :key="account.id"
                             :value="account.id"
                         >
                             {{ account.name }}
-                        </option>
-                    </select>
-                    <select
+                        </FormOption>
+                    </FormSelect>
+                    <FormSelect
                         v-model="rule.mode"
-                        :class="selectClass"
                         class="w-36"
                         :aria-label="$t('Kind')"
                         :disabled="disabled"
                     >
-                        <option value="percent">{{ $t('Percentage') }}</option>
-                        <option value="fixed">{{ $t('Fixed amount') }}</option>
-                    </select>
+                        <FormOption value="percent">{{
+                            $t('Percentage')
+                        }}</FormOption>
+                        <FormOption value="fixed">{{
+                            $t('Fixed amount')
+                        }}</FormOption>
+                    </FormSelect>
                     <Input
                         v-model="rule.value"
                         inputmode="decimal"
@@ -335,21 +333,22 @@ const selectClass =
                 <Label for="sponsorship-default">{{
                     $t('Remainder goes to')
                 }}</Label>
-                <select
+                <FormSelect
                     id="sponsorship-default"
                     v-model="form.default_account_id"
-                    :class="selectClass"
                     :disabled="disabled"
                 >
-                    <option :value="null">{{ $t('General fund') }}</option>
-                    <option
+                    <FormOption :value="null">{{
+                        $t('General fund')
+                    }}</FormOption>
+                    <FormOption
                         v-for="account in accounts"
                         :key="account.id"
                         :value="account.id"
                     >
                         {{ account.name }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
                 <InputError :message="form.errors.default_account_id" />
             </div>
         </fieldset>

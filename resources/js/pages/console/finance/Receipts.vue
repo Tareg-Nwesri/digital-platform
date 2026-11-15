@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -105,8 +107,6 @@ function create(): void {
     })).post(store().url, { onSuccess: () => (open.value = false) });
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const filterClass =
     'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
@@ -205,34 +205,38 @@ const columns: ListColumn<ReceiptRow>[] = [
             :only="['receipts']"
         >
             <template #filters="{ filter }">
-                <select
+                <FormSelect
                     v-model="filter.status"
                     :class="filterClass"
                     :aria-label="$t('Status')"
                 >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`finance.document_status.${status}`) }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.source"
                     :class="filterClass"
                     :aria-label="$t('Source')"
                 >
-                    <option :value="undefined">{{ $t('All sources') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All sources')
+                    }}</FormOption>
+                    <FormOption
                         v-for="source in sources"
                         :key="source"
                         :value="source"
                     >
                         {{ $t(`finance.income_source.${source}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </template>
             <template v-if="can.edit" #actions>
                 <Button data-test="new-receipt" @click="open = true">
@@ -255,33 +259,29 @@ const columns: ListColumn<ReceiptRow>[] = [
                         <Label for="receipt-sponsorship">{{
                             $t('Sponsorship')
                         }}</Label>
-                        <select
+                        <FormSelect
                             id="receipt-sponsorship"
-                            :value="form.sponsorship_id ?? ''"
-                            :class="selectClass"
+                            :model-value="form.sponsorship_id ?? ''"
                             @change="
-                                chooseSponsorship(
-                                    ($event.target as HTMLSelectElement).value
-                                        ? Number(
-                                              (
-                                                  $event.target as HTMLSelectElement
-                                              ).value,
-                                          )
-                                        : null,
-                                )
+                                (value) =>
+                                    chooseSponsorship(
+                                        value === '' || value === null
+                                            ? null
+                                            : Number(value),
+                                    )
                             "
                         >
-                            <option value="">
+                            <FormOption value="">
                                 {{ $t('Not from a sponsorship') }}
-                            </option>
-                            <option
+                            </FormOption>
+                            <FormOption
                                 v-for="item in sponsorships"
                                 :key="item.id"
                                 :value="item.id"
                             >
                                 {{ item.sponsor }} · {{ item.title }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.sponsorship_id" />
                     </div>
                     <template v-if="!form.sponsorship_id">
@@ -290,12 +290,11 @@ const columns: ListColumn<ReceiptRow>[] = [
                                 <Label for="receipt-source">{{
                                     $t('Source')
                                 }}</Label>
-                                <select
+                                <FormSelect
                                     id="receipt-source"
                                     v-model="form.source"
-                                    :class="selectClass"
                                 >
-                                    <option
+                                    <FormOption
                                         v-for="source in sources.filter(
                                             (s) => s !== 'sponsorship',
                                         )"
@@ -307,8 +306,8 @@ const columns: ListColumn<ReceiptRow>[] = [
                                                 `finance.income_source.${source}`,
                                             )
                                         }}
-                                    </option>
-                                </select>
+                                    </FormOption>
+                                </FormSelect>
                             </div>
                             <div class="grid gap-2">
                                 <Label for="receipt-payer">{{
@@ -326,19 +325,18 @@ const columns: ListColumn<ReceiptRow>[] = [
                     <div class="grid gap-4 sm:grid-cols-3">
                         <div class="grid gap-2">
                             <Label for="receipt-method">{{ $t('How') }}</Label>
-                            <select
+                            <FormSelect
                                 id="receipt-method"
                                 v-model="form.method"
-                                :class="selectClass"
                             >
-                                <option
+                                <FormOption
                                     v-for="method in methods"
                                     :key="method"
                                     :value="method"
                                 >
                                     {{ $t(`finance.payment_method.${method}`) }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                         <div class="grid gap-2">
                             <Label for="receipt-date">{{ $t('Date') }}</Label>
@@ -354,21 +352,20 @@ const columns: ListColumn<ReceiptRow>[] = [
                             <Label for="receipt-currency">{{
                                 $t('Currency')
                             }}</Label>
-                            <select
+                            <FormSelect
                                 id="receipt-currency"
                                 v-model="form.currency"
-                                :class="selectClass"
                                 dir="ltr"
                                 :disabled="!!form.sponsorship_id"
                             >
-                                <option
+                                <FormOption
                                     v-for="currency in currencies"
                                     :key="currency"
                                     :value="currency"
                                 >
                                     {{ currency }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                     </div>
                     <div v-if="!inKind" class="grid gap-4 sm:grid-cols-2">

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import { Pencil, Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -101,9 +103,6 @@ function remove(category: CategoryRow): void {
 const parents = computed(() =>
     props.categories.filter((category) => category.id !== editing.value?.id),
 );
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -258,20 +257,21 @@ const selectClass =
                     </div>
                     <div class="grid gap-2">
                         <Label for="category-parent">{{ $t('Inside') }}</Label>
-                        <select
+                        <FormSelect
                             id="category-parent"
                             v-model="form.parent_id"
-                            :class="selectClass"
                         >
-                            <option :value="null">{{ $t('Top level') }}</option>
-                            <option
+                            <FormOption :value="null">{{
+                                $t('Top level')
+                            }}</FormOption>
+                            <FormOption
                                 v-for="parent in parents"
                                 :key="parent.id"
                                 :value="parent.id"
                             >
                                 {{ parent.name }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.parent_id" />
                     </div>
                     <DialogFooter>

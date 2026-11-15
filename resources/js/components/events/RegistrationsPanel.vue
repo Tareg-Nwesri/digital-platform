@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { ArrowUp, Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -169,9 +171,6 @@ const canWithdraw = (registration: Registration) =>
         registration.status,
     );
 
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
-
 const statuses = [
     'pending',
     'invited',
@@ -185,40 +184,35 @@ const statuses = [
 <template>
     <div class="grid gap-4">
         <div class="flex flex-wrap items-center gap-2">
-            <select
-                v-model="statusFilter"
-                :class="selectClass"
-                :aria-label="$t('Status')"
-            >
-                <option value="">
+            <FormSelect v-model="statusFilter" :aria-label="$t('Status')">
+                <FormOption value="">
                     {{ $t('All entries') }} ({{
                         formatNumber(registrations.length)
                     }})
-                </option>
-                <option
+                </FormOption>
+                <FormOption
                     v-for="status in statuses"
                     :key="status"
                     :value="status"
                 >
                     {{ $t(`events.registration_status.${status}`) }}
                     ({{ formatNumber(counts[status] ?? 0) }})
-                </option>
-            </select>
-            <select
+                </FormOption>
+            </FormSelect>
+            <FormSelect
                 v-if="categories.length > 1"
                 v-model="categoryFilter"
-                :class="selectClass"
                 :aria-label="$t('Category')"
             >
-                <option value="">{{ $t('All categories') }}</option>
-                <option
+                <FormOption value="">{{ $t('All categories') }}</FormOption>
+                <FormOption
                     v-for="category in categories"
                     :key="category.id"
                     :value="category.id"
                 >
                     {{ category.name }}
-                </option>
-            </select>
+                </FormOption>
+            </FormSelect>
 
             <div class="ms-auto flex flex-wrap gap-2">
                 <Button

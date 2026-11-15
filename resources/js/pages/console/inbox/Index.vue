@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { h } from 'vue';
@@ -33,9 +35,6 @@ defineProps<{
     messages: TableResult<MessageRow>;
     statuses: string[];
 }>();
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const columns: ListColumn<MessageRow>[] = [
     {
@@ -111,29 +110,32 @@ const columns: ListColumn<MessageRow>[] = [
             :only="['messages']"
         >
             <template #filters="{ filter }">
-                <select
-                    v-model="filter.status"
-                    :class="selectClass"
-                    :aria-label="$t('Status')"
-                >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                <FormSelect v-model="filter.status" :aria-label="$t('Status')">
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`content.message_status.${status}`) }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.assignee"
-                    :class="selectClass"
                     :aria-label="$t('Assigned to')"
                 >
-                    <option :value="undefined">{{ $t('Anyone') }}</option>
-                    <option value="me">{{ $t('Assigned to me') }}</option>
-                    <option value="none">{{ $t('Not assigned') }}</option>
-                </select>
+                    <FormOption :value="undefined">{{
+                        $t('Anyone')
+                    }}</FormOption>
+                    <FormOption value="me">{{
+                        $t('Assigned to me')
+                    }}</FormOption>
+                    <FormOption value="none">{{
+                        $t('Not assigned')
+                    }}</FormOption>
+                </FormSelect>
             </template>
         </DataTable>
     </div>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
+import SearchSelect from '@/components/forms/SearchSelect.vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import InputError from '@/components/InputError.vue';
@@ -42,15 +45,10 @@ const form = useForm({
 });
 
 const loading = ref(false);
-const teamSearch = ref('');
 
-const filteredTeams = computed(() => {
-    const query = teamSearch.value.trim().toLowerCase();
-
-    return query === ''
-        ? props.teams
-        : props.teams.filter((team) => team.name.toLowerCase().includes(query));
-});
+const teamOptions = computed(() =>
+    props.teams.map((team) => ({ value: team.id, label: team.name })),
+);
 
 watch(
     () => form.team_id,
@@ -97,9 +95,6 @@ function submit(): void {
         onSuccess: () => (open.value = false),
     });
 }
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -119,44 +114,31 @@ const selectClass =
             <form class="grid gap-4" @submit.prevent="submit">
                 <div class="grid gap-2">
                     <Label for="add-team-search">{{ $t('Team') }}</Label>
-                    <Input
+                    <SearchSelect
                         id="add-team-search"
-                        v-model="teamSearch"
-                        :placeholder="$t('Search teams')"
-                    />
-                    <select
                         v-model="form.team_id"
-                        :class="selectClass"
-                        size="5"
-                        :aria-label="$t('Team')"
+                        :options="teamOptions"
+                        :placeholder="$t('Search teams')"
+                        :invalid="!!form.errors.team_id"
                         data-test="add-team-select"
-                    >
-                        <option
-                            v-for="team in filteredTeams"
-                            :key="team.id"
-                            :value="team.id"
-                        >
-                            {{ team.name }}
-                        </option>
-                    </select>
+                    />
                     <InputError :message="form.errors.team_id" />
                 </div>
 
                 <div class="grid gap-2">
                     <Label for="add-team-category">{{ $t('Category') }}</Label>
-                    <select
+                    <FormSelect
                         id="add-team-category"
                         v-model="form.category_id"
-                        :class="selectClass"
                     >
-                        <option
+                        <FormOption
                             v-for="category in categories"
                             :key="category.id"
                             :value="category.id"
                         >
                             {{ category.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <InputError :message="form.errors.category_id" />
                 </div>
 

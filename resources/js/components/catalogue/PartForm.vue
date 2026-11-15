@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -61,8 +63,6 @@ function submit(): void {
     }
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const textareaClass =
     'rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs';
 </script>
@@ -95,21 +95,20 @@ const textareaClass =
         </div>
         <div class="grid gap-2">
             <Label for="part-category">{{ $t('Category') }}</Label>
-            <select
+            <FormSelect
                 id="part-category"
                 v-model="form.category_id"
-                :class="selectClass"
                 :disabled="disabled"
             >
-                <option :value="null">{{ $t('No category') }}</option>
-                <option
+                <FormOption :value="null">{{ $t('No category') }}</FormOption>
+                <FormOption
                     v-for="category in categories"
                     :key="category.id"
                     :value="category.id"
                 >
                     {{ category.depth > 0 ? '— ' : '' }}{{ category.name }}
-                </option>
-            </select>
+                </FormOption>
+            </FormSelect>
             <InputError :message="form.errors.category_id" />
         </div>
         <div class="grid gap-2">

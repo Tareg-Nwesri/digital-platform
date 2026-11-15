@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -120,9 +122,6 @@ function archive(vendor: VendorRow): void {
         router.delete(destroy(vendor.id).url, { preserveScroll: true });
     }
 }
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const labels: Record<Field, string> = {
     name: 'Name',
@@ -258,20 +257,18 @@ const columns: ListColumn<VendorRow>[] = [
             :only="['vendors']"
         >
             <template #filters="{ filter }">
-                <select
-                    v-model="filter.status"
-                    :class="selectClass"
-                    :aria-label="$t('Status')"
-                >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                <FormSelect v-model="filter.status" :aria-label="$t('Status')">
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`catalogue.status.${status}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </template>
             <template v-if="can.manage" #actions>
                 <Button data-test="new-vendor" @click="openForm(null)">

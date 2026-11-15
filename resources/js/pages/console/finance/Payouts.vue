@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
+import SearchSelect from '@/components/forms/SearchSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -61,7 +64,6 @@ defineOptions({
 });
 
 const open = ref(false);
-const personSearch = ref('');
 const form = useForm({
     user_id: null as number | null,
     type: 'bonus',
@@ -74,15 +76,13 @@ const form = useForm({
     guardian_contact: '',
 });
 
-const people = computed(() => {
-    const query = personSearch.value.trim().toLowerCase();
-
-    return query === ''
-        ? props.people.slice(0, 200)
-        : props.people
-              .filter((person) => person.name.toLowerCase().includes(query))
-              .slice(0, 200);
-});
+const personOptions = computed(() =>
+    props.people.map((person) => ({
+        value: person.id,
+        label: person.name,
+        hint: person.minor ? trans('Under 18') : null,
+    })),
+);
 const payeeIsMinor = computed(
     () =>
         props.people.find((person) => person.id === form.user_id)?.minor ??
@@ -111,8 +111,6 @@ function act(route: typeof submit, row: PayoutRow): void {
     router.post(route(row.id).url, {}, { preserveScroll: true });
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const filterClass =
     'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
@@ -246,30 +244,34 @@ const columns: ListColumn<PayoutRow>[] = [
             :only="['payouts']"
         >
             <template #filters="{ filter }">
-                <select
+                <FormSelect
                     v-model="filter.status"
                     :class="filterClass"
                     :aria-label="$t('Status')"
                 >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`finance.payout_status.${status}`) }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.type"
                     :class="filterClass"
                     :aria-label="$t('Type')"
                 >
-                    <option :value="undefined">{{ $t('All types') }}</option>
-                    <option v-for="type in types" :key="type" :value="type">
+                    <FormOption :value="undefined">{{
+                        $t('All types')
+                    }}</FormOption>
+                    <FormOption v-for="type in types" :key="type" :value="type">
                         {{ $t(`finance.payout_type.${type}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </template>
             <template v-if="can.edit" #actions>
                 <Button data-test="new-payout" @click="open = true">
@@ -294,25 +296,13 @@ const columns: ListColumn<PayoutRow>[] = [
                         <Label for="payout-person-search">{{
                             $t('Paid to')
                         }}</Label>
-                        <Input
+                        <SearchSelect
                             id="payout-person-search"
-                            v-model="personSearch"
-                            :placeholder="$t('Search people')"
-                        />
-                        <select
                             v-model="form.user_id"
-                            :class="selectClass"
-                            size="5"
-                            :aria-label="$t('Paid to')"
-                        >
-                            <option
-                                v-for="person in people"
-                                :key="person.id"
-                                :value="person.id"
-                            >
-                                {{ person.name }}
-                            </option>
-                        </select>
+                            :options="personOptions"
+                            :placeholder="$t('Search people')"
+                            :invalid="!!form.errors.user_id"
+                        />
                         <InputError :message="form.errors.user_id" />
                     </div>
                     <div
@@ -353,19 +343,15 @@ const columns: ListColumn<PayoutRow>[] = [
                     <div class="grid gap-4 sm:grid-cols-3">
                         <div class="grid gap-2">
                             <Label for="payout-type">{{ $t('Type') }}</Label>
-                            <select
-                                id="payout-type"
-                                v-model="form.type"
-                                :class="selectClass"
-                            >
-                                <option
+                            <FormSelect id="payout-type" v-model="form.type">
+                                <FormOption
                                     v-for="type in types"
                                     :key="type"
                                     :value="type"
                                 >
                                     {{ $t(`finance.payout_type.${type}`) }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                         <div class="grid gap-2">
                             <Label for="payout-amount">{{
@@ -384,20 +370,19 @@ const columns: ListColumn<PayoutRow>[] = [
                             <Label for="payout-currency">{{
                                 $t('Currency')
                             }}</Label>
-                            <select
+                            <FormSelect
                                 id="payout-currency"
                                 v-model="form.currency"
-                                :class="selectClass"
                                 dir="ltr"
                             >
-                                <option
+                                <FormOption
                                     v-for="currency in currencies"
                                     :key="currency"
                                     :value="currency"
                                 >
                                     {{ currency }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                     </div>
                     <div v-if="form.currency !== 'LYD'" class="grid gap-2">
@@ -414,23 +399,22 @@ const columns: ListColumn<PayoutRow>[] = [
                     </div>
                     <div class="grid gap-2">
                         <Label for="payout-source">{{ $t('Paid from') }}</Label>
-                        <select
+                        <FormSelect
                             id="payout-source"
                             v-model="form.source_account_id"
-                            :class="selectClass"
                             required
                         >
-                            <option :value="null" disabled>
+                            <FormOption :value="null" disabled>
                                 {{ $t('Choose an account') }}
-                            </option>
-                            <option
+                            </FormOption>
+                            <FormOption
                                 v-for="source in sources"
                                 :key="source.id"
                                 :value="source.id"
                             >
                                 {{ source.name }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.source_account_id" />
                     </div>
                     <div class="grid gap-2">

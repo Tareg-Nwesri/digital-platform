@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { useForm } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
@@ -60,9 +62,6 @@ const form = useForm({
         props.event?.department.id ?? props.departments[0]?.id ?? null,
 });
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
-
 function submit(): void {
     form.transform((data) => ({
         ...data,
@@ -110,36 +109,28 @@ function submit(): void {
         <div class="grid gap-4 sm:grid-cols-2">
             <div class="grid gap-2">
                 <Label for="event-department">{{ $t('Organised by') }}</Label>
-                <select
-                    id="event-department"
-                    v-model="form.department_id"
-                    :class="selectClass"
-                >
-                    <option
+                <FormSelect id="event-department" v-model="form.department_id">
+                    <FormOption
                         v-for="department in departments"
                         :key="department.id"
                         :value="department.id"
                     >
                         {{ department.name }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
                 <InputError :message="form.errors.department_id" />
             </div>
             <div class="grid gap-2">
                 <Label for="event-visibility">{{ $t('Visibility') }}</Label>
-                <select
-                    id="event-visibility"
-                    v-model="form.visibility"
-                    :class="selectClass"
-                >
-                    <option
+                <FormSelect id="event-visibility" v-model="form.visibility">
+                    <FormOption
                         v-for="visibility in visibilities"
                         :key="visibility"
                         :value="visibility"
                     >
                         {{ $t(`events.visibility.${visibility}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
                 <InputError :message="form.errors.visibility" />
             </div>
         </div>

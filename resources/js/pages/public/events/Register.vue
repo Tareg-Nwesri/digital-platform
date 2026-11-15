@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Form, Link } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { computed, ref, watch } from 'vue';
@@ -48,9 +50,6 @@ function removeMember(key: number): void {
         members.value = members.value.filter((k) => k !== key);
     }
 }
-
-const selectClass =
-    'h-10 w-full rounded-md border border-input bg-background px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -103,24 +102,23 @@ const selectClass =
                     <h2 class="font-semibold">{{ $t('Team') }}</h2>
                     <div class="grid gap-2">
                         <Label for="category">{{ $t('Category') }}</Label>
-                        <select
+                        <FormSelect
                             id="category"
                             v-model="categoryId"
                             name="category_id"
                             required
-                            :class="selectClass"
                         >
-                            <option :value="null" disabled>
+                            <FormOption :value="null" disabled>
                                 {{ $t('Choose a category') }}
-                            </option>
-                            <option
+                            </FormOption>
+                            <FormOption
                                 v-for="option in event.categories"
                                 :key="option.id"
                                 :value="option.id"
                             >
                                 {{ option.name }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <p
                             v-if="category"
                             class="text-xs text-muted-foreground"

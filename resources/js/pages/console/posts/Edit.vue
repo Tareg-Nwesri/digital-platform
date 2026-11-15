@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { ref } from 'vue';
@@ -108,8 +110,6 @@ function remove(): void {
     }
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const textareaClass =
     'rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs';
 </script>
@@ -130,20 +130,19 @@ const textareaClass =
             <form class="grid gap-5" @submit.prevent="save">
                 <div class="grid gap-2 sm:max-w-sm">
                     <Label for="post-department">{{ $t('Department') }}</Label>
-                    <select
+                    <FormSelect
                         id="post-department"
                         v-model="form.department_id"
-                        :class="selectClass"
                         :disabled="!can.edit"
                     >
-                        <option
+                        <FormOption
                             v-for="department in departments"
                             :key="department.id"
                             :value="department.id"
                         >
                             {{ department.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <InputError :message="form.errors.department_id" />
                 </div>
 

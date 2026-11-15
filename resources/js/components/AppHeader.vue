@@ -181,7 +181,7 @@ const rightNavItems: NavItem[] = [
                                 </Link>
                                 <div
                                     v-if="isCurrentUrl(item.href)"
-                                    class="absolute bottom-0 start-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"
+                                    class="absolute start-0 bottom-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"
                                 ></div>
                             </NavigationMenuItem>
                         </NavigationMenuList>

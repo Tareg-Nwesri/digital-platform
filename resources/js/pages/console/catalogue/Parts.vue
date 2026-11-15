@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -52,9 +54,6 @@ defineProps<{
 }>();
 
 const creating = ref(false);
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const columns: ListColumn<PartRow>[] = [
     {
@@ -145,37 +144,34 @@ const columns: ListColumn<PartRow>[] = [
             :only="['parts']"
         >
             <template #filters="{ filter }">
-                <select
-                    v-model="filter.status"
-                    :class="selectClass"
-                    :aria-label="$t('Status')"
-                >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                <FormSelect v-model="filter.status" :aria-label="$t('Status')">
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in filters.statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`catalogue.status.${status}`) }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-if="filters.categories.length > 0"
                     v-model="filter.category"
-                    :class="selectClass"
                     :aria-label="$t('Category')"
                 >
-                    <option :value="undefined">
+                    <FormOption :value="undefined">
                         {{ $t('All categories') }}
-                    </option>
-                    <option
+                    </FormOption>
+                    <FormOption
                         v-for="category in filters.categories"
                         :key="category.slug"
                         :value="category.slug"
                     >
                         {{ category.depth > 0 ? '— ' : '' }}{{ category.name }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </template>
 
             <template v-if="can.manage" #actions>

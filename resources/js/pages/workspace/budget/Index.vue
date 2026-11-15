@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Plus, Receipt, Trash2, Wallet } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -195,9 +197,6 @@ function sendExpense(): void {
 
 const errorsOf = (form: { errors: object }): Record<string, string> =>
     form.errors as Record<string, string>;
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -389,42 +388,40 @@ const selectClass =
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div class="grid gap-2">
                             <Label for="request-source">{{ $t('From') }}</Label>
-                            <select
+                            <FormSelect
                                 id="request-source"
                                 v-model="requestForm.source_account_id"
-                                :class="selectClass"
                                 @change="pickSource"
                             >
-                                <option
+                                <FormOption
                                     v-for="source in sources"
                                     :key="source.id"
                                     :value="source.id"
                                 >
                                     {{ source.name }} ({{ source.currency }})
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError
                                 :message="requestForm.errors.source_account_id"
                             />
                         </div>
                         <div class="grid gap-2">
                             <Label for="request-project">{{ $t('For') }}</Label>
-                            <select
+                            <FormSelect
                                 id="request-project"
                                 v-model="requestForm.project_id"
-                                :class="selectClass"
                             >
-                                <option :value="null">
+                                <FormOption :value="null">
                                     {{ $t('The whole team') }}
-                                </option>
-                                <option
+                                </FormOption>
+                                <FormOption
                                     v-for="project in projects"
                                     :key="project.id"
                                     :value="project.id"
                                 >
                                     {{ project.title }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError
                                 :message="errorsOf(requestForm).project_id"
                             />
@@ -535,19 +532,18 @@ const selectClass =
                             <Label for="expense-budget">{{
                                 $t('Budget')
                             }}</Label>
-                            <select
+                            <FormSelect
                                 id="expense-budget"
                                 v-model="expenseForm.budget_account_id"
-                                :class="selectClass"
                             >
-                                <option
+                                <FormOption
                                     v-for="budget in budgets"
                                     :key="budget.id"
                                     :value="budget.id"
                                 >
                                     {{ budget.name }} ({{ budget.currency }})
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError
                                 :message="expenseForm.errors.budget_account_id"
                             />
@@ -568,22 +564,21 @@ const selectClass =
                             <Label for="expense-vendor">{{
                                 $t('Vendor')
                             }}</Label>
-                            <select
+                            <FormSelect
                                 id="expense-vendor"
                                 v-model="expenseForm.vendor_id"
-                                :class="selectClass"
                             >
-                                <option :value="null">
+                                <FormOption :value="null">
                                     {{ $t('Not in the list') }}
-                                </option>
-                                <option
+                                </FormOption>
+                                <FormOption
                                     v-for="vendor in vendors"
                                     :key="vendor.id"
                                     :value="vendor.id"
                                 >
                                     {{ vendor.name }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                         <div v-if="!expenseForm.vendor_id" class="grid gap-2">
                             <Label for="expense-vendor-name">{{

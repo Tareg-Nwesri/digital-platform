@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -130,9 +132,6 @@ function archive(): void {
 function restorePart(): void {
     router.patch(restore(props.part.id).url, {}, { preserveScroll: true });
 }
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-2 text-sm shadow-xs';
 </script>
 
 <template>
@@ -220,21 +219,20 @@ const selectClass =
                     :data-test="`offer-${index}`"
                 >
                     <div class="flex flex-wrap items-center gap-2">
-                        <select
+                        <FormSelect
                             v-model="row.vendor_id"
-                            :class="selectClass"
                             class="min-w-40 flex-1"
                             :disabled="!can.manage"
                             :aria-label="$t('Vendor')"
                         >
-                            <option
+                            <FormOption
                                 v-for="vendor in vendors"
                                 :key="vendor.id"
                                 :value="vendor.id"
                             >
                                 {{ vendor.name }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <Input
                             v-model="row.price"
                             inputmode="decimal"
@@ -244,20 +242,19 @@ const selectClass =
                             :aria-label="$t('Price')"
                             :disabled="!can.manage"
                         />
-                        <select
+                        <FormSelect
                             v-model="row.currency"
-                            :class="selectClass"
                             :disabled="!can.manage"
                             :aria-label="$t('Currency')"
                         >
-                            <option
+                            <FormOption
                                 v-for="currency in currencies"
                                 :key="currency"
                                 :value="currency"
                             >
                                 {{ currency }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <Button
                             v-if="can.manage"
                             type="button"

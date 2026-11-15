@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { MailPlus, UserPlus, X } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -141,8 +143,6 @@ function withdraw(id: number): void {
     router.delete(revokeInvitation([props.team.slug, id]).url, options);
 }
 
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 const editableRoles = ['coach', 'member', 'viewer'];
 </script>
 
@@ -228,32 +228,26 @@ const editableRoles = ['coach', 'member', 'viewer'];
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
-                    <select
+                    <FormSelect
                         v-if="
                             can.manage &&
                             member.role !== 'captain' &&
                             !member.isMe
                         "
-                        :value="member.role ?? ''"
-                        :class="selectClass"
+                        :model-value="member.role ?? ''"
                         class="w-32"
                         :aria-label="$t('Role')"
-                        @change="
-                            setRole(
-                                member,
-                                ($event.target as HTMLSelectElement).value,
-                            )
-                        "
+                        @change="(value) => setRole(member, String(value))"
                     >
-                        <option
+                        <FormOption
                             v-for="role in editableRoles"
                             :key="role"
                             :value="role"
                             :disabled="!member.canLogin && role === 'coach'"
                         >
                             {{ $t(`team.role.${role}`) }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <Badge v-else variant="outline">{{
                         $t(`team.role.${member.role}`)
                     }}</Badge>
@@ -343,19 +337,15 @@ const editableRoles = ['coach', 'member', 'viewer'];
                     </div>
                     <div class="grid gap-2">
                         <Label for="invite-role">{{ $t('Role') }}</Label>
-                        <select
-                            id="invite-role"
-                            v-model="invite.role"
-                            :class="selectClass"
-                        >
-                            <option
+                        <FormSelect id="invite-role" v-model="invite.role">
+                            <FormOption
                                 v-for="role in editableRoles"
                                 :key="role"
                                 :value="role"
                             >
                                 {{ $t(`team.role.${role}`) }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="invite.errors.role" />
                     </div>
                     <DialogFooter>
@@ -426,18 +416,17 @@ const editableRoles = ['coach', 'member', 'viewer'];
                         </div>
                         <div class="grid gap-2">
                             <Label for="offline-role">{{ $t('Role') }}</Label>
-                            <select
+                            <FormSelect
                                 id="offline-role"
                                 v-model="offlineForm.role"
-                                :class="selectClass"
                             >
-                                <option value="member">
+                                <FormOption value="member">
                                     {{ $t('team.role.member') }}
-                                </option>
-                                <option value="viewer">
+                                </FormOption>
+                                <FormOption value="viewer">
                                     {{ $t('team.role.viewer') }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError :message="offlineForm.errors.role" />
                         </div>
                     </div>

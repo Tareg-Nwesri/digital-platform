@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Mail } from '@lucide/vue';
 import { computed } from 'vue';
@@ -62,9 +64,6 @@ const replyLink = computed(
     () =>
         `mailto:${props.message.email}?subject=${encodeURIComponent(`Re: ${props.message.subject}`)}`,
 );
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -160,51 +159,46 @@ const selectClass =
             <template v-if="can.edit">
                 <div class="grid gap-2">
                     <Label for="message-status">{{ $t('Status') }}</Label>
-                    <select
+                    <FormSelect
                         id="message-status"
-                        :value="message.status"
-                        :class="selectClass"
-                        @change="
-                            patch({
-                                status: ($event.target as HTMLSelectElement)
-                                    .value,
-                            })
-                        "
+                        :model-value="message.status"
+                        @change="(value) => patch({ status: String(value) })"
                     >
-                        <option
+                        <FormOption
                             v-for="status in statuses"
                             :key="status"
                             :value="status"
                         >
                             {{ $t(`content.message_status.${status}`) }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                 </div>
                 <div class="grid gap-2">
                     <Label for="message-assignee">{{
                         $t('Assigned to')
                     }}</Label>
-                    <select
+                    <FormSelect
                         id="message-assignee"
-                        :value="message.assigneeId ?? ''"
-                        :class="selectClass"
+                        :model-value="message.assigneeId ?? ''"
                         @change="
-                            patch({
-                                assigned_to:
-                                    ($event.target as HTMLSelectElement)
-                                        .value || null,
-                            })
+                            (value) =>
+                                patch({
+                                    assigned_to:
+                                        value === '' || value === null
+                                            ? null
+                                            : String(value),
+                                })
                         "
                     >
-                        <option value="">{{ $t('Nobody') }}</option>
-                        <option
+                        <FormOption value="">{{ $t('Nobody') }}</FormOption>
+                        <FormOption
                             v-for="person in assignees"
                             :key="person.id"
                             :value="person.id"
                         >
                             {{ person.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                 </div>
             </template>
             <p v-else class="text-sm text-muted-foreground">

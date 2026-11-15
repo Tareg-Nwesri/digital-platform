@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Form, Head, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { computed, reactive, ref, watch } from 'vue';
@@ -91,9 +93,6 @@ const tabs = computed(() =>
     ).filter(([, , visible]) => visible),
 );
 const tab = ref<Tab>('overview');
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const showValue = (feature: Feature, value: boolean | number) =>
     feature.type === 'number'
@@ -298,19 +297,18 @@ function featureError(name: string): string | undefined {
                 >
                     <h3 class="font-semibold">{{ $t('Change status') }}</h3>
                     <div class="mt-3 grid gap-3">
-                        <select
+                        <FormSelect
                             v-model="statusDraft"
-                            :class="selectClass"
                             :aria-label="$t('New status')"
                         >
-                            <option
+                            <FormOption
                                 v-for="status in transitions"
                                 :key="status"
                                 :value="status"
                             >
                                 {{ $t(`team.status.${status}`) }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="statusErrors.status" />
                         <div v-if="needsReason" class="grid gap-2">
                             <Label for="status-reason">{{
@@ -349,19 +347,18 @@ function featureError(name: string): string | undefined {
                         }}
                     </p>
                     <div class="mt-3 flex flex-wrap gap-2">
-                        <select
+                        <FormSelect
                             v-model="tierDraft"
-                            :class="selectClass"
                             :aria-label="$t('Tier')"
                         >
-                            <option
+                            <FormOption
                                 v-for="tier in tiers"
                                 :key="tier.id"
                                 :value="tier.id"
                             >
                                 {{ tier.name }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <Button
                             variant="outline"
                             :disabled="tierDraft === team.tier.id"
@@ -534,24 +531,23 @@ function featureError(name: string): string | undefined {
                                             $t(`feature.${feature.name}`)
                                         "
                                     />
-                                    <select
+                                    <FormSelect
                                         v-else
                                         v-model="overrideDrafts[feature.name]"
-                                        :class="selectClass"
                                         :aria-label="
                                             $t(`feature.${feature.name}`)
                                         "
                                     >
-                                        <option value="">
+                                        <FormOption value="">
                                             {{ $t('Use tier') }}
-                                        </option>
-                                        <option value="on">
+                                        </FormOption>
+                                        <FormOption value="on">
                                             {{ $t('On') }}
-                                        </option>
-                                        <option value="off">
+                                        </FormOption>
+                                        <FormOption value="off">
                                             {{ $t('Off') }}
-                                        </option>
-                                    </select>
+                                        </FormOption>
+                                    </FormSelect>
                                     <InputError
                                         :message="featureError(feature.name)"
                                     />
@@ -630,23 +626,22 @@ function featureError(name: string): string | undefined {
                     <Label for="team-department">{{
                         $t('Supervised by')
                     }}</Label>
-                    <select
+                    <FormSelect
                         id="team-department"
                         name="department_id"
-                        :class="selectClass"
-                        :value="team.department?.id ?? ''"
+                        :default-value="team.department?.id ?? ''"
                     >
-                        <option v-if="canLeaveUnsupervised" value="">
+                        <FormOption v-if="canLeaveUnsupervised" value="">
                             {{ $t('No department') }}
-                        </option>
-                        <option
+                        </FormOption>
+                        <FormOption
                             v-for="department in editableDepartments"
                             :key="department.id"
                             :value="department.id"
                         >
                             {{ department.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <InputError :message="errors.department_id" />
                 </div>
                 <div>

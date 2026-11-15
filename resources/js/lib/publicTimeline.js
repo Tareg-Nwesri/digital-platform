@@ -1,10 +1,12 @@
 const clamp = (value) => Math.min(1, Math.max(0, value));
-const between = (progress, start, end) => clamp((progress - start) / (end - start));
+const between = (progress, start, end) =>
+    clamp((progress - start) / (end - start));
 
 // Behavioral timings observed in the supplied reference, implemented without its runtime.
 export function timelineFrame(progress) {
     const heading = between(progress, 0.08, 0.19);
-    const easedHeading = heading < 0.5 ? 2 * heading ** 2 : 1 - (-2 * heading + 2) ** 2 / 2;
+    const easedHeading =
+        heading < 0.5 ? 2 * heading ** 2 : 1 - (-2 * heading + 2) ** 2 / 2;
 
     return {
         opacity: between(progress, 0.08, 0.16),
@@ -39,24 +41,38 @@ export function initPublicTimeline(root) {
         frame = 0;
         const targets = rows.map((row) => {
             const bounds = row.getBoundingClientRect();
-            return timelineProgress(bounds.top, bounds.height, window.innerHeight);
+            return timelineProgress(
+                bounds.top,
+                bounds.height,
+                window.innerHeight,
+            );
         });
         // 80% smoothing at 60Hz; time-normalized for high-refresh screens.
-        const blend = 1 - 0.8 ** (Math.min(time - previousTime || 16.667, 64) / 16.667);
+        const blend =
+            1 - 0.8 ** (Math.min(time - previousTime || 16.667, 64) / 16.667);
         previousTime = time;
         let settling = false;
 
         rows.forEach((row, index) => {
             const target = targets[index];
             const current = positions[index] ?? target;
-            const next = Math.abs(target - current) < 0.0001 ? target : current + (target - current) * blend;
+            const next =
+                Math.abs(target - current) < 0.0001
+                    ? target
+                    : current + (target - current) * blend;
             positions[index] = next;
             settling ||= Math.abs(target - next) >= 0.0001;
             const state = timelineFrame(next);
             row.style.setProperty('--timeline-opacity', state.opacity);
-            row.style.setProperty('--timeline-heading-x', `${direction * state.headingX}px`);
+            row.style.setProperty(
+                '--timeline-heading-x',
+                `${direction * state.headingX}px`,
+            );
             row.style.setProperty('--timeline-copy-opacity', state.copyOpacity);
-            row.style.setProperty('--timeline-copy-x', `${direction * state.copyX}px`);
+            row.style.setProperty(
+                '--timeline-copy-x',
+                `${direction * state.copyX}px`,
+            );
         });
 
         if (settling) schedule();
@@ -66,11 +82,18 @@ export function initPublicTimeline(root) {
         if (enabled && nearby && !frame) frame = requestAnimationFrame(render);
     }
 
-    const observer = new IntersectionObserver(([entry]) => {
-        nearby = entry.isIntersecting;
-        if (nearby) schedule();
-        else { cancelAnimationFrame(frame); frame = 0; previousTime = 0; }
-    }, { rootMargin: '100px 0px' });
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            nearby = entry.isIntersecting;
+            if (nearby) schedule();
+            else {
+                cancelAnimationFrame(frame);
+                frame = 0;
+                previousTime = 0;
+            }
+        },
+        { rootMargin: '100px 0px' },
+    );
 
     function configure() {
         enabled = !motion.matches;

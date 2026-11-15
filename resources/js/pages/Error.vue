@@ -19,9 +19,7 @@ function reload() {
 <template>
     <Head :title="title" />
 
-    <main
-        class="flex min-h-svh items-center justify-center bg-background p-6"
-    >
+    <main class="flex min-h-svh items-center justify-center bg-background p-6">
         <div
             class="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-sm"
             data-test="error-page"

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed, reactive, ref } from 'vue';
 import CatalogueNav from '@/components/catalogue/CatalogueNav.vue';
@@ -139,9 +141,6 @@ const mergeOptions = computed(() =>
         ? props.mergeTargets.vendor
         : props.mergeTargets.part,
 );
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const types = [null, 'part', 'vendor', 'offer'] as const;
 </script>
@@ -334,22 +333,18 @@ const types = [null, 'part', 'vendor', 'offer'] as const;
 
                 <div v-else-if="active?.action === 'merge'" class="grid gap-2">
                     <Label for="merge-into">{{ $t('Merge into') }}</Label>
-                    <select
-                        id="merge-into"
-                        v-model="mergeInto"
-                        :class="selectClass"
-                    >
-                        <option value="">
+                    <FormSelect id="merge-into" v-model="mergeInto">
+                        <FormOption value="">
                             {{ $t('Choose an approved item') }}
-                        </option>
-                        <option
+                        </FormOption>
+                        <FormOption
                             v-for="target in mergeOptions"
                             :key="target.id"
                             :value="target.id"
                         >
                             {{ target.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <InputError :message="pageErrors.into_id" />
                 </div>
 

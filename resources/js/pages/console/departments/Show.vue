@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { department as departmentReport } from '@/routes/console/reports';
 import { Form, Head, Link, router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
@@ -427,19 +429,19 @@ const isPublicDraft = ref(props.department.is_public);
                         </div>
                         <div class="grid gap-2">
                             <Label for="invite-role">{{ $t('Role') }}</Label>
-                            <select
+                            <FormSelect
                                 id="invite-role"
                                 name="role"
                                 class="h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
                             >
-                                <option
+                                <FormOption
                                     v-for="role in inviteRoles"
                                     :key="role"
                                     :value="role"
                                 >
                                     {{ $t(`role.${role}`) }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError :message="errors.role" />
                         </div>
                         <div>

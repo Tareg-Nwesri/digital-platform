@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { ref } from 'vue';
@@ -44,9 +46,6 @@ const form = useForm({
 function create(): void {
     form.post(store(props.team.slug).url);
 }
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -118,40 +117,35 @@ const selectClass =
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div class="grid gap-2">
                             <Label for="robot-status">{{ $t('Status') }}</Label>
-                            <select
-                                id="robot-status"
-                                v-model="form.status"
-                                :class="selectClass"
-                            >
-                                <option
+                            <FormSelect id="robot-status" v-model="form.status">
+                                <FormOption
                                     v-for="status in statuses"
                                     :key="status"
                                     :value="status"
                                 >
                                     {{ $t(`work.robot_status.${status}`) }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                         </div>
                         <div class="grid gap-2">
                             <Label for="robot-project">{{
                                 $t('Project')
                             }}</Label>
-                            <select
+                            <FormSelect
                                 id="robot-project"
                                 v-model="form.project_id"
-                                :class="selectClass"
                             >
-                                <option :value="null">
+                                <FormOption :value="null">
                                     {{ $t('No project') }}
-                                </option>
-                                <option
+                                </FormOption>
+                                <FormOption
                                     v-for="project in projects"
                                     :key="project.id"
                                     :value="project.id"
                                 >
                                     {{ project.title }}
-                                </option>
-                            </select>
+                                </FormOption>
+                            </FormSelect>
                             <InputError :message="form.errors.project_id" />
                         </div>
                     </div>

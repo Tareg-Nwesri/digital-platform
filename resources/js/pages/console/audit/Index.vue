@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { h } from 'vue';
@@ -127,40 +129,46 @@ const columns: ListColumn<Entry>[] = [
             :only="['entries']"
         >
             <template #filters="{ filter }">
-                <select
+                <FormSelect
                     v-model="filter.log"
                     :class="filterClass"
                     :aria-label="$t('Area')"
                 >
-                    <option :value="undefined">{{ $t('All areas') }}</option>
-                    <option v-for="log in logs" :key="log" :value="log">
+                    <FormOption :value="undefined">{{
+                        $t('All areas')
+                    }}</FormOption>
+                    <FormOption v-for="log in logs" :key="log" :value="log">
                         {{ log }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.subject"
                     :class="filterClass"
                     :aria-label="$t('Record type')"
                 >
-                    <option :value="undefined">{{ $t('All records') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All records')
+                    }}</FormOption>
+                    <FormOption
                         v-for="subject in subjects"
                         :key="subject.value"
                         :value="subject.value"
                     >
                         {{ subject.label }}
-                    </option>
-                </select>
-                <select
+                    </FormOption>
+                </FormSelect>
+                <FormSelect
                     v-model="filter.impersonated"
                     :class="filterClass"
                     :aria-label="$t('Impersonated')"
                 >
-                    <option :value="undefined">{{ $t('Everyone') }}</option>
-                    <option value="1">
+                    <FormOption :value="undefined">{{
+                        $t('Everyone')
+                    }}</FormOption>
+                    <FormOption value="1">
                         {{ $t('Only while impersonating') }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
                 <Input
                     v-model="filter.from"
                     type="date"

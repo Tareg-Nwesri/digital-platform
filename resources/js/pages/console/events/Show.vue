@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { X } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -194,9 +196,6 @@ function removeInvitation(teamId: number): void {
         preserveScroll: true,
     });
 }
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -379,20 +378,16 @@ const selectClass =
                 {{ $t('Only invited teams can see this event and apply.') }}
             </p>
             <div v-if="can.edit" class="flex flex-wrap gap-2">
-                <select
-                    v-model="inviteTeamId"
-                    :class="selectClass"
-                    :aria-label="$t('Team')"
-                >
-                    <option value="">{{ $t('Choose a team') }}</option>
-                    <option
+                <FormSelect v-model="inviteTeamId" :aria-label="$t('Team')">
+                    <FormOption value="">{{ $t('Choose a team') }}</FormOption>
+                    <FormOption
                         v-for="team in invitableTeams"
                         :key="team.id"
                         :value="team.id"
                     >
                         {{ team.name }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
                 <Button
                     :disabled="inviteTeamId === ''"
                     data-test="invite-team"

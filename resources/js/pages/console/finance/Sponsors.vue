@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -68,9 +70,6 @@ function create(): void {
     });
 }
 
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
-
 const columns: ListColumn<SponsorRow>[] = [
     {
         id: 'name_en',
@@ -135,25 +134,21 @@ const columns: ListColumn<SponsorRow>[] = [
             :only="['sponsors']"
         >
             <template #filters="{ filter }">
-                <select
-                    v-model="filter.type"
-                    :class="selectClass"
-                    :aria-label="$t('Type')"
-                >
-                    <option :value="undefined">{{ $t('All types') }}</option>
-                    <option v-for="type in types" :key="type" :value="type">
+                <FormSelect v-model="filter.type" :aria-label="$t('Type')">
+                    <FormOption :value="undefined">{{
+                        $t('All types')
+                    }}</FormOption>
+                    <FormOption v-for="type in types" :key="type" :value="type">
                         {{ $t(`finance.sponsor_type.${type}`) }}
-                    </option>
-                </select>
-                <select
-                    v-model="filter.active"
-                    :class="selectClass"
-                    :aria-label="$t('Status')"
-                >
-                    <option :value="undefined">{{ $t('All sponsors') }}</option>
-                    <option value="1">{{ $t('Active') }}</option>
-                    <option value="0">{{ $t('Inactive') }}</option>
-                </select>
+                    </FormOption>
+                </FormSelect>
+                <FormSelect v-model="filter.active" :aria-label="$t('Status')">
+                    <FormOption :value="undefined">{{
+                        $t('All sponsors')
+                    }}</FormOption>
+                    <FormOption value="1">{{ $t('Active') }}</FormOption>
+                    <FormOption value="0">{{ $t('Inactive') }}</FormOption>
+                </FormSelect>
             </template>
             <template v-if="can.edit" #actions>
                 <Button data-test="new-sponsor" @click="open = true">
@@ -195,19 +190,19 @@ const columns: ListColumn<SponsorRow>[] = [
                     </div>
                     <div class="grid gap-2">
                         <Label for="sponsor-type">{{ $t('Type') }}</Label>
-                        <select
+                        <FormSelect
                             id="sponsor-type"
                             v-model="form.type"
                             class="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
                         >
-                            <option
+                            <FormOption
                                 v-for="type in types"
                                 :key="type"
                                 :value="type"
                             >
                                 {{ $t(`finance.sponsor_type.${type}`) }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                     </div>
                     <div class="grid gap-2">
                         <Label for="sponsor-website">{{ $t('Website') }}</Label>

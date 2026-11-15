@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -81,9 +83,6 @@ const errors = computed(
 function send(): void {
     form.post(submit(props.receipt.id).url, { preserveScroll: true });
 }
-
-const selectClass =
-    'h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
 
 <template>
@@ -174,21 +173,20 @@ const selectClass =
                     :key="index"
                     class="flex flex-wrap items-center gap-2"
                 >
-                    <select
+                    <FormSelect
                         v-model="line.account_id"
-                        :class="selectClass"
                         class="min-w-48 flex-1"
                         :aria-label="$t('Account')"
                         :disabled="!can.edit"
                     >
-                        <option
+                        <FormOption
                             v-for="account in accounts"
                             :key="account.id"
                             :value="account.id"
                         >
                             {{ account.name }}
-                        </option>
-                    </select>
+                        </FormOption>
+                    </FormSelect>
                     <Input
                         v-model="line.amount"
                         inputmode="decimal"

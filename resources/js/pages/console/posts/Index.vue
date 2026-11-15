@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormOption from '@/components/forms/FormOption.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Plus } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
@@ -69,9 +71,6 @@ function create(): void {
         onSuccess: () => (creating.value = false),
     });
 }
-
-const selectClass =
-    'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 
 const columns: ListColumn<PostRow>[] = [
     {
@@ -150,20 +149,22 @@ const columns: ListColumn<PostRow>[] = [
             :only="['posts']"
         >
             <template #filters="{ filter }">
-                <select
+                <FormSelect
                     v-model="filter.status"
                     class="h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
                     :aria-label="$t('Status')"
                 >
-                    <option :value="undefined">{{ $t('All statuses') }}</option>
-                    <option
+                    <FormOption :value="undefined">{{
+                        $t('All statuses')
+                    }}</FormOption>
+                    <FormOption
                         v-for="status in statuses"
                         :key="status"
                         :value="status"
                     >
                         {{ $t(`content.post_status.${status}`) }}
-                    </option>
-                </select>
+                    </FormOption>
+                </FormSelect>
             </template>
             <template v-if="can.create" #actions>
                 <Button data-test="new-post" @click="openCreate">
@@ -183,19 +184,18 @@ const columns: ListColumn<PostRow>[] = [
                         <Label for="post-department">{{
                             $t('Department')
                         }}</Label>
-                        <select
+                        <FormSelect
                             id="post-department"
                             v-model="form.department_id"
-                            :class="selectClass"
                         >
-                            <option
+                            <FormOption
                                 v-for="department in departments"
                                 :key="department.id"
                                 :value="department.id"
                             >
                                 {{ department.name }}
-                            </option>
-                        </select>
+                            </FormOption>
+                        </FormSelect>
                         <InputError :message="form.errors.department_id" />
                     </div>
                     <div class="grid gap-2">

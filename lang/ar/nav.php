@@ -15,6 +15,7 @@ return [
         'teams' => 'الفرق',
         'events' => 'الفعاليات',
         'catalogue' => 'الكتالوج',
+        'department_named' => 'قسم :name',
         'finance' => 'المالية',
         'content' => 'الأخبار',
         'inbox' => 'الرسائل',

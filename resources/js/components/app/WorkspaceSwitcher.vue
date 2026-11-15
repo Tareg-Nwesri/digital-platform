@@ -48,14 +48,14 @@ function href(workspace: { type: string; slug: string }) {
                             >
                                 {{
                                     current?.type === 'department'
-                                        ? 'Department'
+                                        ? $t('Department')
                                         : current
-                                          ? 'Team'
-                                          : 'Workspace'
+                                          ? $t('Team')
+                                          : $t('Workspace')
                                 }}
                             </span>
                             <span class="truncate font-semibold">
-                                {{ current?.name ?? 'Choose a workspace' }}
+                                {{ current?.name ?? $t('Choose a workspace') }}
                             </span>
                         </div>
                         <ChevronsUpDown class="ms-auto size-4" />

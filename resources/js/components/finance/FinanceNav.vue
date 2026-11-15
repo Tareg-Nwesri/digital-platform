@@ -38,7 +38,9 @@ const links = [
 </script>
 
 <template>
-    <nav class="flex gap-1 overflow-x-auto border-b">
+    <nav
+        class="flex [scrollbar-width:none] gap-1 overflow-x-auto border-b [&::-webkit-scrollbar]:hidden"
+    >
         <template v-for="[key, label, href] in links" :key="key">
             <Link
                 v-if="key !== 'approvals' || canApprove"

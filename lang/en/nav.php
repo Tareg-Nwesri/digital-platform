@@ -15,6 +15,7 @@ return [
         'teams' => 'Teams',
         'events' => 'Events',
         'catalogue' => 'Catalogue',
+        'department_named' => ':name department',
         'finance' => 'Finance',
         'content' => 'News',
         'inbox' => 'Inbox',

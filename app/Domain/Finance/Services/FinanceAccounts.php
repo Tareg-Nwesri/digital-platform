@@ -4,7 +4,10 @@ namespace App\Domain\Finance\Services;
 
 use App\Domain\Finance\Enums\AccountType;
 use App\Domain\Finance\Models\FinanceAccount;
+use App\Domain\Teams\Models\Team;
+use App\Domain\Work\Models\Project;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
 /**
@@ -69,5 +72,32 @@ final class FinanceAccounts
             'is_restricted' => $type === AccountType::EarmarkedFund,
             'purpose' => $purpose,
         ]);
+    }
+
+    /**
+     * The budget account of a team or a project in a currency, created on
+     * first use (LLD 07 §3).
+     */
+    public function budgetFor(Team|Project $owner, string $currency): FinanceAccount
+    {
+        $type = $owner instanceof Team ? AccountType::TeamBudget : AccountType::ProjectBudget;
+
+        return DB::transaction(function () use ($owner, $currency, $type): FinanceAccount {
+            $existing = FinanceAccount::query()
+                ->where('type', $type)
+                ->where('owner_type', $owner->getMorphClass())
+                ->where('owner_id', $owner->getKey())
+                ->where('currency', $currency)
+                ->lockForUpdate()
+                ->first();
+
+            if ($existing !== null) {
+                return $existing;
+            }
+
+            $name = $owner instanceof Team ? $owner->name : (string) $owner->title_en;
+
+            return $this->create($type, $name, $owner instanceof Team ? $owner->name : $owner->title_ar, $currency, null, $owner);
+        });
     }
 }

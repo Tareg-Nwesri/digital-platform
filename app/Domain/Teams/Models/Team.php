@@ -3,6 +3,7 @@
 namespace App\Domain\Teams\Models;
 
 use App\Domain\Access\Models\Workspace;
+use App\Domain\Events\Models\EventRegistration;
 use App\Domain\Organisation\Models\Department;
 use App\Domain\Teams\Enums\TeamFeature;
 use App\Domain\Teams\Enums\TeamStatus;
@@ -150,6 +151,14 @@ class Team extends Model
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
+    }
+
+    /**
+     * @return HasMany<EventRegistration, $this>
+     */
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(EventRegistration::class);
     }
 
     /**

@@ -22,6 +22,12 @@ return [
         'withdrawn' => 'منسحب',
     ],
     'rules' => [
+        'robots_count' => 'يجب المشاركة بروبوت واحد على الأقل وبحد أقصى :max.',
+        'robot_not_in_team' => 'ليس من روبوتات الفريق: :names.',
+        'robot_retired' => 'لا يمكن مشاركة الروبوتات المتقاعدة: :names.',
+        'robot_measurements' => 'أضف وزن وأبعاد: :names.',
+        'robot_weight' => 'أثقل من :max غ: :names.',
+        'robot_size' => 'أكبر من حدود الحجم: :names.',
         'team_inactive' => 'الفريق غير نشط.',
         'feature_off' => 'مستوى هذا الفريق لا يشمل التسجيل في الفعاليات.',
         'not_visible' => 'هذه الفعالية بالدعوة فقط.',
@@ -34,6 +40,9 @@ return [
         'member_age' => 'خارج الفئة العمرية :min–:max يوم الفعالية: :names.',
     ],
     'flash' => [
+        'applied' => 'تم إرسال طلب المشاركة إلى المنظمين.',
+        'invitation_accepted' => 'تم قبول الدعوة.',
+        'entry_withdrawn' => 'تم سحب المشاركة.',
         'cover_saved' => 'تم حفظ صورة الغلاف.',
         'cover_removed' => 'تمت إزالة صورة الغلاف.',
         'document_saved' => 'تم رفع الملف.',

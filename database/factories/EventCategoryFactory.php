@@ -23,7 +23,7 @@ class EventCategoryFactory extends Factory
             'name_en' => fake()->randomElement(['Line follower', 'Sumo', 'Maze solver', 'Soccer']),
             'members_min' => 1,
             'members_max' => 5,
-            'robots_per_team' => 1,
+            'robots_per_team' => 0,
             'position' => 0,
         ];
     }

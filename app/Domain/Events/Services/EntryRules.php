@@ -10,13 +10,13 @@ use App\Domain\Teams\Enums\TeamFeature;
 use App\Domain\Teams\Enums\TeamStatus;
 use App\Domain\Teams\Models\Team;
 use App\Domain\Teams\Services\TeamFeatures;
+use App\Domain\Work\Enums\RobotStatus;
+use App\Domain\Work\Models\Robot;
 use App\Models\User;
 
 /**
  * Entry rules for one team in one category (LLD 06 §4). Pure: it reads but
  * never writes. Capacity is not a rule; it decides approved or waitlisted.
- * Robot rules (robots_count, robot_not_in_team, robot_weight, robot_size)
- * join once robots exist.
  */
 final class EntryRules
 {
@@ -24,9 +24,10 @@ final class EntryRules
 
     /**
      * @param  list<User>  $members
+     * @param  list<Robot>  $robots
      * @return list<RuleViolation>
      */
-    public function check(Event $event, EventCategory $category, Team $team, array $members, EntryContext $context): array
+    public function check(Event $event, EventCategory $category, Team $team, array $members, EntryContext $context, array $robots = []): array
     {
         $violations = [];
 
@@ -54,7 +55,85 @@ final class EntryRules
             $violations[] = RuleViolation::of('duplicate');
         }
 
-        return [...$violations, ...$this->memberViolations($event, $category, $team, $members)];
+        return [
+            ...$violations,
+            ...$this->memberViolations($event, $category, $team, $members),
+            ...$this->robotViolations($category, $team, $robots, $context),
+        ];
+    }
+
+    /**
+     * Applying teams must bring between one robot and the category maximum.
+     * Organisers may leave robots out; when they name robots, the same rules
+     * apply. Guest registrations are checked by the organisers on approval.
+     *
+     * @param  list<Robot>  $robots
+     * @return list<RuleViolation>
+     */
+    private function robotViolations(EventCategory $category, Team $team, array $robots, EntryContext $context): array
+    {
+        if ($context->isGuest() || $category->robots_per_team < 1 || ($robots === [] && ! $context->isApply())) {
+            return [];
+        }
+
+        $violations = [];
+        $count = count($robots);
+
+        if ($count < 1 || $count > $category->robots_per_team) {
+            $violations[] = RuleViolation::of('robots_count', ['max' => $category->robots_per_team]);
+        }
+
+        $outsiders = array_filter($robots, fn (Robot $robot): bool => $robot->team_id !== $team->getKey());
+
+        if ($outsiders !== []) {
+            $violations[] = RuleViolation::of('robot_not_in_team', ['names' => $this->robotNames($outsiders)]);
+        }
+
+        $retired = array_filter($robots, fn (Robot $robot): bool => $robot->status === RobotStatus::Retired);
+
+        if ($retired !== []) {
+            $violations[] = RuleViolation::of('robot_retired', ['names' => $this->robotNames($retired)]);
+        }
+
+        $limits = array_filter([
+            'weight_g' => $category->max_weight_g,
+            'length_mm' => $category->max_length_mm,
+            'width_mm' => $category->max_width_mm,
+            'height_mm' => $category->max_height_mm,
+        ], fn (?int $limit): bool => $limit !== null);
+
+        if ($limits === []) {
+            return $violations;
+        }
+
+        $unmeasured = array_filter($robots, fn (Robot $robot): bool => collect($limits)->keys()->contains(fn (string $field): bool => $robot->{$field} === null));
+
+        if ($unmeasured !== []) {
+            $violations[] = RuleViolation::of('robot_measurements', ['names' => $this->robotNames($unmeasured)]);
+        }
+
+        $heavy = array_filter($robots, fn (Robot $robot): bool => isset($limits['weight_g']) && $robot->weight_g !== null && $robot->weight_g > $limits['weight_g']);
+
+        if ($heavy !== []) {
+            $violations[] = RuleViolation::of('robot_weight', ['names' => $this->robotNames($heavy), 'max' => $limits['weight_g']]);
+        }
+
+        $sizes = array_diff_key($limits, ['weight_g' => true]);
+        $big = array_filter($robots, fn (Robot $robot): bool => collect($sizes)->contains(fn (int $limit, string $field): bool => $robot->{$field} !== null && $robot->{$field} > $limit));
+
+        if ($big !== []) {
+            $violations[] = RuleViolation::of('robot_size', ['names' => $this->robotNames($big)]);
+        }
+
+        return $violations;
+    }
+
+    /**
+     * @param  array<Robot>  $robots
+     */
+    private function robotNames(array $robots): string
+    {
+        return implode(', ', array_map(fn (Robot $robot): string => $robot->name, $robots));
     }
 
     /**

@@ -38,6 +38,7 @@ use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
+use App\Http\Controllers\Workspace\EventController as WorkspaceEventController;
 use App\Http\Controllers\Workspace\MemberController as WorkspaceMemberController;
 use App\Http\Controllers\Workspace\ProjectController as WorkspaceProjectController;
 use App\Http\Controllers\Workspace\RobotController as WorkspaceRobotController;
@@ -269,6 +270,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('robots/{robot:slug}', [WorkspaceRobotController::class, 'destroy'])->name('robots.destroy');
         Route::put('robots/{robot:slug}/bom', [WorkspaceRobotController::class, 'bom'])->name('robots.bom');
         Route::get('catalogue/parts/search', [WorkspaceRobotController::class, 'search'])->name('catalogue.search');
+
+        Route::get('events', [WorkspaceEventController::class, 'index'])->name('events.index');
+        Route::get('events/{event:slug}', [WorkspaceEventController::class, 'show'])->withoutScopedBindings()->name('events.show');
+        Route::post('events/{event:slug}/entries', [WorkspaceEventController::class, 'apply'])->withoutScopedBindings()->name('events.apply');
+        Route::post('entries/{registration}/accept', [WorkspaceEventController::class, 'accept'])->name('entries.accept');
+        Route::post('entries/{registration}/withdraw', [WorkspaceEventController::class, 'withdraw'])->name('entries.withdraw');
     });
 });
 

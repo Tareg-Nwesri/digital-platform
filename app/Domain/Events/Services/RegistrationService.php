@@ -13,6 +13,7 @@ use App\Domain\Teams\Enums\TeamStatus;
 use App\Domain\Teams\Models\Team;
 use App\Domain\Teams\Services\TeamMemberService;
 use App\Domain\Teams\Services\TeamService;
+use App\Domain\Work\Models\Robot;
 use App\Exceptions\DomainRuleViolation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -33,20 +34,22 @@ final class RegistrationService
      * A team applies; the entry waits for an organiser's decision.
      *
      * @param  list<int>  $memberIds
+     * @param  list<int>  $robotIds
      */
-    public function apply(Event $event, EventCategory $category, Team $team, array $memberIds, User $by): EventRegistration
+    public function apply(Event $event, EventCategory $category, Team $team, array $memberIds, User $by, array $robotIds = []): EventRegistration
     {
         $this->assertCategoryOf($event, $category);
 
-        return DB::transaction(function () use ($event, $category, $team, $memberIds, $by): EventRegistration {
+        return DB::transaction(function () use ($event, $category, $team, $memberIds, $by, $robotIds): EventRegistration {
             $locked = $this->lock($event);
-            $violations = $this->rules->check($locked, $category, $team, $this->users($memberIds), EntryContext::apply());
+            $violations = $this->rules->check($locked, $category, $team, $this->users($memberIds), EntryContext::apply(), $this->robots($robotIds));
 
             if ($violations !== []) {
                 throw $this->violation($violations);
             }
 
             $registration = $this->createEntry($locked, $category, $team, $memberIds, RegistrationSource::Applied, RegistrationStatus::Pending, $by);
+            $registration->robots()->sync(array_values(array_unique($robotIds)));
             $this->log($registration, $by, 'registration.applied');
 
             return $registration;
@@ -86,14 +89,16 @@ final class RegistrationService
      * The team accepts an organiser's invitation, confirming its members.
      *
      * @param  list<int>  $memberIds
+     * @param  list<int>  $robotIds
      */
-    public function acceptInvite(EventRegistration $registration, array $memberIds, User $by): EventRegistration
+    public function acceptInvite(EventRegistration $registration, array $memberIds, User $by, array $robotIds = []): EventRegistration
     {
-        return DB::transaction(function () use ($registration, $memberIds, $by): EventRegistration {
+        return DB::transaction(function () use ($registration, $memberIds, $by, $robotIds): EventRegistration {
             $event = $this->lock($registration->event);
             $registration = $this->refresh($registration);
             $this->assertStatus($registration, RegistrationStatus::Invited);
             $registration->members()->sync($memberIds);
+            $registration->robots()->sync(array_values(array_unique($robotIds)));
 
             return $this->decide($event, $registration, $registration->override_reason, $by, EntryContext::approve($registration->getKey()), trusted: $registration->override_reason !== null);
         });
@@ -200,7 +205,7 @@ final class RegistrationService
                 ->where('status', RegistrationStatus::Waitlisted)
                 ->orderBy('waitlist_position')
                 ->orderBy('id')
-                ->with(['category', 'team', 'members'])
+                ->with(['category', 'team', 'members', 'robots'])
                 ->get();
 
             foreach ($waiting as $registration) {
@@ -208,7 +213,7 @@ final class RegistrationService
                     continue;
                 }
 
-                $violations = $this->rules->check($locked, $registration->category, $registration->team, $registration->members->all(), EntryContext::approve($registration->getKey()));
+                $violations = $this->rules->check($locked, $registration->category, $registration->team, $registration->members->all(), EntryContext::approve($registration->getKey()), $registration->robots->all());
 
                 if ($violations !== []) {
                     continue;
@@ -234,8 +239,8 @@ final class RegistrationService
      */
     private function decide(Event $event, EventRegistration $registration, ?string $overrideReason, User $by, EntryContext $context, bool $trusted = false): EventRegistration
     {
-        $registration->loadMissing(['category', 'team', 'members']);
-        $violations = $this->rules->check($event, $registration->category, $registration->team, $registration->members->all(), $context);
+        $registration->loadMissing(['category', 'team', 'members', 'robots']);
+        $violations = $this->rules->check($event, $registration->category, $registration->team, $registration->members->all(), $context, $registration->robots->all());
 
         $override = $trusted && $violations !== []
             ? ['override_reason' => $overrideReason, 'override_violations' => $this->codes($violations)]
@@ -373,6 +378,15 @@ final class RegistrationService
     private function users(array $ids): array
     {
         return User::query()->whereKey(array_values(array_unique($ids)))->get()->all();
+    }
+
+    /**
+     * @param  list<int>  $ids
+     * @return list<Robot>
+     */
+    private function robots(array $ids): array
+    {
+        return Robot::query()->whereKey(array_values(array_unique($ids)))->get()->all();
     }
 
     /**

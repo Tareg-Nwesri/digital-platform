@@ -22,6 +22,12 @@ return [
         'withdrawn' => 'Withdrawn',
     ],
     'rules' => [
+        'robots_count' => 'Bring between 1 and :max robots.',
+        'robot_not_in_team' => 'Not the team’s robot: :names.',
+        'robot_retired' => 'Retired robots cannot enter: :names.',
+        'robot_measurements' => 'Add the weight and size of: :names.',
+        'robot_weight' => 'Heavier than :max g: :names.',
+        'robot_size' => 'Larger than the size limits: :names.',
         'team_inactive' => 'The team is not active.',
         'feature_off' => 'This team’s tier does not include event registration.',
         'not_visible' => 'This event is by invitation only.',
@@ -34,6 +40,9 @@ return [
         'member_age' => 'Outside the age range :min–:max on the event day: :names.',
     ],
     'flash' => [
+        'applied' => 'Your application was sent to the organisers.',
+        'invitation_accepted' => 'The invitation was accepted.',
+        'entry_withdrawn' => 'The entry was withdrawn.',
         'cover_saved' => 'The cover photo was saved.',
         'cover_removed' => 'The cover photo was removed.',
         'document_saved' => 'The document was uploaded.',

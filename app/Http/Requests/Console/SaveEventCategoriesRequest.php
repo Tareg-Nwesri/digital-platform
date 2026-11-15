@@ -27,7 +27,7 @@ class SaveEventCategoriesRequest extends FormRequest
             'categories.*.age_max' => ['nullable', 'integer', 'between:3,99'],
             'categories.*.members_min' => ['required', 'integer', 'between:1,20'],
             'categories.*.members_max' => ['required', 'integer', 'between:1,20'],
-            'categories.*.robots_per_team' => ['required', 'integer', 'between:1,10'],
+            'categories.*.robots_per_team' => ['required', 'integer', 'between:0,10'],
             'categories.*.capacity' => ['nullable', 'integer', 'between:1,1000'],
             'categories.*.max_weight_g' => ['nullable', 'integer', 'min:1'],
             'categories.*.max_length_mm' => ['nullable', 'integer', 'min:1'],

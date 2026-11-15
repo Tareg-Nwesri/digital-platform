@@ -63,7 +63,7 @@ beforeEach(function () {
     }
 });
 
-function confirmed(): array
+function budgetPasswordConfirmed(): array
 {
     return ['auth.password_confirmed_at' => now()->unix()];
 }
@@ -104,7 +104,7 @@ it('sends a funding request that finance approves into the team budget', functio
             ->where('requests.0.id', $request->id)
             ->where('requests.0.team', $this->team->name));
 
-    $this->actingAs($this->approver)->withSession(confirmed())
+    $this->actingAs($this->approver)->withSession(budgetPasswordConfirmed())
         ->post(route('console.finance.requests.approve', $request), ['amount' => '800', 'note' => 'Sensors from stock.'])
         ->assertRedirect();
 
@@ -141,7 +141,7 @@ it('lets the team fix a request finance sent back', function () {
 
 it('records an expense with its receipt that finance approves or rejects', function () {
     sendRequest();
-    $this->actingAs($this->approver)->withSession(confirmed())
+    $this->actingAs($this->approver)->withSession(budgetPasswordConfirmed())
         ->post(route('console.finance.requests.approve', FundingRequest::query()->sole()))
         ->assertRedirect();
     $budget = app(FinanceAccounts::class)->budgetFor($this->team, 'LYD');
@@ -163,7 +163,7 @@ it('records an expense with its receipt that finance approves or rejects', funct
     $this->actingAs($this->approver)->get(route('console.finance.expenses.receipt', $expense))->assertOk();
     $this->actingAs($this->captain)->get(route('workspace.budget.expenses.receipt', [$this->team, $expense]))->assertOk();
 
-    $this->actingAs($this->approver)->withSession(confirmed())
+    $this->actingAs($this->approver)->withSession(budgetPasswordConfirmed())
         ->post(route('console.finance.expenses.approve', $expense))
         ->assertRedirect();
 

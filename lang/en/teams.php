@@ -14,6 +14,7 @@ return [
         'viewer' => 'Viewer',
     ],
     'errors' => [
+        'public_profile_off' => 'Your team’s tier does not include a public profile.',
         'tier_in_use' => 'Teams still use this tier. Move them to another tier first.',
         'tier_is_default' => 'This is the default tier for new teams. Make another tier the default first.',
         'reason_required' => 'A reason is required for this status change.',
@@ -29,6 +30,9 @@ return [
         'remove_captain' => 'The captain cannot be removed. Transfer captaincy first.',
     ],
     'flash' => [
+        'profile_saved' => 'The team profile was saved.',
+        'logo_saved' => 'The logo was saved.',
+        'logo_removed' => 'The logo was removed.',
         'invited' => 'Invitation sent to :email.',
         'invitation_revoked' => 'Invitation withdrawn.',
         'member_added' => 'Member added.',

@@ -264,7 +264,16 @@ const selectClass =
                     :robots="robots"
                     :errors="acceptForm.errors"
                 />
-                <InputError :message="(acceptForm.errors as Record<string, string | undefined>).registration" />
+                <InputError
+                    :message="
+                        (
+                            acceptForm.errors as Record<
+                                string,
+                                string | undefined
+                            >
+                        ).registration
+                    "
+                />
                 <div class="flex justify-end gap-2">
                     <Button variant="outline" @click="accepting = null">{{
                         $t('Cancel')
@@ -313,7 +322,12 @@ const selectClass =
                     :robots="robots"
                     :errors="form.errors"
                 />
-                <InputError :message="(form.errors as Record<string, string | undefined>).registration" />
+                <InputError
+                    :message="
+                        (form.errors as Record<string, string | undefined>)
+                            .registration
+                    "
+                />
                 <Button
                     type="submit"
                     :disabled="form.processing"

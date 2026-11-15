@@ -28,6 +28,10 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -55,10 +59,33 @@ use Spatie\Activitylog\Support\LogOptions;
     'approved_at', 'approved_by',
 ])]
 #[UseFactory(TeamFactory::class)]
-class Team extends Model
+class Team extends Model implements HasMedia
 {
     /** @use HasFactory<TeamFactory> */
-    use HasFactory, HasFeatures, HasLocalizedFields, HasStatusTransitions, LogsActivity, SoftDeletes;
+    use HasFactory, HasFeatures, HasLocalizedFields, HasStatusTransitions, InteractsWithMedia, LogsActivity, SoftDeletes;
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('logo')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->fit(Fit::Contain, 256, 256)
+            ->format('webp')
+            ->nonQueued()
+            ->performOnCollections('logo');
+    }
+
+    public function logoUrl(): ?string
+    {
+        $logo = $this->getFirstMedia('logo');
+
+        return $logo?->getUrl($logo->hasGeneratedConversion('thumb') ? 'thumb' : '');
+    }
 
     /**
      * @return array<string, string>

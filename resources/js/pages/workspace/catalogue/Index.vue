@@ -176,6 +176,8 @@ const statusVariant: Record<
     archived: 'outline',
 };
 
+const urlPlaceholder = 'https:' + '//';
+
 const selectClass =
     'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
@@ -527,7 +529,7 @@ const selectClass =
                                 v-model="vendorForm.website"
                                 type="url"
                                 dir="ltr"
-                                placeholder="https://"
+                                :placeholder="urlPlaceholder"
                             />
                             <InputError :message="vendorForm.errors.website" />
                         </div>

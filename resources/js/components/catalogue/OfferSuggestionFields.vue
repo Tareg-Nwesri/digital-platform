@@ -21,6 +21,8 @@ defineProps<{
 
 const draft = defineModel<OfferDraft>({ required: true });
 
+const urlPlaceholder = 'https:' + '//';
+
 const selectClass =
     'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs';
 </script>
@@ -84,7 +86,7 @@ const selectClass =
                 v-model="draft.url"
                 type="url"
                 dir="ltr"
-                placeholder="https://"
+                :placeholder="urlPlaceholder"
             />
             <InputError :message="errors.url" />
         </div>

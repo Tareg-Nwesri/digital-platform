@@ -43,6 +43,7 @@ use App\Http\Controllers\Workspace\EventController as WorkspaceEventController;
 use App\Http\Controllers\Workspace\MemberController as WorkspaceMemberController;
 use App\Http\Controllers\Workspace\ProjectController as WorkspaceProjectController;
 use App\Http\Controllers\Workspace\RobotController as WorkspaceRobotController;
+use App\Http\Controllers\Workspace\SettingsController as WorkspaceSettingsController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
@@ -275,6 +276,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('catalogue/parts', [WorkspaceCatalogueController::class, 'storePart'])->name('catalogue.parts.store');
         Route::post('catalogue/vendors', [WorkspaceCatalogueController::class, 'storeVendor'])->name('catalogue.vendors.store');
         Route::post('catalogue/offers', [WorkspaceCatalogueController::class, 'storeOffer'])->name('catalogue.offers.store');
+
+        Route::get('settings', [WorkspaceSettingsController::class, 'edit'])->name('settings.edit');
+        Route::patch('settings', [WorkspaceSettingsController::class, 'update'])->name('settings.update');
+        Route::post('settings/logo', [WorkspaceSettingsController::class, 'logo'])->name('settings.logo');
+        Route::delete('settings/logo', [WorkspaceSettingsController::class, 'destroyLogo'])->name('settings.logo.destroy');
 
         Route::get('events', [WorkspaceEventController::class, 'index'])->name('events.index');
         Route::get('events/{event:slug}', [WorkspaceEventController::class, 'show'])->withoutScopedBindings()->name('events.show');

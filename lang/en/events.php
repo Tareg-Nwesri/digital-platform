@@ -34,6 +34,10 @@ return [
         'member_age' => 'Outside the age range :min–:max on the event day: :names.',
     ],
     'flash' => [
+        'cover_saved' => 'The cover photo was saved.',
+        'cover_removed' => 'The cover photo was removed.',
+        'document_saved' => 'The document was uploaded.',
+        'document_removed' => 'The document was removed.',
         'created' => 'The event was created as a draft.',
         'updated' => 'The event was saved.',
         'deleted' => 'The draft event was deleted.',
@@ -53,6 +57,7 @@ return [
         'results_published' => 'Results are now published.',
     ],
     'errors' => [
+        'cover_too_small' => 'Use a photo at least 800 × 300 pixels.',
         'team_name_registered' => 'A team with this name is already registered for this event.',
         'max_below_min' => 'The maximum cannot be lower than the minimum.',
         'department_not_allowed' => 'Choose a department where you can edit events.',

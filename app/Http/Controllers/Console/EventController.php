@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Activitylog\Models\Activity;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * LLD 06 §7–9: the events area of the organisation console.
@@ -195,6 +196,8 @@ class EventController extends Controller
             'capacity' => $event->capacity,
             'approved' => $event->approvedCount(),
             'resultsPublishedAt' => $event->results_published_at?->toIso8601String(),
+            'cover' => $event->coverUrl(),
+            'documents' => $event->documentList(fn (Media $media): string => $media->getUrl()),
             'department' => [
                 'id' => $event->department->getKey(),
                 'slug' => $event->department->slug,

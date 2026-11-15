@@ -4,6 +4,7 @@ import { Plus, Trash2 } from '@lucide/vue';
 import { computed, ref, watch } from 'vue';
 import BotGuard from '@/components/forms/BotGuard.vue';
 import InputError from '@/components/InputError.vue';
+import EventDocuments from '@/components/public/EventDocuments.vue';
 import EventFacts from '@/components/public/EventFacts.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -54,6 +55,12 @@ const selectClass =
     <Head :title="$t('Register your team')" />
 
     <div class="grid gap-6">
+        <img
+            v-if="event.cover"
+            :src="event.cover"
+            alt=""
+            class="aspect-[5/2] w-full rounded-xl border object-cover"
+        />
         <header class="grid gap-3">
             <Link
                 :href="`/${$page.props.locale}/events/${event.slug}`"
@@ -63,6 +70,8 @@ const selectClass =
             <h1 class="text-2xl font-bold">{{ $t('Register your team') }}</h1>
             <EventFacts :event="event" />
         </header>
+
+        <EventDocuments :documents="event.documents" />
 
         <div
             v-if="!event.isOpen"

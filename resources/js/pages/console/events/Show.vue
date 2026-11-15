@@ -6,6 +6,8 @@ import { computed, ref } from 'vue';
 import CategoriesEditor from '@/components/events/CategoriesEditor.vue';
 import type { Category } from '@/components/events/CategoriesEditor.vue';
 import EventDetailsForm from '@/components/events/EventDetailsForm.vue';
+import EventMediaPanel from '@/components/events/EventMediaPanel.vue';
+import type { EventDocument } from '@/components/events/EventMediaPanel.vue';
 import EventStatusBadge from '@/components/events/EventStatusBadge.vue';
 import RegistrationsPanel from '@/components/events/RegistrationsPanel.vue';
 import type { Registration } from '@/components/events/RegistrationsPanel.vue';
@@ -45,6 +47,8 @@ type EventProps = {
     capacity: number | null;
     approved: number;
     resultsPublishedAt: string | null;
+    cover: string | null;
+    documents: EventDocument[];
     department: Option;
 };
 
@@ -102,6 +106,7 @@ type Tab =
     | 'invitations'
     | 'results'
     | 'settings'
+    | 'media'
     | 'activity';
 
 const tabs = computed(() =>
@@ -120,6 +125,7 @@ const tabs = computed(() =>
                 'Results',
                 ['finished', 'archived'].includes(props.event.status),
             ],
+            ['media', 'Cover & files', true],
             ['settings', 'Settings', props.can.edit],
             ['activity', 'Activity', true],
         ] as [Tab, string, boolean][]
@@ -440,6 +446,15 @@ const selectClass =
                 :event="event"
                 :departments="editableDepartments"
                 :visibilities="visibilities"
+            />
+        </section>
+
+        <section v-if="tab === 'media'" class="max-w-3xl">
+            <EventMediaPanel
+                :slug="event.slug"
+                :cover="event.cover"
+                :documents="event.documents"
+                :can-edit="can.edit"
             />
         </section>
 

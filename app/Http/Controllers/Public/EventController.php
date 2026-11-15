@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Public event pages and the guest team registration form.
@@ -81,6 +82,11 @@ class EventController extends Controller
         ]);
     }
 
+    public function document(string $locale, Event $event, int $media): Media
+    {
+        return $this->visible($event)->media()->where('collection_name', 'documents')->findOrFail($media);
+    }
+
     private function visible(Event $event): Event
     {
         abort_unless($event->isVisibleToVisitors(), 404);
@@ -104,6 +110,7 @@ class EventController extends Controller
             'registrationOpensAt' => $event->registration_opens_at?->toIso8601String(),
             'registrationClosesAt' => ($event->registration_closes_at ?? $event->starts_at)->toIso8601String(),
             'isOpen' => $event->isAcceptingApplications(),
+            'cover' => $event->coverUrl('card'),
         ];
     }
 
@@ -114,6 +121,8 @@ class EventController extends Controller
     {
         return [
             ...$this->summary($event),
+            'cover' => $event->coverUrl(),
+            'documents' => $event->documentList(fn (Media $media): string => route('public.events.documents', [app()->getLocale(), $event->slug, $media->getKey()])),
             'description' => RichText::clean((string) $event->localized('description')),
             'rules' => RichText::clean((string) $event->localized('rules')),
             'terms' => RichText::clean((string) $event->localized('terms')),

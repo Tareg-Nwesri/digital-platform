@@ -24,6 +24,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -49,10 +53,68 @@ use Spatie\Activitylog\Support\LogOptions;
     'registration_closes_at', 'status', 'visibility', 'capacity', 'results_published_at', 'created_by',
 ])]
 #[UseFactory(EventFactory::class)]
-class Event extends Model
+class Event extends Model implements HasMedia
 {
     /** @use HasFactory<EventFactory> */
-    use HasFactory, HasLocalizedFields, HasStatusTransitions, LogsActivity, SoftDeletes;
+    use HasFactory, HasLocalizedFields, HasStatusTransitions, InteractsWithMedia, LogsActivity, SoftDeletes;
+
+    /**
+     * Files visitors may download: documents, sheets, slides, images, archives.
+     *
+     * @var list<string>
+     */
+    public const DOCUMENT_EXTENSIONS = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'jpg', 'jpeg', 'png', 'zip'];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
+        $this->addMediaCollection('documents');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('wide')
+            ->fit(Fit::Crop, 1600, 640)
+            ->format('webp')
+            ->nonQueued()
+            ->performOnCollections('cover');
+
+        $this->addMediaConversion('card')
+            ->fit(Fit::Crop, 800, 420)
+            ->format('webp')
+            ->nonQueued()
+            ->performOnCollections('cover');
+    }
+
+    /**
+     * The downloadable documents, oldest first, with a link built by $url.
+     *
+     * @param  \Closure(Media): string  $url
+     * @return list<array{id: int, name: string, extension: string, size: int, url: string}>
+     */
+    public function documentList(\Closure $url): array
+    {
+        return $this->getMedia('documents')
+            ->map(fn (Media $media): array => [
+                'id' => $media->getKey(),
+                'name' => $media->name,
+                'extension' => strtolower(pathinfo($media->file_name, PATHINFO_EXTENSION)),
+                'size' => (int) $media->size,
+                'url' => $url($media),
+            ])
+            ->values()
+            ->all();
+    }
+
+    public function coverUrl(string $conversion = 'wide'): ?string
+    {
+        $cover = $this->getFirstMedia('cover');
+
+        return $cover?->getUrl($cover->hasGeneratedConversion($conversion) ? $conversion : '');
+    }
 
     /**
      * @return array<string, string>

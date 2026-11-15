@@ -13,6 +13,7 @@ defineProps<{
         startsAt: string;
         registrationClosesAt: string;
         isOpen: boolean;
+        cover: string | null;
     }[];
 }>();
 </script>
@@ -31,17 +32,26 @@ defineProps<{
             <li v-for="event in events" :key="event.slug">
                 <Link
                     :href="`/${$page.props.locale}/events/${event.slug}`"
-                    class="grid gap-3 rounded-xl border bg-card p-5 hover:bg-accent"
+                    class="grid gap-3 overflow-hidden rounded-xl border bg-card hover:bg-accent"
                 >
-                    <span class="flex flex-wrap items-center gap-2">
-                        <span class="text-lg font-semibold">{{
-                            event.title
-                        }}</span>
-                        <Badge v-if="event.isOpen">{{
-                            $t('Registration open')
-                        }}</Badge>
+                    <img
+                        v-if="event.cover"
+                        :src="event.cover"
+                        alt=""
+                        class="aspect-[40/21] w-full object-cover"
+                        loading="lazy"
+                    />
+                    <span class="grid gap-3 p-5">
+                        <span class="flex flex-wrap items-center gap-2">
+                            <span class="text-lg font-semibold">{{
+                                event.title
+                            }}</span>
+                            <Badge v-if="event.isOpen">{{
+                                $t('Registration open')
+                            }}</Badge>
+                        </span>
+                        <EventFacts :event="event" />
                     </span>
-                    <EventFacts :event="event" />
                 </Link>
             </li>
         </ul>

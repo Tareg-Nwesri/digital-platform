@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import EventDocuments from '@/components/public/EventDocuments.vue';
 import EventFacts from '@/components/public/EventFacts.vue';
 import { Button } from '@/components/ui/button';
 
@@ -14,6 +15,14 @@ export type PublicEvent = {
     registrationOpensAt: string | null;
     registrationClosesAt: string;
     isOpen: boolean;
+    cover: string | null;
+    documents: {
+        id: number;
+        name: string;
+        extension: string;
+        size: number;
+        url: string;
+    }[];
     description: string | null;
     rules: string | null;
     terms: string | null;
@@ -35,18 +44,29 @@ defineProps<{ event: PublicEvent }>();
     <Head :title="event.title" />
 
     <article class="grid gap-6">
-        <header class="grid gap-4 rounded-xl border bg-card p-6">
-            <h1 class="text-2xl font-bold">{{ event.title }}</h1>
-            <EventFacts :event="event" />
-            <div v-if="event.isOpen">
-                <Button as-child size="lg" data-test="register-link">
-                    <Link
-                        :href="`/${$page.props.locale}/events/${event.slug}/register`"
-                        >{{ $t('Register your team') }}</Link
-                    >
-                </Button>
+        <header class="grid gap-4 overflow-hidden rounded-xl border bg-card">
+            <img
+                v-if="event.cover"
+                :src="event.cover"
+                alt=""
+                class="aspect-[5/2] w-full object-cover"
+                data-test="event-cover"
+            />
+            <div class="grid gap-4 p-6" :class="{ 'pt-2': event.cover }">
+                <h1 class="text-2xl font-bold">{{ event.title }}</h1>
+                <EventFacts :event="event" />
+                <div v-if="event.isOpen">
+                    <Button as-child size="lg" data-test="register-link">
+                        <Link
+                            :href="`/${$page.props.locale}/events/${event.slug}/register`"
+                            >{{ $t('Register your team') }}</Link
+                        >
+                    </Button>
+                </div>
             </div>
         </header>
+
+        <EventDocuments :documents="event.documents" />
 
         <section
             v-if="event.description"

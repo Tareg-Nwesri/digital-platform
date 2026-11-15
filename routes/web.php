@@ -13,6 +13,7 @@ use App\Http\Controllers\Console\DepartmentInvitationController;
 use App\Http\Controllers\Console\DepartmentMemberController;
 use App\Http\Controllers\Console\DepartmentPermissionController;
 use App\Http\Controllers\Console\EventController;
+use App\Http\Controllers\Console\EventMediaController;
 use App\Http\Controllers\Console\EventRegistrationController;
 use App\Http\Controllers\Console\EventSetupController;
 use App\Http\Controllers\Console\FinanceAccountController;
@@ -57,6 +58,7 @@ Route::prefix('{locale}/events')->whereIn('locale', ['en', 'ar'])->name('public.
         ->middleware('throttle:10,1')
         ->name('register.store');
     Route::get('{event:slug}/registered', [PublicEventController::class, 'registered'])->name('registered');
+    Route::get('{event:slug}/documents/{media}', [PublicEventController::class, 'document'])->whereNumber('media')->name('documents');
 });
 
 Route::middleware('throttle:auth')->group(function () {
@@ -113,6 +115,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('{event:slug}', [EventController::class, 'destroy'])->name('destroy');
             Route::patch('{event:slug}/status', [EventSetupController::class, 'status'])->name('status');
             Route::put('{event:slug}/categories', [EventSetupController::class, 'categories'])->name('categories');
+            Route::post('{event:slug}/cover', [EventMediaController::class, 'cover'])->name('cover');
+            Route::delete('{event:slug}/cover', [EventMediaController::class, 'destroyCover'])->name('cover.destroy');
+            Route::post('{event:slug}/documents', [EventMediaController::class, 'storeDocument'])->name('documents.store');
+            Route::delete('{event:slug}/documents/{media}', [EventMediaController::class, 'destroyDocument'])->whereNumber('media')->name('documents.destroy');
             Route::post('{event:slug}/invitations', [EventSetupController::class, 'invite'])->name('invitations.store');
             Route::delete('{event:slug}/invitations/{team}', [EventSetupController::class, 'uninvite'])->name('invitations.destroy');
             Route::post('{event:slug}/registrations', [EventRegistrationController::class, 'store'])->name('registrations.store');

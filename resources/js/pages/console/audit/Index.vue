@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head } from '@inertiajs/vue3';
@@ -7,7 +8,6 @@ import { h } from 'vue';
 import DataTable from '@/components/data-table/DataTable.vue';
 import Heading from '@/components/Heading.vue';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { formatDate } from '@/lib/i18n';
 import { dashboard } from '@/routes/console';
 import { index } from '@/routes/console/audit';
@@ -169,17 +169,13 @@ const columns: ListColumn<Entry>[] = [
                         {{ $t('Only while impersonating') }}
                     </FormOption>
                 </FormSelect>
-                <Input
+                <DatePicker
                     v-model="filter.from"
-                    type="date"
-                    dir="ltr"
                     class="w-40"
                     :aria-label="$t('From')"
                 />
-                <Input
+                <DatePicker
                     v-model="filter.to"
-                    type="date"
-                    dir="ltr"
                     class="w-40"
                     :aria-label="$t('To')"
                 />

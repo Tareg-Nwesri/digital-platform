@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { useForm } from '@inertiajs/vue3';
@@ -154,33 +155,30 @@ function submit(): void {
         <div class="grid gap-4 sm:grid-cols-2">
             <div class="grid gap-2">
                 <Label for="event-starts">{{ $t('Starts') }}</Label>
-                <Input
+                <DatePicker
                     id="event-starts"
                     v-model="form.starts_at"
-                    type="datetime-local"
-                    dir="ltr"
                     required
+                    with-time
                 />
                 <InputError :message="form.errors.starts_at" />
             </div>
             <div class="grid gap-2">
                 <Label for="event-ends">{{ $t('Ends') }}</Label>
-                <Input
+                <DatePicker
                     id="event-ends"
                     v-model="form.ends_at"
-                    type="datetime-local"
-                    dir="ltr"
                     required
+                    with-time
                 />
                 <InputError :message="form.errors.ends_at" />
             </div>
             <div class="grid gap-2">
                 <Label for="event-opens">{{ $t('Registration opens') }}</Label>
-                <Input
+                <DatePicker
                     id="event-opens"
                     v-model="form.registration_opens_at"
-                    type="datetime-local"
-                    dir="ltr"
+                    with-time
                 />
                 <InputError :message="form.errors.registration_opens_at" />
             </div>
@@ -188,11 +186,10 @@ function submit(): void {
                 <Label for="event-closes">{{
                     $t('Registration closes')
                 }}</Label>
-                <Input
+                <DatePicker
                     id="event-closes"
                     v-model="form.registration_closes_at"
-                    type="datetime-local"
-                    dir="ltr"
+                    with-time
                 />
                 <InputError :message="form.errors.registration_closes_at" />
             </div>

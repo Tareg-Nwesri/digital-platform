@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
@@ -304,11 +305,10 @@ const textareaClass =
                     <Label for="post-schedule">{{
                         $t('Or publish on (Libya time)')
                     }}</Label>
-                    <Input
+                    <DatePicker
                         id="post-schedule"
                         v-model="scheduleAt"
-                        type="datetime-local"
-                        dir="ltr"
+                        with-time
                     />
                     <Button
                         variant="outline"

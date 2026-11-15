@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
@@ -365,11 +366,9 @@ const columns: ListColumn<TransactionRow>[] = [
                         </div>
                         <div class="grid gap-2">
                             <Label for="tx-date">{{ $t('Date') }}</Label>
-                            <Input
+                            <DatePicker
                                 id="tx-date"
                                 v-model="form.date"
-                                type="date"
-                                dir="ltr"
                                 required
                             />
                             <InputError :message="form.errors.date" />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
@@ -550,11 +551,11 @@ const errorsOf = (form: { errors: object }): Record<string, string> =>
                         </div>
                         <div class="grid gap-2">
                             <Label for="expense-date">{{ $t('Date') }}</Label>
-                            <Input
+                            <DatePicker
                                 id="expense-date"
                                 v-model="expenseForm.date"
-                                type="date"
                                 required
+                                no-future
                             />
                             <InputError :message="expenseForm.errors.date" />
                         </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
@@ -403,12 +404,11 @@ const editableRoles = ['coach', 'member', 'viewer'];
                             <Label for="offline-birthdate">{{
                                 $t('Birthdate')
                             }}</Label>
-                            <Input
+                            <DatePicker
                                 id="offline-birthdate"
                                 v-model="offlineForm.birthdate"
-                                type="date"
-                                dir="ltr"
                                 required
+                                no-future
                             />
                             <InputError
                                 :message="offlineForm.errors.birthdate"

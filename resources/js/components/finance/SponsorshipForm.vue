@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { useForm } from '@inertiajs/vue3';
@@ -195,21 +196,17 @@ function submit(): void {
             </div>
             <div class="grid gap-2">
                 <Label for="sponsorship-starts">{{ $t('Starts') }}</Label>
-                <Input
+                <DatePicker
                     id="sponsorship-starts"
                     v-model="form.starts_on"
-                    type="date"
-                    dir="ltr"
                     :disabled="disabled"
                 />
             </div>
             <div class="grid gap-2">
                 <Label for="sponsorship-ends">{{ $t('Ends') }}</Label>
-                <Input
+                <DatePicker
                     id="sponsorship-ends"
                     v-model="form.ends_on"
-                    type="date"
-                    dir="ltr"
                     :disabled="disabled"
                 />
                 <InputError :message="form.errors.ends_on" />

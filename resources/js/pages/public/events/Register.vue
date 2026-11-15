@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Form, Link } from '@inertiajs/vue3';
@@ -290,11 +291,11 @@ function removeMember(key: number): void {
                             <Label :for="`member-${key}-birthdate`">{{
                                 $t('Birthdate')
                             }}</Label>
-                            <Input
+                            <DatePicker
                                 :id="`member-${key}-birthdate`"
                                 :name="`members[${index}][birthdate]`"
-                                type="date"
                                 required
+                                no-future
                             />
                             <InputError
                                 :message="errors[`members.${index}.birthdate`]"

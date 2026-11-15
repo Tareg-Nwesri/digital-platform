@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { Download } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { formatDate, formatNumber } from '@/lib/i18n';
 import { dashboard } from '@/routes/console';
@@ -156,23 +156,11 @@ const tiles = computed(() => {
         <form class="flex flex-wrap items-end gap-3" @submit.prevent="apply()">
             <div class="grid gap-1.5">
                 <Label for="report-from">{{ $t('From') }}</Label>
-                <Input
-                    id="report-from"
-                    v-model="from"
-                    type="date"
-                    dir="ltr"
-                    class="w-44"
-                />
+                <DatePicker id="report-from" v-model="from" class="w-44" />
             </div>
             <div class="grid gap-1.5">
                 <Label for="report-to">{{ $t('To') }}</Label>
-                <Input
-                    id="report-to"
-                    v-model="to"
-                    type="date"
-                    dir="ltr"
-                    class="w-44"
-                />
+                <DatePicker id="report-to" v-model="to" class="w-44" />
             </div>
             <Button type="submit" variant="outline">{{ $t('Show') }}</Button>
         </form>

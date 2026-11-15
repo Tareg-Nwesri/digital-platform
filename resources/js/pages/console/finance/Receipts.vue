@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
@@ -340,11 +341,10 @@ const columns: ListColumn<ReceiptRow>[] = [
                         </div>
                         <div class="grid gap-2">
                             <Label for="receipt-date">{{ $t('Date') }}</Label>
-                            <Input
+                            <DatePicker
                                 id="receipt-date"
                                 v-model="form.date"
-                                type="date"
-                                dir="ltr"
+                                no-future
                             />
                             <InputError :message="form.errors.date" />
                         </div>

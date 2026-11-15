@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
@@ -389,11 +390,10 @@ const descriptions: Record<Action, string> = {
                     </div>
                     <div class="grid gap-1.5">
                         <Label for="payment-date">{{ $t('Paid on') }}</Label>
-                        <Input
+                        <DatePicker
                             id="payment-date"
                             v-model="payment.paid_on"
-                            type="date"
-                            dir="ltr"
+                            no-future
                         />
                         <InputError :message="errors.paid_on ?? pageError" />
                     </div>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import FinanceNav from '@/components/finance/FinanceNav.vue';
 import Money from '@/components/finance/Money.vue';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { dashboard as consoleDashboard } from '@/routes/console';
 import { dashboard } from '@/routes/console/finance';
@@ -91,23 +91,11 @@ function apply(): void {
         <form class="flex flex-wrap items-end gap-3" @submit.prevent="apply">
             <div class="grid gap-1.5">
                 <Label for="statement-from">{{ $t('From') }}</Label>
-                <Input
-                    id="statement-from"
-                    v-model="from"
-                    type="date"
-                    dir="ltr"
-                    class="w-44"
-                />
+                <DatePicker id="statement-from" v-model="from" class="w-44" />
             </div>
             <div class="grid gap-1.5">
                 <Label for="statement-to">{{ $t('To') }}</Label>
-                <Input
-                    id="statement-to"
-                    v-model="to"
-                    type="date"
-                    dir="ltr"
-                    class="w-44"
-                />
+                <DatePicker id="statement-to" v-model="to" class="w-44" />
             </div>
             <Button type="submit" variant="outline">{{
                 $t('Show statement')

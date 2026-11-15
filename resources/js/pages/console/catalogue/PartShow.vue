@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
@@ -275,11 +276,9 @@ function restorePart(): void {
                             :aria-label="$t('Product link')"
                             :disabled="!can.manage"
                         />
-                        <Input
+                        <DatePicker
                             v-model="row.checked_at"
-                            type="date"
                             class="w-40"
-                            dir="ltr"
                             :aria-label="$t('Price checked on')"
                             :disabled="!can.manage"
                         />

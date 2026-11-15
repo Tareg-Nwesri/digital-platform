@@ -31,6 +31,13 @@ export type Registration = {
     status: string;
     source: string;
     team: { id: number; name: string; slug: string };
+    city: string | null;
+    contact: {
+        name: string;
+        email: string | null;
+        phone: string | null;
+    } | null;
+    robots: string[];
     category: { id: number; name: string };
     members: {
         user_id: number;
@@ -283,8 +290,41 @@ const statuses = [
                                 {{
                                     registration.source === 'organiser'
                                         ? $t('Added by organisers')
-                                        : $t('Applied')
+                                        : registration.source === 'public'
+                                          ? $t('Registered on the website')
+                                          : $t('Applied')
                                 }}
+                                <template v-if="registration.city">
+                                    · {{ registration.city }}</template
+                                >
+                            </div>
+                            <div
+                                v-if="registration.contact"
+                                class="mt-1 grid text-xs"
+                                data-test="registration-contact"
+                            >
+                                <span>{{ registration.contact.name }}</span>
+                                <a
+                                    v-if="registration.contact.phone"
+                                    :href="`tel:${registration.contact.phone}`"
+                                    dir="ltr"
+                                    class="text-start hover:underline"
+                                    >{{ registration.contact.phone }}</a
+                                >
+                                <a
+                                    v-if="registration.contact.email"
+                                    :href="`mailto:${registration.contact.email}`"
+                                    dir="ltr"
+                                    class="text-start hover:underline"
+                                    >{{ registration.contact.email }}</a
+                                >
+                            </div>
+                            <div
+                                v-if="registration.robots.length"
+                                class="mt-1 text-xs text-muted-foreground"
+                            >
+                                {{ $t('Robot') }}:
+                                {{ registration.robots.join(', ') }}
                             </div>
                         </td>
                         <td class="px-4 py-3">

@@ -35,6 +35,7 @@ use App\Http\Controllers\Console\TransactionController;
 use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\Public\EventController as PublicEventController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use App\Http\Controllers\Workspace\MemberController as WorkspaceMemberController;
 use App\Http\Controllers\Workspace\ProjectController as WorkspaceProjectController;
@@ -42,11 +43,21 @@ use App\Http\Controllers\Workspace\RobotController as WorkspaceRobotController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', fn () => to_route('public.events.index', app()->getLocale()))->name('home');
 
 Route::post('locale/{locale}', LocaleController::class)
     ->whereIn('locale', ['en', 'ar'])
     ->name('locale.update');
+
+Route::prefix('{locale}/events')->whereIn('locale', ['en', 'ar'])->name('public.events.')->group(function () {
+    Route::get('/', [PublicEventController::class, 'index'])->name('index');
+    Route::get('{event:slug}', [PublicEventController::class, 'show'])->name('show');
+    Route::get('{event:slug}/register', [PublicEventController::class, 'create'])->name('register');
+    Route::post('{event:slug}/register', [PublicEventController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('register.store');
+    Route::get('{event:slug}/registered', [PublicEventController::class, 'registered'])->name('registered');
+});
 
 Route::middleware('throttle:auth')->group(function () {
     Route::get('invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');

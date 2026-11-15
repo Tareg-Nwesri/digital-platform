@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Picks the interface language: the signed-in user's setting, else the
- * "locale" cookie, else the platform default, Arabic (SRS FR-ACC-10, LLD 11 §2). Public pages will
- * override this from their URL prefix in phase 4.
+ * "locale" cookie, else the platform default, Arabic (SRS FR-ACC-10, LLD 11 §2). Public pages take
+ * it from their URL prefix first.
  */
 class SetLocale
 {
@@ -20,7 +20,8 @@ class SetLocale
 
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = Locale::tryFrom((string) $request->user()?->locale)
+        $locale = Locale::tryFrom((string) $request->route('locale'))
+            ?? Locale::tryFrom((string) $request->user()?->locale)
             ?? Locale::tryFrom((string) $request->cookie(self::COOKIE))
             ?? Locale::tryFrom((string) config('app.locale'))
             ?? Locale::Ar;

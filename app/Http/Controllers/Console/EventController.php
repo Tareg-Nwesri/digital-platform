@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Console;
 
 use App\Domain\Events\Enums\EventStatus;
 use App\Domain\Events\Enums\EventVisibility;
+use App\Domain\Events\Enums\RegistrationSource;
 use App\Domain\Events\Enums\RegistrationStatus;
 use App\Domain\Events\Models\Event;
 use App\Domain\Events\Models\EventCategory;
@@ -203,6 +204,22 @@ class EventController extends Controller
     }
 
     /**
+     * Who to call about a guest entry: the captain the visitor named.
+     *
+     * @return array{name: string, email: string|null, phone: string|null}|null
+     */
+    private function contact(EventRegistration $registration): ?array
+    {
+        if ($registration->source !== RegistrationSource::Public) {
+            return null;
+        }
+
+        $captain = app(TeamMemberService::class)->captain($registration->team);
+
+        return $captain === null ? null : ['name' => $captain->name, 'email' => $captain->email, 'phone' => $captain->phone];
+    }
+
+    /**
      * @return list<array<string, mixed>>
      */
     private function registrations(Event $event): array
@@ -210,7 +227,7 @@ class EventController extends Controller
         $order = array_flip(array_column(RegistrationStatus::cases(), 'value'));
 
         return $event->registrations()
-            ->with(['team', 'category', 'members', 'result', 'reviewer'])
+            ->with(['team', 'category', 'members', 'result', 'reviewer', 'robots'])
             ->get()
             ->sortBy(fn (EventRegistration $registration): string => sprintf('%02d %05d %s', $order[$registration->status->value], $registration->waitlist_position ?? 0, $registration->team->name))
             ->map(fn (EventRegistration $registration): array => [
@@ -218,6 +235,9 @@ class EventController extends Controller
                 'status' => $registration->status->value,
                 'source' => $registration->source->value,
                 'team' => ['id' => $registration->team->getKey(), 'name' => $registration->team->name, 'slug' => $registration->team->slug],
+                'city' => $registration->team->location,
+                'contact' => $this->contact($registration),
+                'robots' => $registration->robots->pluck('name')->all(),
                 'category' => ['id' => $registration->category->getKey(), 'name' => $registration->category->localized('name')],
                 'members' => $registration->members_snapshot
                     ?? $registration->members->map(fn (User $member): array => ['user_id' => $member->getKey(), 'name' => $member->name, 'age' => $member->ageOn($event->localStartDate()), 'role' => null])->all(),

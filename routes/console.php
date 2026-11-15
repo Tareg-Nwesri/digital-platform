@@ -11,3 +11,9 @@ Artisan::command('inspire', function () {
 Schedule::command('posts:publish-due')->everyMinute()->withoutOverlapping();
 Schedule::command('finance:ensure-periods')->daily();
 Schedule::command('finance:verify')->dailyAt('02:30');
+
+/*
+ * Shared hosting has no long-running worker: the per-minute cron drains the
+ * database queue instead.
+ */
+Schedule::command('queue:work --stop-when-empty --max-time=50 --tries=3')->everyMinute()->withoutOverlapping();

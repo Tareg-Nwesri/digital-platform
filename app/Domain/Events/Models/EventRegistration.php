@@ -5,6 +5,7 @@ namespace App\Domain\Events\Models;
 use App\Domain\Events\Enums\RegistrationSource;
 use App\Domain\Events\Enums\RegistrationStatus;
 use App\Domain\Teams\Models\Team;
+use App\Domain\Work\Models\Robot;
 use App\Models\User;
 use App\Support\Concerns\HasStatusTransitions;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -106,6 +107,14 @@ class EventRegistration extends Model
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'registration_members', 'registration_id');
+    }
+
+    /**
+     * @return BelongsToMany<Robot, $this>
+     */
+    public function robots(): BelongsToMany
+    {
+        return $this->belongsToMany(Robot::class, 'registration_robot', 'registration_id');
     }
 
     /**

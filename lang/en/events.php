@@ -53,6 +53,7 @@ return [
         'results_published' => 'Results are now published.',
     ],
     'errors' => [
+        'team_name_registered' => 'A team with this name is already registered for this event.',
         'max_below_min' => 'The maximum cannot be lower than the minimum.',
         'department_not_allowed' => 'Choose a department where you can edit events.',
         'withdraw_closed' => 'Registration has closed, so only the organisers can withdraw this entry now.',

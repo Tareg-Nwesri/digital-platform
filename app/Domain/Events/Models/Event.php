@@ -172,6 +172,14 @@ class Event extends Model
         return $this->invitedTeams()->whereKey($team->getKey())->exists();
     }
 
+    /**
+     * Visitors may see the event page and its registration form.
+     */
+    public function isVisibleToVisitors(): bool
+    {
+        return $this->visibility === EventVisibility::Public && $this->status !== EventStatus::Draft;
+    }
+
     public function isAcceptingApplications(?CarbonInterface $now = null): bool
     {
         $now ??= now();

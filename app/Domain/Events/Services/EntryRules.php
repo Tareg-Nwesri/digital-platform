@@ -30,12 +30,12 @@ final class EntryRules
     {
         $violations = [];
 
-        if ($team->status !== TeamStatus::Active) {
+        if ($team->status !== TeamStatus::Active && ! $context->isGuest()) {
             $violations[] = RuleViolation::of('team_inactive');
         }
 
-        if ($context->isApply()) {
-            if (! $this->features->active($team, TeamFeature::EventsRegister)) {
+        if ($context->isApply() || $context->isGuest()) {
+            if ($context->isApply() && ! $this->features->active($team, TeamFeature::EventsRegister)) {
                 $violations[] = RuleViolation::of('feature_off');
             }
 

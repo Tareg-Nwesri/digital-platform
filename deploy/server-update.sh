@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Runs on the Hostinger server after the code (and public/build) is in place.
+# Usage: bash deploy/server-update.sh            (updates)
+#        bash deploy/server-update.sh --first    (first install: key, seed)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+PHP="${PHP:-php}"
+COMPOSER="${COMPOSER:-composer}"
+
+if [ ! -f public/build/manifest.json ]; then
+    echo "public/build is missing: upload the assets built with 'npm run build' first." >&2
+    exit 1
+fi
+
+$PHP artisan down --retry=15 || true
+
+if [ -d .git ]; then
+    git pull --ff-only
+fi
+
+$COMPOSER install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+if [ "${1:-}" = "--first" ]; then
+    $PHP artisan key:generate --force
+    $PHP artisan migrate --force
+    $PHP artisan db:seed --force
+    $PHP artisan storage:link || true
+else
+    $PHP artisan migrate --force
+fi
+
+$PHP artisan optimize:clear
+$PHP artisan optimize
+$PHP artisan up
+
+echo "Deployed $(git rev-parse --short HEAD 2>/dev/null || echo 'release')."

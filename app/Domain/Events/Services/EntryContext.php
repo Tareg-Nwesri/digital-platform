@@ -16,6 +16,8 @@ final readonly class EntryContext
 
     public const APPROVE = 'approve';
 
+    public const GUEST = 'guest';
+
     private function __construct(
         public string $mode,
         public CarbonInterface $now,
@@ -25,6 +27,15 @@ final readonly class EntryContext
     public static function apply(): self
     {
         return new self(self::APPLY, now());
+    }
+
+    /**
+     * A visitor registering a new team from the public site: the team is
+     * still pending, so team status and tier features do not apply yet.
+     */
+    public static function guest(): self
+    {
+        return new self(self::GUEST, now());
     }
 
     public static function add(): self
@@ -45,5 +56,10 @@ final readonly class EntryContext
     public function isApply(): bool
     {
         return $this->mode === self::APPLY;
+    }
+
+    public function isGuest(): bool
+    {
+        return $this->mode === self::GUEST;
     }
 }

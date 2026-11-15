@@ -9,8 +9,10 @@ use App\Domain\Events\Models\Event;
 use App\Domain\Events\Models\EventCategory;
 use App\Domain\Events\Models\EventRegistration;
 use App\Domain\Organisation\Services\DepartmentAccess;
+use App\Domain\Teams\Enums\TeamStatus;
 use App\Domain\Teams\Models\Team;
 use App\Domain\Teams\Services\TeamMemberService;
+use App\Domain\Teams\Services\TeamService;
 use App\Exceptions\DomainRuleViolation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +26,7 @@ final class RegistrationService
     public function __construct(
         private readonly EntryRules $rules,
         private readonly TeamMemberService $teamMembers,
+        private readonly TeamService $teams,
     ) {}
 
     /**
@@ -100,9 +103,25 @@ final class RegistrationService
     {
         return DB::transaction(function () use ($registration, $overrideReason, $by): EventRegistration {
             $event = $this->lock($registration->event);
+            $registration = $this->refresh($registration);
+            $this->activateGuestTeam($registration, $by);
 
-            return $this->decide($event, $this->refresh($registration), $overrideReason, $by, EntryContext::approve($registration->getKey()));
+            return $this->decide($event, $registration, $overrideReason, $by, EntryContext::approve($registration->getKey()));
         });
+    }
+
+    /**
+     * A team registered from the public site becomes active once the
+     * organisers approve its first entry.
+     */
+    private function activateGuestTeam(EventRegistration $registration, User $by): void
+    {
+        $team = $registration->team;
+
+        if ($registration->source === RegistrationSource::Public && $team->status === TeamStatus::Pending) {
+            $this->teams->changeStatus($team, TeamStatus::Active, null, $by);
+            $registration->setRelation('team', $team->fresh());
+        }
     }
 
     public function reject(EventRegistration $registration, string $reason, User $by): void

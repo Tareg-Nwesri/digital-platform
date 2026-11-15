@@ -6,4 +6,5 @@ enum RegistrationSource: string
 {
     case Organiser = 'organiser';
     case Applied = 'applied';
+    case Public = 'public';
 }

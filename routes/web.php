@@ -27,6 +27,7 @@ use App\Http\Controllers\Console\ReportController;
 use App\Http\Controllers\Console\SettingsController;
 use App\Http\Controllers\Console\SponsorController;
 use App\Http\Controllers\Console\SponsorshipController;
+use App\Http\Controllers\Console\TeamBudgetController;
 use App\Http\Controllers\Console\TeamController;
 use App\Http\Controllers\Console\TeamFeatureController;
 use App\Http\Controllers\Console\TeamStatusController;
@@ -37,6 +38,7 @@ use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
+use App\Http\Controllers\Workspace\BudgetController as WorkspaceBudgetController;
 use App\Http\Controllers\Workspace\CatalogueController as WorkspaceCatalogueController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use App\Http\Controllers\Workspace\EventController as WorkspaceEventController;
@@ -155,6 +157,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('payouts/{payout}/submit', [PayoutController::class, 'submit'])->name('payouts.submit');
             Route::post('payouts/{payout}/cancel', [PayoutController::class, 'cancel'])->name('payouts.cancel');
 
+            Route::get('budgets', [TeamBudgetController::class, 'index'])->name('budgets.index');
+            Route::post('requests/{funding}/reject', [TeamBudgetController::class, 'rejectRequest'])->name('requests.reject');
+            Route::post('requests/{funding}/changes', [TeamBudgetController::class, 'changesRequest'])->name('requests.changes');
+            Route::post('expenses/{expense}/reject', [TeamBudgetController::class, 'rejectExpense'])->name('expenses.reject');
+            Route::get('expenses/{expense}/receipt', [TeamBudgetController::class, 'receipt'])->name('expenses.receipt');
+
             Route::get('receipts', [ReceiptController::class, 'index'])->name('receipts.index');
             Route::post('receipts', [ReceiptController::class, 'store'])->name('receipts.store');
             Route::get('receipts/{receipt}', [ReceiptController::class, 'show'])->name('receipts.show');
@@ -171,6 +179,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::post('payouts/{payout}/approve', [PayoutController::class, 'approve'])->name('payouts.approve');
                 Route::post('payouts/{payout}/reject', [PayoutController::class, 'reject'])->name('payouts.reject');
                 Route::post('payouts/{payout}/paid', [PayoutController::class, 'paid'])->name('payouts.paid');
+                Route::get('budgets/review', [TeamBudgetController::class, 'review'])->name('budgets.review');
+                Route::post('requests/{funding}/approve', [TeamBudgetController::class, 'approveRequest'])->name('requests.approve');
+                Route::post('expenses/{expense}/approve', [TeamBudgetController::class, 'approveExpense'])->name('expenses.approve');
             });
         });
 
@@ -276,6 +287,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('catalogue/parts', [WorkspaceCatalogueController::class, 'storePart'])->name('catalogue.parts.store');
         Route::post('catalogue/vendors', [WorkspaceCatalogueController::class, 'storeVendor'])->name('catalogue.vendors.store');
         Route::post('catalogue/offers', [WorkspaceCatalogueController::class, 'storeOffer'])->name('catalogue.offers.store');
+
+        Route::get('budget', [WorkspaceBudgetController::class, 'index'])->name('budget.index');
+        Route::post('budget/requests', [WorkspaceBudgetController::class, 'storeRequest'])->name('budget.requests.store');
+        Route::put('budget/requests/{funding}', [WorkspaceBudgetController::class, 'updateRequest'])->name('budget.requests.update');
+        Route::post('budget/requests/{funding}/cancel', [WorkspaceBudgetController::class, 'cancelRequest'])->name('budget.requests.cancel');
+        Route::post('budget/expenses', [WorkspaceBudgetController::class, 'storeExpense'])->name('budget.expenses.store');
+        Route::get('budget/expenses/{expense}/receipt', [WorkspaceBudgetController::class, 'receipt'])->name('budget.expenses.receipt');
 
         Route::get('settings', [WorkspaceSettingsController::class, 'edit'])->name('settings.edit');
         Route::patch('settings', [WorkspaceSettingsController::class, 'update'])->name('settings.update');

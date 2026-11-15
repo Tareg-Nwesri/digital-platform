@@ -22,6 +22,7 @@ return [
         'category_in_use' => 'Move this category’s parts and subcategories first.',
     ],
     'flash' => [
+        'suggested' => 'Thanks! The organisers will review your suggestion.',
         'part_saved' => 'The part was saved.',
         'part_archived' => 'The part was archived. It stays in existing parts lists.',
         'part_restored' => 'The part is back in the catalogue.',

@@ -37,6 +37,7 @@ use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
+use App\Http\Controllers\Workspace\CatalogueController as WorkspaceCatalogueController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
 use App\Http\Controllers\Workspace\EventController as WorkspaceEventController;
 use App\Http\Controllers\Workspace\MemberController as WorkspaceMemberController;
@@ -270,6 +271,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('robots/{robot:slug}', [WorkspaceRobotController::class, 'destroy'])->name('robots.destroy');
         Route::put('robots/{robot:slug}/bom', [WorkspaceRobotController::class, 'bom'])->name('robots.bom');
         Route::get('catalogue/parts/search', [WorkspaceRobotController::class, 'search'])->name('catalogue.search');
+        Route::get('catalogue', [WorkspaceCatalogueController::class, 'index'])->name('catalogue.index');
+        Route::post('catalogue/parts', [WorkspaceCatalogueController::class, 'storePart'])->name('catalogue.parts.store');
+        Route::post('catalogue/vendors', [WorkspaceCatalogueController::class, 'storeVendor'])->name('catalogue.vendors.store');
+        Route::post('catalogue/offers', [WorkspaceCatalogueController::class, 'storeOffer'])->name('catalogue.offers.store');
 
         Route::get('events', [WorkspaceEventController::class, 'index'])->name('events.index');
         Route::get('events/{event:slug}', [WorkspaceEventController::class, 'show'])->withoutScopedBindings()->name('events.show');

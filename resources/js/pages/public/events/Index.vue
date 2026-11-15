@@ -1,59 +1,104 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import EventFacts from '@/components/public/EventFacts.vue';
-import { Badge } from '@/components/ui/badge';
+import { Link } from '@inertiajs/vue3';
+import EmptyState from '@/components/public/EmptyState.vue';
+import PageHero from '@/components/public/PageHero.vue';
+import PublicHead from '@/components/public/PublicHead.vue';
+import type { PublicMetaTags } from '@/composables/usePublicSite';
+import { usePublicSite } from '@/composables/usePublicSite';
+import { formatDate } from '@/lib/i18n';
 
 defineProps<{
+    meta: PublicMetaTags;
     events: {
         slug: string;
         title: string;
-        venue: string | null;
-        city: string | null;
+        excerpt: string;
         timezone: string;
         startsAt: string;
-        registrationClosesAt: string;
+        endsAt: string;
         isOpen: boolean;
-        cover: string | null;
+        when: 'upcoming' | 'current' | 'past';
     }[];
 }>();
+
+const { url } = usePublicSite();
+
+const chip: Record<string, string> = {
+    past: 'chip chip--muted',
+    upcoming: 'chip chip--brand',
+    current: 'chip chip--live',
+};
 </script>
 
 <template>
-    <Head :title="$t('Events')" />
+    <PublicHead :meta="meta" />
 
-    <div class="grid gap-6">
-        <h1 class="text-2xl font-bold">{{ $t('Events') }}</h1>
+    <PageHero
+        :eyebrow="$t('public_site.brand')"
+        :title="$t('public_site.events')"
+        :lead="$t('public_site.events_intro')"
+    />
 
-        <p v-if="events.length === 0" class="text-muted-foreground">
-            {{ $t('No events are open right now.') }}
-        </p>
-
-        <ul class="grid gap-4">
-            <li v-for="event in events" :key="event.slug">
-                <Link
-                    :href="`/${$page.props.locale}/events/${event.slug}`"
-                    class="grid gap-3 overflow-hidden rounded-xl border bg-card hover:bg-accent"
+    <section class="section">
+        <div class="public-shell">
+            <div class="event-list">
+                <article
+                    v-for="event in events"
+                    :key="event.slug"
+                    class="event-row"
+                    :data-test="`event-${event.slug}`"
                 >
-                    <img
-                        v-if="event.cover"
-                        :src="event.cover"
-                        alt=""
-                        class="aspect-[40/21] w-full object-cover"
-                        loading="lazy"
-                    />
-                    <span class="grid gap-3 p-5">
-                        <span class="flex flex-wrap items-center gap-2">
-                            <span class="text-lg font-semibold">{{
-                                event.title
+                    <div class="date-block" aria-hidden="true">
+                        <b>{{
+                            formatDate(event.startsAt, {
+                                day: '2-digit',
+                                timeZone: event.timezone,
+                            })
+                        }}</b>
+                        <span>{{
+                            formatDate(event.startsAt, {
+                                month: 'short',
+                                year: 'numeric',
+                                timeZone: event.timezone,
+                            })
+                        }}</span>
+                    </div>
+                    <div>
+                        <div class="meta-row">
+                            <span :class="chip[event.when]">{{
+                                $t(`public_site.${event.when}_event`)
                             }}</span>
-                            <Badge v-if="event.isOpen">{{
-                                $t('Registration open')
-                            }}</Badge>
-                        </span>
-                        <EventFacts :event="event" />
-                    </span>
-                </Link>
-            </li>
-        </ul>
-    </div>
+                            <span
+                                v-if="event.isOpen"
+                                class="chip chip--brand"
+                                >{{ $t('Registration open') }}</span
+                            >
+                            <time
+                                class="event-row__range"
+                                :datetime="event.startsAt"
+                                >{{
+                                    formatDate(event.startsAt, {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric',
+                                        timeZone: event.timezone,
+                                    })
+                                }}</time
+                            >
+                        </div>
+                        <h2>{{ event.title }}</h2>
+                        <p v-if="event.excerpt">{{ event.excerpt }}</p>
+                    </div>
+                    <Link
+                        class="text-link stretched-link"
+                        :href="url(`/events/${event.slug}`)"
+                        >{{ $t('public_site.view_event') }}</Link
+                    >
+                </article>
+                <EmptyState v-if="events.length === 0" icon="calendar">{{
+                    $t('public_site.events_empty')
+                }}</EmptyState>
+            </div>
+        </div>
+    </section>
 </template>

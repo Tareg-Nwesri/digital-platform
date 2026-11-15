@@ -1,6 +1,23 @@
 <?php
 
 return [
+    'registration_deadline' => 'آخر موعد للتسجيل',
+    'contact_sent' => 'شكراً لك. تم إرسال رسالتك وسنرد عليك عبر البريد الإلكتروني.',
+    'results' => 'النتائج',
+    'teams_entered' => 'الفرق المشاركة',
+    'placement' => 'المركز',
+    'award' => 'الجائزة',
+    'robots' => 'الروبوتات',
+    'results_heading' => 'النتائج',
+    'departments' => 'أقسامنا',
+    'categories' => 'الفئات',
+    'downloads' => 'ملفات للتنزيل',
+    'register_team' => 'سجّل فريقك',
+    'registration_closed' => 'التسجيل مغلق',
+    'by_team' => 'فريق :team',
+    'page' => 'الصفحة :page من :pages',
+    'previous' => 'السابق',
+    'next' => 'التالي',
     'register' => [
         'category' => 'الفئة',
         'team_name' => 'اسم الفريق',

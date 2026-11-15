@@ -29,6 +29,7 @@ class ProtectAgainstBots
         'password.update',
         'invitations.accept',
         'public.events.register.store',
+        'public.contact.store',
     ];
 
     public function __construct(private readonly SpamProtection $honeypot) {}

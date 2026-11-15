@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import EventDocuments from '@/components/public/EventDocuments.vue';
-import EventFacts from '@/components/public/EventFacts.vue';
-import { Button } from '@/components/ui/button';
+import MediaFigure from '@/components/public/MediaFigure.vue';
+import PageHero from '@/components/public/PageHero.vue';
+import PublicHead from '@/components/public/PublicHead.vue';
+import type { PublicMetaTags } from '@/composables/usePublicSite';
+import { usePublicSite } from '@/composables/usePublicSite';
+import { formatDate, formatNumber } from '@/lib/i18n';
 
 export type PublicEvent = {
     slug: string;
@@ -37,83 +42,243 @@ export type PublicEvent = {
     }[];
 };
 
-defineProps<{ event: PublicEvent }>();
+const props = defineProps<{
+    meta: PublicMetaTags;
+    event: PublicEvent & {
+        when: 'upcoming' | 'current' | 'past';
+        teams: { name: string; slug: string | null; category: string }[];
+        results: {
+            team: string;
+            category: string;
+            placement: number | null;
+            score: string | null;
+            award: string | null;
+        }[];
+    };
+}>();
+
+const { url } = usePublicSite();
+
+const chip: Record<string, string> = {
+    past: 'chip chip--muted',
+    upcoming: 'chip chip--brand',
+    current: 'chip chip--live',
+};
+
+const dates = computed(() => {
+    const start = formatDate(props.event.startsAt, {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        timeZone: props.event.timezone,
+    });
+    const end = formatDate(props.event.endsAt, {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        timeZone: props.event.timezone,
+    });
+
+    return start === end ? start : `${start} – ${end}`;
+});
+
+const registerUrl = computed(() => url(`/events/${props.event.slug}/register`));
 </script>
 
 <template>
-    <Head :title="event.title" />
+    <PublicHead :meta="meta" />
 
-    <article class="grid gap-6">
-        <header class="grid gap-4 overflow-hidden rounded-xl border bg-card">
-            <img
-                v-if="event.cover"
-                :src="event.cover"
-                alt=""
-                class="aspect-[5/2] w-full object-cover"
-                data-test="event-cover"
-            />
-            <div class="grid gap-4 p-6" :class="{ 'pt-2': event.cover }">
-                <h1 class="text-2xl font-bold">{{ event.title }}</h1>
-                <EventFacts :event="event" />
-                <div v-if="event.isOpen">
-                    <Button as-child size="lg" data-test="register-link">
-                        <Link
-                            :href="`/${$page.props.locale}/events/${event.slug}/register`"
-                            >{{ $t('Register your team') }}</Link
-                        >
-                    </Button>
-                </div>
+    <PageHero
+        :back="url('/events')"
+        :back-label="$t('public_site.all_events')"
+        :title="event.title"
+    >
+        <template #meta>
+            <span :class="chip[event.when]">{{
+                $t(`public_site.${event.when}_event`)
+            }}</span>
+            <time class="chip" :datetime="event.startsAt">{{ dates }}</time>
+        </template>
+        <Link
+            v-if="event.isOpen"
+            class="button button--arrow"
+            :href="registerUrl"
+            data-test="register-link"
+            >{{ $t('public.register_team') }}</Link
+        >
+    </PageHero>
+
+    <section class="section">
+        <div class="public-shell">
+            <div v-if="event.cover" class="detail-banner">
+                <MediaFigure
+                    ratio="wide"
+                    :src="event.cover"
+                    :alt="event.title"
+                    eager
+                />
             </div>
-        </header>
+            <div class="detail-layout">
+                <article class="prose">
+                    <template v-if="event.description">
+                        <h2>{{ $t('public_site.event_details') }}</h2>
+                        <div v-html="event.description" />
+                    </template>
 
-        <EventDocuments :documents="event.documents" />
+                    <template v-if="event.categories.length">
+                        <h2>{{ $t('public.categories') }}</h2>
+                        <ul>
+                            <li
+                                v-for="category in event.categories"
+                                :key="category.id"
+                            >
+                                <strong>{{ category.name }}</strong>
+                                <template
+                                    v-if="
+                                        category.ageMin !== null ||
+                                        category.ageMax !== null
+                                    "
+                                >
+                                    ·
+                                    {{
+                                        $t('Ages :min–:max', {
+                                            min: String(category.ageMin ?? 0),
+                                            max: String(category.ageMax ?? 99),
+                                        })
+                                    }}
+                                </template>
+                                ·
+                                {{
+                                    $t(':min–:max members per team', {
+                                        min: String(category.membersMin),
+                                        max: String(category.membersMax),
+                                    })
+                                }}
+                            </li>
+                        </ul>
+                    </template>
 
-        <section
-            v-if="event.description"
-            class="rich-text rounded-xl border bg-card p-6"
-            v-html="event.description"
-        />
+                    <template v-if="event.rules">
+                        <h2>{{ $t('Rules') }}</h2>
+                        <div v-html="event.rules" />
+                    </template>
 
-        <section
-            v-if="event.categories.length"
-            class="grid gap-3 rounded-xl border bg-card p-6"
-        >
-            <h2 class="text-lg font-semibold">{{ $t('Categories') }}</h2>
-            <ul class="grid gap-2 sm:grid-cols-2">
-                <li
-                    v-for="category in event.categories"
-                    :key="category.id"
-                    class="grid gap-1 rounded-lg border p-3 text-sm"
+                    <template v-if="event.results.length">
+                        <h2>{{ $t('public.results') }}</h2>
+                        <table class="results-table" data-test="results">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        {{ $t('public.placement') }}
+                                    </th>
+                                    <th scope="col">{{ $t('Team') }}</th>
+                                    <th scope="col">{{ $t('Category') }}</th>
+                                    <th scope="col">
+                                        {{ $t('public.award') }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="(result, index) in event.results"
+                                    :key="index"
+                                >
+                                    <td>
+                                        {{
+                                            result.placement
+                                                ? formatNumber(result.placement)
+                                                : '—'
+                                        }}
+                                    </td>
+                                    <td>{{ result.team }}</td>
+                                    <td>{{ result.category }}</td>
+                                    <td>
+                                        {{ result.award ?? result.score ?? '' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </template>
+
+                    <template v-if="event.teams.length">
+                        <h2>{{ $t('public.teams_entered') }}</h2>
+                        <ul data-test="event-teams">
+                            <li
+                                v-for="team in event.teams"
+                                :key="`${team.name}-${team.category}`"
+                            >
+                                <Link
+                                    v-if="team.slug"
+                                    :href="url(`/teams/${team.slug}`)"
+                                    >{{ team.name }}</Link
+                                >
+                                <template v-else>{{ team.name }}</template>
+                                · {{ team.category }}
+                            </li>
+                        </ul>
+                    </template>
+
+                    <template v-if="event.terms">
+                        <h2>{{ $t('public_site.event_terms') }}</h2>
+                        <div v-html="event.terms" />
+                    </template>
+                </article>
+
+                <aside
+                    class="detail-aside"
+                    aria-labelledby="registration-heading"
                 >
-                    <span class="font-medium">{{ category.name }}</span>
-                    <span
-                        v-if="
-                            category.ageMin !== null || category.ageMax !== null
-                        "
-                        class="text-muted-foreground"
-                        >{{
-                            $t('Ages :min–:max', {
-                                min: String(category.ageMin ?? 0),
-                                max: String(category.ageMax ?? 99),
-                            })
-                        }}</span
-                    >
-                    <span class="text-muted-foreground">{{
-                        $t(':min–:max members per team', {
-                            min: String(category.membersMin),
-                            max: String(category.membersMax),
-                        })
-                    }}</span>
-                </li>
-            </ul>
-        </section>
-
-        <section
-            v-if="event.rules"
-            class="grid gap-3 rounded-xl border bg-card p-6"
-        >
-            <h2 class="text-lg font-semibold">{{ $t('Rules') }}</h2>
-            <div class="rich-text" v-html="event.rules" />
-        </section>
-    </article>
+                    <div class="card">
+                        <h2 id="registration-heading">
+                            {{ $t('public_site.team_registration') }}
+                        </h2>
+                        <p>
+                            {{
+                                event.isOpen
+                                    ? $t('public_site.registration_copy')
+                                    : $t('public.registration_closed')
+                            }}
+                        </p>
+                        <dl class="fact-list">
+                            <div>
+                                <dt>{{ $t('public_site.event_dates') }}</dt>
+                                <dd>{{ dates }}</dd>
+                            </div>
+                            <div v-if="event.venue || event.city">
+                                <dt>{{ $t('City') }}</dt>
+                                <dd>
+                                    {{
+                                        [event.venue, event.city]
+                                            .filter(Boolean)
+                                            .join(' · ')
+                                    }}
+                                </dd>
+                            </div>
+                            <div v-if="event.isOpen">
+                                <dt>
+                                    {{ $t('public.registration_deadline') }}
+                                </dt>
+                                <dd>
+                                    {{
+                                        formatDate(event.registrationClosesAt, {
+                                            dateStyle: 'medium',
+                                            timeStyle: 'short',
+                                            timeZone: event.timezone,
+                                        })
+                                    }}
+                                </dd>
+                            </div>
+                        </dl>
+                        <Link
+                            v-if="event.isOpen"
+                            class="button button--arrow button--block"
+                            :href="registerUrl"
+                            >{{ $t('public.register_team') }}</Link
+                        >
+                    </div>
+                    <EventDocuments :documents="event.documents" />
+                </aside>
+            </div>
+        </div>
+    </section>
 </template>

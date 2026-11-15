@@ -38,6 +38,7 @@ use App\Http\Controllers\Console\UserController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
+use App\Http\Controllers\Public\SiteController;
 use App\Http\Controllers\Workspace\BudgetController as WorkspaceBudgetController;
 use App\Http\Controllers\Workspace\CatalogueController as WorkspaceCatalogueController;
 use App\Http\Controllers\Workspace\DashboardController as WorkspaceDashboardController;
@@ -49,7 +50,24 @@ use App\Http\Controllers\Workspace\SettingsController as WorkspaceSettingsContro
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => to_route('public.events.index', app()->getLocale()))->name('home');
+Route::get('/', fn () => redirect('/'.app()->getLocale()))->name('home');
+Route::get('sitemap.xml', [SiteController::class, 'sitemap'])->name('public.sitemap');
+
+Route::prefix('{locale}')->whereIn('locale', ['en', 'ar'])->name('public.')->group(function () {
+    Route::get('/', [SiteController::class, 'home'])->name('home');
+    Route::get('about', [SiteController::class, 'about'])->name('about');
+    Route::get('get-involved', [SiteController::class, 'getInvolved'])->name('get-involved');
+    Route::get('faq', [SiteController::class, 'faq'])->name('faq');
+    Route::get('privacy', [SiteController::class, 'privacy'])->name('privacy');
+    Route::get('contact', [SiteController::class, 'contact'])->name('contact');
+    Route::post('contact', [SiteController::class, 'storeContact'])->middleware('throttle:5,1')->name('contact.store');
+    Route::get('teams', [SiteController::class, 'teams'])->name('teams.index');
+    Route::get('teams/{slug}', [SiteController::class, 'team'])->name('teams.show');
+    Route::get('projects', [SiteController::class, 'projects'])->name('projects.index');
+    Route::get('projects/{slug}', [SiteController::class, 'project'])->name('projects.show');
+    Route::get('news', [SiteController::class, 'news'])->name('news.index');
+    Route::get('news/{slug}', [SiteController::class, 'article'])->name('news.show');
+});
 
 Route::post('locale/{locale}', LocaleController::class)
     ->whereIn('locale', ['en', 'ar'])

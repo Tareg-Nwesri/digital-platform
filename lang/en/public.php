@@ -1,6 +1,23 @@
 <?php
 
 return [
+    'registration_deadline' => 'Registration closes',
+    'contact_sent' => 'Thank you. Your message was sent; we will reply by email.',
+    'results' => 'Results',
+    'teams_entered' => 'Teams taking part',
+    'placement' => 'Place',
+    'award' => 'Award',
+    'robots' => 'Robots',
+    'results_heading' => 'Results',
+    'departments' => 'Our departments',
+    'categories' => 'Categories',
+    'downloads' => 'Downloads',
+    'register_team' => 'Register your team',
+    'registration_closed' => 'Registration is closed',
+    'by_team' => 'By :team',
+    'page' => 'Page :page of :pages',
+    'previous' => 'Previous',
+    'next' => 'Next',
     'register' => [
         'category' => 'category',
         'team_name' => 'team name',

@@ -11,7 +11,7 @@ class ExampleTest extends TestCase
 
     public function test_the_home_page_sends_visitors_to_the_events(): void
     {
-        $this->get(route('home'))->assertRedirect('/en/events');
-        $this->withUnencryptedCookie('locale', 'ar')->get(route('home'))->assertRedirect('/ar/events');
+        $this->get(route('home'))->assertRedirect('/en');
+        $this->withUnencryptedCookie('locale', 'ar')->get(route('home'))->assertRedirect('/ar');
     }
 }

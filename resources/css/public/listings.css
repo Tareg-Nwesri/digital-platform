@@ -1,0 +1,18 @@
+[data-listing] { position: relative; }
+[data-listing-status] { position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+[data-listing-error] [data-listing-status] { position: static; display: block; inline-size: auto; block-size: auto; margin: .75rem 0; padding: .75rem; overflow: visible; clip: auto; white-space: normal; color: var(--df-danger, var(--danger, #a1261c)); border: 1px solid currentColor; }
+[data-listing-content] [data-listing-item][hidden] { display: none !important; }
+.listing-loading { pointer-events: none; position: absolute; inset: 0; z-index: 1; padding: 1rem; background: var(--df-surface, var(--paper, #fff)); opacity: .94; }
+.listing-skeleton { display: block; min-height: 4rem; border-radius: .4rem; color: transparent; background: var(--df-border, var(--line, #ddd)); }
+@media (prefers-reduced-motion: no-preference) {
+    .listing-skeleton, .listing-options .is-loading { animation: listing-pulse 1.2s ease-in-out infinite alternate; }
+    @keyframes listing-pulse { to { opacity: .5; } }
+}
+.listing-pages { display: flex; flex-wrap: wrap; gap: .35rem; margin-block: 1rem; }
+.listing-pages a { min-inline-size: 2.75rem; min-block-size: 2.75rem; display: inline-grid; place-items: center; border: 1px solid var(--df-border, var(--line, #ddd)); border-radius: .35rem; text-decoration: none; }
+.listing-pages a[aria-current] { border-color: var(--df-brand, var(--brand-primary, #b84404)); font-weight: 700; }
+.listing-pages a:focus-visible, .listing-options :focus-visible { outline: 3px solid var(--df-focus, var(--brand-deep, #195caa)); outline-offset: 2px; }
+.listing-options { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-block: .5rem; }
+.listing-options input[type="search"] { min-inline-size: min(100%, 14rem); }
+.listing-options [role="status"] { color: var(--df-muted, var(--pub-muted, #555)); }
+.listing-options.is-loading::after { content: ''; display: block; flex-basis: 100%; inline-size: 100%; block-size: .35rem; border-radius: .25rem; background: var(--df-border, var(--line, #ddd)); }

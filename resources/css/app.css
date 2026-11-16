@@ -11,7 +11,7 @@
     --font-sans:
         Manrope, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-arabic: 'Noto Kufi Arabic', Manrope, Tahoma, ui-sans-serif, sans-serif;
+    --font-arabic: 'IBM Plex Sans Arabic', Manrope, Tahoma, ui-sans-serif, sans-serif;
 
     --color-brand: var(--brand);
     --color-brand-strong: var(--brand-strong);
@@ -92,7 +92,7 @@
             'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
 
-    /* Arabic pages use the Kufi face; numbers stay Western digits (D-11). */
+    /* Arabic pages use IBM Plex Sans Arabic; numbers stay Western digits (D-11). */
     html:lang(ar) body {
         font-family: var(--font-arabic);
     }

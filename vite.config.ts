@@ -16,7 +16,7 @@ export default defineConfig({
                     weights: [400, 500, 600, 700, 800],
                     optimizedFallbacks: false,
                 }),
-                bunny('Noto Kufi Arabic', {
+                bunny('IBM Plex Sans Arabic', {
                     weights: [400, 500, 600, 700],
                     optimizedFallbacks: false,
                 }),

@@ -36,6 +36,7 @@ defineProps<{
         timezone: string;
         cover: string | null;
     }[];
+    sponsors: { name: string; logo: string; website: string | null }[];
     news: {
         slug: string;
         title: string;
@@ -357,6 +358,53 @@ onMounted(() => initPublicTimeline(timeline.value));
                     $t('public_site.events_empty')
                 }}</EmptyState>
             </div>
+        </div>
+    </section>
+
+    <section
+        v-if="sponsors.length"
+        class="section section--surface"
+        aria-labelledby="sponsors-title"
+    >
+        <div class="public-shell network">
+            <div>
+                <h2 id="sponsors-title">
+                    {{ $t('public_site.network_heading') }}
+                </h2>
+                <p>{{ $t('public.sponsors_copy') }}</p>
+                <Link class="text-link" :href="url('/contact')">{{
+                    $t('public_site.contact')
+                }}</Link>
+            </div>
+            <ul class="logo-band" :aria-label="$t('public.sponsors')">
+                <li
+                    v-for="sponsor in sponsors"
+                    :key="sponsor.name"
+                    class="sponsor-logo"
+                >
+                    <a
+                        v-if="sponsor.website"
+                        :href="sponsor.website"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        :title="sponsor.name"
+                    >
+                        <img
+                            :src="sponsor.logo"
+                            :alt="sponsor.name"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </a>
+                    <img
+                        v-else
+                        :src="sponsor.logo"
+                        :alt="sponsor.name"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </li>
+            </ul>
         </div>
     </section>
 

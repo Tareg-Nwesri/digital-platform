@@ -538,3 +538,9 @@ body.public-site { margin: 0; min-height: 100dvh; display: flex; flex-direction:
 .public-site .results-table th { color: var(--pub-muted); font-weight: 600; font-size: .85rem; }
 .public-site .results-table tbody tr:first-child td { font-weight: 700; }
 .public-site .listing-pages span[aria-current] { display: inline-grid; place-items: center; padding-inline: .75rem; min-block-size: 2.75rem; color: var(--pub-muted); }
+
+/* Sponsor logos on the home page (new platform) */
+.public-site .logo-band { margin: 0; padding: 0; list-style: none; }
+.public-site .sponsor-logo { display: grid; place-items: center; min-height: 112px; padding: 20px; border: 1px solid var(--line); border-radius: var(--pub-radius); background: var(--surface); }
+.public-site .sponsor-logo a { display: grid; place-items: center; width: 100%; height: 100%; }
+.public-site .sponsor-logo img { max-width: 100%; max-height: 72px; object-fit: contain; }

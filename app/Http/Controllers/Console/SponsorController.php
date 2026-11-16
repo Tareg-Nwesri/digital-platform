@@ -11,6 +11,7 @@ use App\Domain\Finance\Models\SponsorContact;
 use App\Domain\Finance\Models\Sponsorship;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Console\SponsorContactRequest;
+use App\Http\Requests\Console\SponsorLogoRequest;
 use App\Http\Requests\Console\SponsorRequest;
 use App\Support\Enums\Currency;
 use App\Support\Money\MoneyFormatter;
@@ -31,7 +32,7 @@ class SponsorController extends Controller
     {
         Gate::authorize('view-finance');
 
-        $sponsors = TableQuery::for(Sponsor::query()->withCount('sponsorships'), $request)
+        $sponsors = TableQuery::for(Sponsor::query()->with('media')->withCount('sponsorships'), $request)
             ->searchable(['name_en', 'name_ar'])
             ->sortable(['name_en', 'created_at'], default: 'name_en')
             ->filters([
@@ -41,6 +42,7 @@ class SponsorController extends Controller
             ->paginate(fn (Sponsor $sponsor): array => [
                 'id' => $sponsor->getKey(),
                 'name' => (string) $sponsor->localized('name'),
+                'logo' => $sponsor->logoUrl(),
                 'type' => $sponsor->type->value,
                 'isActive' => $sponsor->is_active,
                 'publicConsent' => $sponsor->public_consent,
@@ -71,6 +73,7 @@ class SponsorController extends Controller
                 'name' => (string) $sponsor->localized('name'),
                 'nameEn' => $sponsor->name_en,
                 'nameAr' => $sponsor->name_ar,
+                'logo' => $sponsor->logoUrl(),
                 'type' => $sponsor->type->value,
                 'website' => $sponsor->website,
                 'notes' => $sponsor->notes,
@@ -99,6 +102,23 @@ class SponsorController extends Controller
         $sponsor->update($request->validated());
 
         return $this->done('sponsor_saved', back());
+    }
+
+    public function logo(SponsorLogoRequest $request, Sponsor $sponsor): RedirectResponse
+    {
+        $sponsor->addMediaFromRequest('logo')->toMediaCollection('logo');
+        activity('finance')->performedOn($sponsor)->causedBy($request->user())->event('finance.sponsor.logo_changed')->log('Sponsor logo changed');
+
+        return $this->done('logo_saved', back());
+    }
+
+    public function destroyLogo(Request $request, Sponsor $sponsor): RedirectResponse
+    {
+        Gate::authorize('edit-finance');
+        $sponsor->clearMediaCollection('logo');
+        activity('finance')->performedOn($sponsor)->causedBy($request->user())->event('finance.sponsor.logo_removed')->log('Sponsor logo removed');
+
+        return $this->done('logo_removed', back());
     }
 
     public function storeContact(SponsorContactRequest $request, Sponsor $sponsor): RedirectResponse

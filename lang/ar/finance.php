@@ -100,6 +100,8 @@ return [
     ],
     'payout_to' => 'دفعة إلى :name: :reason',
     'flash' => [
+        'logo_saved' => 'تم حفظ الشعار.',
+        'logo_removed' => 'تمت إزالة الشعار.',
         'request_sent' => 'تم إرسال طلب التمويل إلى المالية.',
         'request_cancelled' => 'تم إلغاء طلب التمويل.',
         'request_approved' => 'تم اعتماد الطلب وتمويل الميزانية.',

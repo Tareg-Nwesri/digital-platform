@@ -6,6 +6,9 @@ import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
 import { ref } from 'vue';
 import FinanceNav from '@/components/finance/FinanceNav.vue';
+import LogoField from '@/components/forms/LogoField.vue';
+import { logo as logoRoute } from '@/routes/console/finance/sponsors';
+import { destroy as destroyLogo } from '@/routes/console/finance/sponsors/logo';
 import Money from '@/components/finance/Money.vue';
 import SponsorshipForm from '@/components/finance/SponsorshipForm.vue';
 import type { SponsorshipOptions } from '@/components/finance/SponsorshipForm.vue';
@@ -39,6 +42,7 @@ const props = defineProps<{
         name: string;
         nameEn: string;
         nameAr: string | null;
+        logo: string | null;
         type: string;
         website: string | null;
         notes: string | null;
@@ -137,6 +141,25 @@ const creating = ref(false);
         </div>
 
         <FinanceNav current="sponsors" />
+
+        <section class="rounded-xl border bg-card p-5">
+            <h3 class="mb-3 font-semibold">{{ $t('Logo') }}</h3>
+            <LogoField
+                :logo="sponsor.logo"
+                :upload-url="logoRoute(sponsor.id).url"
+                :remove-url="destroyLogo(sponsor.id).url"
+                :can-edit="can.edit"
+                :hint="
+                    sponsor.publicConsent
+                        ? $t(
+                              'Shown on the public home page while the sponsor is active.',
+                          )
+                        : $t(
+                              'Not shown publicly: the sponsor has not agreed to be named.',
+                          )
+                "
+            />
+        </section>
 
         <div class="grid gap-6 xl:grid-cols-2">
             <section

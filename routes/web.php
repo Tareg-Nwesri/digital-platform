@@ -164,6 +164,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('sponsors', [SponsorController::class, 'store'])->name('sponsors.store');
             Route::get('sponsors/{sponsor}', [SponsorController::class, 'show'])->name('sponsors.show');
             Route::patch('sponsors/{sponsor}', [SponsorController::class, 'update'])->name('sponsors.update');
+            Route::post('sponsors/{sponsor}/logo', [SponsorController::class, 'logo'])->name('sponsors.logo');
+            Route::delete('sponsors/{sponsor}/logo', [SponsorController::class, 'destroyLogo'])->name('sponsors.logo.destroy');
             Route::post('sponsors/{sponsor}/contacts', [SponsorController::class, 'storeContact'])->name('sponsors.contacts.store');
             Route::delete('sponsors/{sponsor}/contacts/{contact}', [SponsorController::class, 'destroyContact'])->name('sponsors.contacts.destroy');
             Route::post('sponsors/{sponsor}/sponsorships', [SponsorshipController::class, 'store'])->name('sponsorships.store');

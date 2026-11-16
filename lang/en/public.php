@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'sponsors' => 'Our sponsors',
+    'sponsors_copy' => 'The companies and organisations that make this work possible. Interested in supporting it? Talk to us.',
     'registration_deadline' => 'Registration closes',
     'contact_sent' => 'Thank you. Your message was sent; we will reply by email.',
     'results' => 'Results',

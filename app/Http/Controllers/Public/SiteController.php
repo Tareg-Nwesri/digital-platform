@@ -9,6 +9,7 @@ use App\Domain\Events\Enums\EventVisibility;
 use App\Domain\Events\Enums\RegistrationStatus;
 use App\Domain\Events\Models\Event;
 use App\Domain\Events\Models\EventRegistration;
+use App\Domain\Finance\Models\Sponsor;
 use App\Domain\Organisation\Models\Department;
 use App\Domain\Teams\Models\Team;
 use App\Domain\Work\Models\Project;
@@ -36,6 +37,19 @@ class SiteController extends Controller
             'projects' => Project::query()->public()->with('team')->latest('published_at')->limit(3)->get()->map(fn (Project $project): array => self::projectCard($project))->all(),
             'events' => Event::query()->public()->orderByDesc('starts_at')->limit(3)->get()->map(fn (Event $event): array => EventController::card($event))->all(),
             'news' => Post::query()->public()->latest('published_at')->limit(3)->get()->map(fn (Post $post): array => self::postCard($post))->all(),
+            'sponsors' => Sponsor::query()
+                ->where('is_active', true)
+                ->where('public_consent', true)
+                ->whereHas('media', fn ($query) => $query->where('collection_name', 'logo'))
+                ->with('media')
+                ->orderBy('name_en')
+                ->get()
+                ->map(fn (Sponsor $sponsor): array => [
+                    'name' => (string) $sponsor->localized('name'),
+                    'logo' => $sponsor->logoUrl(),
+                    'website' => $sponsor->website,
+                ])
+                ->all(),
         ]);
     }
 

@@ -30,6 +30,7 @@ import type { ListColumn, TableResult } from '@/types/table';
 type SponsorRow = {
     id: number;
     name: string;
+    logo: string | null;
     type: string;
     isActive: boolean;
     publicConsent: boolean;
@@ -77,6 +78,13 @@ const columns: ListColumn<SponsorRow>[] = [
         meta: { sortable: true },
         cell: ({ row }) =>
             h('div', { class: 'flex flex-wrap items-center gap-2' }, [
+                row.original.logo
+                    ? h('img', {
+                          src: row.original.logo,
+                          alt: '',
+                          class: 'h-7 w-14 rounded border bg-white object-contain p-0.5',
+                      })
+                    : null,
                 h(
                     Link,
                     {

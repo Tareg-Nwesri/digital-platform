@@ -100,6 +100,8 @@ return [
     ],
     'payout_to' => 'Payout to :name: :reason',
     'flash' => [
+        'logo_saved' => 'The logo was saved.',
+        'logo_removed' => 'The logo was removed.',
         'request_sent' => 'Your funding request was sent to finance.',
         'request_cancelled' => 'The funding request was cancelled.',
         'request_approved' => 'The request was approved and the budget funded.',

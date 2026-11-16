@@ -105,14 +105,18 @@ class DemoSeeder extends Seeder
         $seeded = [];
 
         foreach (self::DEPARTMENTS as $slug => $definition) {
-            $department = $departments->create([
-                'name_en' => $definition['name_en'],
-                'name_ar' => $definition['name_ar'],
-                'slug' => $slug,
-                'is_public' => true,
-            ], $superAdmin);
+            $department = Department::query()->where('slug', $slug)->first();
 
-            $permissions->setCeiling($department, $definition['ceiling'], $superAdmin);
+            if ($department === null) {
+                $department = $departments->create([
+                    'name_en' => $definition['name_en'],
+                    'name_ar' => $definition['name_ar'],
+                    'slug' => $slug,
+                    'is_public' => true,
+                ], $superAdmin);
+
+                $permissions->setCeiling($department, $definition['ceiling'], $superAdmin);
+            }
 
             $admin = $this->login("{$slug}.admin", "{$definition['name_en']} Lead", "مسؤول {$definition['name_ar']}");
             $departments->addMember($department, $admin, isAdmin: true, by: $superAdmin);

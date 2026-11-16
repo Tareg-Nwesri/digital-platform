@@ -22,13 +22,19 @@ fi
 $COMPOSER install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 if [ "${1:-}" = "--first" ]; then
-    $PHP artisan key:generate --force
+    # Only a missing key is generated: a new key would log everyone out and
+    # make encrypted values unreadable.
+    if ! grep -qE '^APP_KEY=.+' .env; then
+        $PHP artisan key:generate --force
+    fi
     $PHP artisan migrate --force
     $PHP artisan db:seed --force
-    $PHP artisan storage:link || true
 else
     $PHP artisan migrate --force
 fi
+
+$PHP artisan storage:link 2>/dev/null || true
+$PHP artisan finance:ensure-periods
 
 $PHP artisan optimize:clear
 $PHP artisan optimize

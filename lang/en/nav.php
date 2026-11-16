@@ -1,6 +1,17 @@
 <?php
 
 return [
+    'groups' => [
+        'team' => 'Team',
+        'work' => 'Work',
+        'activities' => 'Events & budget',
+        'platform' => 'Platform',
+        'departments' => 'My departments',
+        'teams' => 'Teams & events',
+        'catalogue' => 'Catalogue',
+        'finance' => 'Finance',
+        'communication' => 'Content & messages',
+    ],
     'team' => [
         'dashboard' => 'Dashboard',
         'members' => 'Members',

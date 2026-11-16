@@ -47,6 +47,40 @@ final class Navigation
     ];
 
     /**
+     * The domain each item belongs to; the sidebar shows one labelled
+     * section per domain, in this order.
+     *
+     * @var array<string, string>
+     */
+    private const TEAM_GROUPS = [
+        'dashboard' => 'team',
+        'members' => 'team',
+        'settings' => 'team',
+        'projects' => 'work',
+        'robots' => 'work',
+        'catalogue' => 'work',
+        'events' => 'activities',
+        'budget' => 'activities',
+    ];
+
+    /**
+     * @var array<string, string>
+     */
+    private const CONSOLE_GROUPS = [
+        'teams' => 'teams',
+        'events' => 'teams',
+        'catalogue' => 'catalogue',
+        'finance' => 'finance',
+        'content' => 'communication',
+        'inbox' => 'communication',
+    ];
+
+    /**
+     * @var list<string>
+     */
+    private const GROUP_ORDER = ['team', 'work', 'activities', 'platform', 'departments', 'teams', 'catalogue', 'finance', 'communication'];
+
+    /**
      * Super admin only: key, route, icon.
      *
      * @var list<array{0: string, 1: string, 2: string}>
@@ -66,7 +100,7 @@ final class Navigation
     ) {}
 
     /**
-     * @return list<array{key: string, label: string, href: string, icon: string}>
+     * @return list<array{key: string, label: string, href: string, icon: string, group: string, groupLabel: string}>
      */
     public function for(?User $user): array
     {
@@ -82,7 +116,7 @@ final class Navigation
     }
 
     /**
-     * @return list<array{key: string, label: string, href: string, icon: string}>
+     * @return list<array{key: string, label: string, href: string, icon: string, group: string, groupLabel: string}>
      */
     private function team(User $user, Team $team): array
     {
@@ -97,14 +131,14 @@ final class Navigation
                 continue;
             }
 
-            $items[] = $this->item('team.'.$key, $key, route($route, $team->slug), $icon);
+            $items[] = $this->item('team.'.$key, $key, route($route, $team->slug), $icon, self::TEAM_GROUPS[$key]);
         }
 
-        return $items;
+        return $this->ordered($items);
     }
 
     /**
-     * @return list<array{key: string, label: string, href: string, icon: string}>
+     * @return list<array{key: string, label: string, href: string, icon: string, group: string, groupLabel: string}>
      */
     private function console(User $user, ?Department $current): array
     {
@@ -113,7 +147,7 @@ final class Navigation
         if ($user->isSuperAdmin()) {
             foreach (self::PLATFORM_ITEMS as [$key, $route, $icon]) {
                 if (Route::has($route)) {
-                    $items[] = $this->item('platform.'.$key, $key, route($route), $icon);
+                    $items[] = $this->item('platform.'.$key, $key, route($route), $icon, 'platform');
                 }
             }
         }
@@ -125,7 +159,7 @@ final class Navigation
             ->get();
 
         foreach ($departments as $department) {
-            $items[] = $this->item('department', 'department-'.$department->slug, route('console.departments.show', $department->slug), 'building-2', __('nav.console.department_named', ['name' => $department->localized('name')]));
+            $items[] = $this->item('department', 'department-'.$department->slug, route('console.departments.show', $department->slug), 'building-2', 'departments', __('nav.console.department_named', ['name' => $department->localized('name')]));
         }
 
         foreach (self::CONSOLE_ITEMS as [$key, $route, $permission, $icon]) {
@@ -141,23 +175,42 @@ final class Navigation
             );
 
             if ($allowed) {
-                $items[] = $this->item('console.'.$key, $key, route($route), $icon);
+                $items[] = $this->item('console.'.$key, $key, route($route), $icon, self::CONSOLE_GROUPS[$key]);
             }
         }
 
-        return $items;
+        return $this->ordered($items);
     }
 
     /**
-     * @return array{key: string, label: string, href: string, icon: string}
+     * @return array{key: string, label: string, href: string, icon: string, group: string, groupLabel: string}
      */
-    private function item(string $labelKey, string $key, string $href, string $icon, ?string $label = null): array
+    private function item(string $labelKey, string $key, string $href, string $icon, string $group, ?string $label = null): array
     {
         return [
             'key' => $key,
             'label' => $label ?? __('nav.'.$labelKey),
             'href' => $href,
             'icon' => $icon,
+            'group' => $group,
+            'groupLabel' => __('nav.groups.'.$group),
         ];
+    }
+
+    /**
+     * Items grouped by domain, keeping their order inside each domain.
+     *
+     * @param  list<array{key: string, label: string, href: string, icon: string, group: string, groupLabel: string}>  $items
+     * @return list<array{key: string, label: string, href: string, icon: string, group: string, groupLabel: string}>
+     */
+    private function ordered(array $items): array
+    {
+        $rank = array_flip(self::GROUP_ORDER);
+
+        return collect($items)
+            ->values()
+            ->sortBy(fn (array $item, int $index): int => $rank[$item['group']] * 1000 + $index)
+            ->values()
+            ->all();
     }
 }

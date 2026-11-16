@@ -29,7 +29,14 @@ declare module '@inertiajs/core' {
             } | null;
             can: Record<string, boolean>;
             features: Record<string, boolean | number>;
-            nav: { key: string; label: string; href: string; icon: string }[];
+            nav: {
+                key: string;
+                label: string;
+                href: string;
+                icon: string;
+                group: string;
+                groupLabel: string;
+            }[];
             [key: string]: unknown;
         };
     }

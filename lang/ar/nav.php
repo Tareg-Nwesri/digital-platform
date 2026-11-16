@@ -1,6 +1,17 @@
 <?php
 
 return [
+    'groups' => [
+        'team' => 'الفريق',
+        'work' => 'العمل',
+        'activities' => 'الفعاليات والميزانية',
+        'platform' => 'المنصة',
+        'departments' => 'أقسامي',
+        'teams' => 'الفرق والفعاليات',
+        'catalogue' => 'الكتالوج',
+        'finance' => 'المالية',
+        'communication' => 'المحتوى والرسائل',
+    ],
     'team' => [
         'dashboard' => 'لوحة الفريق',
         'members' => 'الأعضاء',

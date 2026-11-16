@@ -1,0 +1,1 @@
+import{Kt as e,Q as t,R as n,at as r,st as i}from"./dist-C0kHilBU.js";import{t as a}from"./PublicHead-BQOaiyU2.js";import{t as o}from"./QuestionsPage-CWaFkaya.js";var s=i({__name:`Privacy`,props:{meta:{}},setup(i){return(s,c)=>(e(),t(n,null,[r(a,{meta:i.meta},null,8,[`meta`]),r(o,{kind:`privacy`})],64))}});export{s as default};

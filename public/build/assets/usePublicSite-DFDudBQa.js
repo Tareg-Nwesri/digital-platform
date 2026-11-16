@@ -1,0 +1,1 @@
+import{J as e,c as t}from"./dist-C0kHilBU.js";function n(){let n=t(),r=e(()=>n.props.locale===`en`?`en`:`ar`);return{locale:r,url:(e=``)=>`/${r.value}${e===``||e===`/`?``:e}`,otherLocaleUrl:e(()=>{let e=r.value===`ar`?`en`:`ar`;return n.url.replace(/^\/(en|ar)(?=\/|$|\?)/,`/${e}`)})}}export{n as t};

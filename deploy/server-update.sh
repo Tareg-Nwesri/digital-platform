@@ -9,7 +9,7 @@ PHP="${PHP:-php}"
 COMPOSER="${COMPOSER:-composer}"
 
 if [ ! -f public/build/manifest.json ]; then
-    echo "public/build is missing: upload the assets built with 'npm run build' first." >&2
+    echo "public/build is missing: run 'npm run build' on your computer, commit public/build and push." >&2
     exit 1
 fi
 

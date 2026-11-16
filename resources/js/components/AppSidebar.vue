@@ -17,20 +17,33 @@ import {
 } from '@/components/ui/sidebar';
 import { navIcon } from '@/lib/navIcons';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import type { NavGroup } from '@/types';
 
 const page = usePage();
 
 /**
  * The sidebar comes from the server (Navigation.php): only routes the viewer may use.
  */
-const mainNavItems = computed<NavItem[]>(() =>
-    (page.props.nav ?? []).map((item) => ({
-        title: item.label,
-        href: item.href,
-        icon: navIcon(item.icon),
-    })),
-);
+const navGroups = computed<NavGroup[]>(() => {
+    const groups: NavGroup[] = [];
+
+    for (const item of page.props.nav ?? []) {
+        let group = groups.find((existing) => existing.key === item.group);
+
+        if (!group) {
+            group = { key: item.group, label: item.groupLabel, items: [] };
+            groups.push(group);
+        }
+
+        group.items.push({
+            title: item.label,
+            href: item.href,
+            icon: navIcon(item.icon),
+        });
+    }
+
+    return groups;
+});
 
 const { start } = useDirection();
 </script>
@@ -51,7 +64,7 @@ const { start } = useDirection();
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :groups="navGroups" />
         </SidebarContent>
 
         <SidebarFooter>

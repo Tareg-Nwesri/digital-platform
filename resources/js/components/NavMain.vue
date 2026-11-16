@@ -8,19 +8,24 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
-import type { NavItem } from '@/types';
+import type { NavGroup } from '@/types';
 
+/**
+ * The sidebar's sections, one per domain (Navigation.php decides the
+ * groups and their order). Labels hide when the sidebar is collapsed.
+ */
 defineProps<{
-    items: NavItem[];
+    groups: NavGroup[];
 }>();
 
 const { isCurrentUrl } = useCurrentUrl();
 </script>
 
 <template>
-    <SidebarGroup class="px-2 py-0">
+    <SidebarGroup v-for="group in groups" :key="group.key" class="px-2 py-1">
+        <SidebarGroupLabel>{{ group.label }}</SidebarGroupLabel>
         <SidebarMenu>
-            <SidebarMenuItem v-for="item in items" :key="item.title">
+            <SidebarMenuItem v-for="item in group.items" :key="item.title">
                 <SidebarMenuButton
                     as-child
                     :is-active="isCurrentUrl(item.href)"

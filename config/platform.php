@@ -4,7 +4,7 @@ return [
     'invitation_days' => (int) env('INVITATION_DAYS', 7),
 
     'super_admin' => [
-        'email' => env('SUPER_ADMIN_EMAIL'),
+        'email' => env('SUPER_ADMIN_EMAIL', 'admin@digitalrobot.org'),
         'name' => env('SUPER_ADMIN_NAME', 'Platform Admin'),
     ],
 

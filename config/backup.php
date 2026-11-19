@@ -234,7 +234,7 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => env('BACKUP_MAIL_TO', env('SUPER_ADMIN_EMAIL', 'admin@example.com')),
+            'to' => env('BACKUP_MAIL_TO', env('SUPER_ADMIN_EMAIL', 'admin@digitalrobot.org')),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),

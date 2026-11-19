@@ -8,7 +8,11 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('posts:publish-due')->everyMinute()->withoutOverlapping();
+/*
+ * Overlap locks expire in minutes, not Laravel's default day: a run that the
+ * host kills (CloudLinux process limits) never releases its lock.
+ */
+Schedule::command('posts:publish-due')->everyMinute()->withoutOverlapping(10);
 Schedule::command('finance:ensure-periods')->daily();
 Schedule::command('finance:verify')->dailyAt('02:30');
 
@@ -18,11 +22,11 @@ Schedule::command('finance:verify')->dailyAt('02:30');
  * latest backup is missing or too old.
  */
 Schedule::command('backup:clean')->dailyAt('01:00');
-Schedule::command('backup:run')->dailyAt('01:30')->withoutOverlapping();
+Schedule::command('backup:run')->dailyAt('01:30')->withoutOverlapping(180);
 Schedule::command('backup:monitor')->dailyAt('07:00');
 
 /*
  * Shared hosting has no long-running worker: the per-minute cron drains the
  * database queue instead.
  */
-Schedule::command('queue:work --stop-when-empty --max-time=50 --tries=3')->everyMinute()->withoutOverlapping();
+Schedule::command('queue:work --stop-when-empty --max-time=50 --tries=3')->everyMinute()->withoutOverlapping(10);

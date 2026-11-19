@@ -30,8 +30,8 @@ defineOptions({
             submit: confirmStore(),
         }"
         :label="$t('Confirm with passkey')"
-        loading-label="Confirming..."
-        separator="Or confirm with password"
+        :loading-label="$t('Confirming...')"
+        :separator="$t('Or confirm with password')"
     />
 
     <Form

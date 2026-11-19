@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import DirectionProvider from '@/components/app/DirectionProvider.vue';
+import MadeBy from '@/components/MadeBy.vue';
 import { usePublicSite } from '@/composables/usePublicSite';
 import '../../css/public.css';
 
@@ -173,6 +174,7 @@ watch(currentPath, () => (menuOpen.value = false));
             </div>
             <div class="footer-bottom public-shell">
                 <span>© {{ year }} {{ $t('public_site.brand') }}</span>
+                <MadeBy />
                 <a
                     :href="otherLocaleUrl"
                     :lang="locale === 'ar' ? 'en' : 'ar'"

@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import WorkspaceSwitcher from '@/components/app/WorkspaceSwitcher.vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
+import MadeBy from '@/components/MadeBy.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
     Sidebar,
@@ -69,6 +70,9 @@ const { start } = useDirection();
 
         <SidebarFooter>
             <NavUser />
+            <div class="px-2 pb-1 group-data-[collapsible=icon]:hidden">
+                <MadeBy />
+            </div>
         </SidebarFooter>
     </Sidebar>
     <slot />

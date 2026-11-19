@@ -229,7 +229,11 @@ function featureError(name: string): string | undefined {
             <Badge variant="outline">{{ team.tier.name }}</Badge>
         </div>
 
-        <nav class="flex gap-1 overflow-x-auto border-b" role="tablist">
+        <nav
+            class="flex gap-1 overflow-x-auto border-b"
+            role="tablist"
+            data-tour="team-tabs"
+        >
             <button
                 v-for="[key, label] in tabs"
                 :key="key"
@@ -250,7 +254,11 @@ function featureError(name: string): string | undefined {
         </nav>
 
         <!-- Overview -->
-        <section v-if="tab === 'overview'" class="grid gap-6 lg:grid-cols-2">
+        <section
+            v-if="tab === 'overview'"
+            class="grid gap-6 lg:grid-cols-2"
+            data-tour="team-overview"
+        >
             <div class="rounded-xl border bg-card p-5">
                 <h3 class="font-semibold">{{ $t('Details') }}</h3>
                 <dl
@@ -294,6 +302,7 @@ function featureError(name: string): string | undefined {
                     v-if="can.changeStatus && transitions.length"
                     class="rounded-xl border bg-card p-5"
                     data-test="status-form"
+                    data-tour="team-status"
                 >
                     <h3 class="font-semibold">{{ $t('Change status') }}</h3>
                     <div class="mt-3 grid gap-3">

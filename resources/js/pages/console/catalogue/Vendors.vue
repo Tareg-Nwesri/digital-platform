@@ -250,6 +250,7 @@ const columns: ListColumn<VendorRow>[] = [
         <CatalogueNav current="vendors" />
 
         <DataTable
+            tour="vendors"
             :columns="columns"
             :rows="vendors"
             :search-placeholder="$t('Search vendors')"

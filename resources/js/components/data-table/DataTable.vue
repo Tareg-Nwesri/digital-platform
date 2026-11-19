@@ -23,6 +23,8 @@ const props = withDefaults(
         emptyText?: string;
         only?: string[];
         searchable?: boolean;
+        /** Names this table for the page guide: adds data-tour="<tour>-search|filters|actions|table". */
+        tour?: string;
     }>(),
     { searchable: true },
 );
@@ -71,7 +73,7 @@ function sortKey(column: {
             <div
                 v-if="searchable"
                 class="relative w-full max-w-xs"
-                data-tour="data-table-search"
+                :data-tour="tour ? `${tour}-search` : undefined"
             >
                 <Search
                     class="pointer-events-none absolute start-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
@@ -84,13 +86,27 @@ function sortKey(column: {
                     data-test="data-table-search"
                 />
             </div>
-            <slot name="filters" :filter="state.filter" />
-            <div class="ms-auto flex items-center gap-2">
+            <div
+                v-if="$slots.filters"
+                class="flex flex-wrap items-center gap-2"
+                :data-tour="tour ? `${tour}-filters` : undefined"
+            >
+                <slot name="filters" :filter="state.filter" />
+            </div>
+            <div
+                class="ms-auto flex items-center gap-2"
+                :data-tour="
+                    tour && $slots.actions ? `${tour}-actions` : undefined
+                "
+            >
                 <slot name="actions" />
             </div>
         </div>
 
-        <div class="overflow-x-auto rounded-xl border bg-card">
+        <div
+            class="overflow-x-auto rounded-xl border bg-card"
+            :data-tour="tour ? `${tour}-table` : undefined"
+        >
             <table class="w-full text-sm">
                 <thead class="border-b bg-muted/40 text-muted-foreground">
                     <tr

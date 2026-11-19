@@ -220,7 +220,11 @@ function removeInvitation(teamId: number): void {
                     {{ $t('events.visibility.invite_only') }}
                 </Badge>
             </div>
-            <div v-if="can.edit" class="flex flex-wrap gap-2">
+            <div
+                v-if="can.edit"
+                class="flex flex-wrap gap-2"
+                data-tour="event-lifecycle"
+            >
                 <Button
                     v-for="next in transitions"
                     :key="next"
@@ -244,7 +248,11 @@ function removeInvitation(teamId: number): void {
 
         <InputError :message="pageErrors.status ?? pageErrors.event" />
 
-        <nav class="flex gap-1 overflow-x-auto border-b" role="tablist">
+        <nav
+            class="flex gap-1 overflow-x-auto border-b"
+            role="tablist"
+            data-tour="event-tabs"
+        >
             <button
                 v-for="[key, label] in tabs"
                 :key="key"
@@ -264,7 +272,11 @@ function removeInvitation(teamId: number): void {
             </button>
         </nav>
 
-        <section v-if="tab === 'overview'" class="grid gap-6 lg:grid-cols-2">
+        <section
+            v-if="tab === 'overview'"
+            class="grid gap-6 lg:grid-cols-2"
+            data-tour="event-overview"
+        >
             <div class="rounded-xl border bg-card p-5">
                 <h3 class="font-semibold">{{ $t('Details') }}</h3>
                 <dl

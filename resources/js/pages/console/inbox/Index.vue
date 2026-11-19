@@ -103,6 +103,7 @@ const columns: ListColumn<MessageRow>[] = [
         />
 
         <DataTable
+            tour="inbox"
             :columns="columns"
             :rows="messages"
             :search-placeholder="$t('Search by name, email or subject')"

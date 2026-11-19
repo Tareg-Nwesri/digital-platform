@@ -129,7 +129,7 @@ const textareaClass =
             </div>
 
             <form class="grid gap-5" @submit.prevent="save">
-                <div class="grid gap-2 sm:max-w-sm">
+                <div class="grid gap-2 sm:max-w-sm" data-tour="post-department">
                     <Label for="post-department">{{ $t('Department') }}</Label>
                     <FormSelect
                         id="post-department"
@@ -151,6 +151,7 @@ const textareaClass =
                     class="grid gap-4 rounded-xl border bg-card p-5"
                     lang="ar"
                     dir="rtl"
+                    data-tour="post-arabic"
                 >
                     <h3 class="font-semibold">{{ $t('Arabic') }}</h3>
                     <div class="grid gap-2">
@@ -198,6 +199,7 @@ const textareaClass =
                     class="grid gap-4 rounded-xl border bg-card p-5"
                     lang="en"
                     dir="ltr"
+                    data-tour="post-english"
                 >
                     <h3 class="font-semibold">{{ $t('English') }}</h3>
                     <div class="grid gap-2">
@@ -255,6 +257,7 @@ const textareaClass =
 
         <aside
             class="grid content-start gap-4 rounded-xl border bg-card p-5 xl:sticky xl:top-4"
+            data-tour="post-publishing"
         >
             <h3 class="font-semibold">{{ $t('Publishing') }}</h3>
             <p class="text-sm text-muted-foreground">

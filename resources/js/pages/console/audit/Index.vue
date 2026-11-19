@@ -122,6 +122,7 @@ const columns: ListColumn<Entry>[] = [
         />
 
         <DataTable
+            tour="audit"
             :columns="columns"
             :rows="entries"
             :search-placeholder="$t('Search descriptions and events')"

@@ -19,7 +19,7 @@ const links = [
 </script>
 
 <template>
-    <nav class="flex gap-1 overflow-x-auto border-b">
+    <nav class="flex gap-1 overflow-x-auto border-b" data-tour="catalogue-nav">
         <Link
             v-for="[key, label, href] in links"
             :key="key"

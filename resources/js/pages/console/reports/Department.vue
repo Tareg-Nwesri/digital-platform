@@ -147,13 +147,18 @@ const tiles = computed(() => {
                 :href="csvUrl"
                 variant="outline"
                 data-test="export-csv"
+                data-tour="report-export"
             >
                 <Download class="size-4" />
                 {{ $t('Download CSV') }}
             </Button>
         </div>
 
-        <form class="flex flex-wrap items-end gap-3" @submit.prevent="apply()">
+        <form
+            class="flex flex-wrap items-end gap-3"
+            data-tour="report-range"
+            @submit.prevent="apply()"
+        >
             <div class="grid gap-1.5">
                 <Label for="report-from">{{ $t('From') }}</Label>
                 <DatePicker id="report-from" v-model="from" class="w-44" />
@@ -168,7 +173,10 @@ const tiles = computed(() => {
         <p v-if="tiles.length === 0" class="text-sm text-muted-foreground">
             {{ $t('This department has no areas to report on yet.') }}
         </p>
-        <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+            class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+            data-tour="report-tiles"
+        >
             <div
                 v-for="tile in tiles"
                 :key="tile.label"
@@ -183,7 +191,7 @@ const tiles = computed(() => {
             </div>
         </div>
 
-        <section class="grid gap-3">
+        <section class="grid gap-3" data-tour="report-members">
             <h3 class="font-semibold">{{ $t('Activity by members') }}</h3>
             <div class="overflow-x-auto rounded-xl border bg-card">
                 <table class="w-full text-sm">

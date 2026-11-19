@@ -89,7 +89,7 @@ const replyLink = computed(
                 </p>
             </article>
 
-            <section class="grid gap-3">
+            <section class="grid gap-3" data-tour="inbox-notes">
                 <h3 class="font-semibold">{{ $t('Internal notes') }}</h3>
                 <p
                     v-if="notes.length === 0"
@@ -143,7 +143,10 @@ const replyLink = computed(
             </section>
         </div>
 
-        <aside class="grid content-start gap-4 rounded-xl border bg-card p-5">
+        <aside
+            class="grid content-start gap-4 rounded-xl border bg-card p-5"
+            data-tour="inbox-details"
+        >
             <dl class="grid gap-1 text-sm">
                 <dt class="text-muted-foreground">{{ $t('From') }}</dt>
                 <dd dir="auto">{{ message.name }}</dd>
@@ -151,7 +154,12 @@ const replyLink = computed(
                     {{ message.email }}
                 </dd>
             </dl>
-            <Button as="a" :href="replyLink" variant="outline">
+            <Button
+                as="a"
+                :href="replyLink"
+                variant="outline"
+                data-tour="inbox-reply"
+            >
                 <Mail class="size-4" />
                 {{ $t('Reply by email') }}
             </Button>

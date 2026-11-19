@@ -9,15 +9,15 @@ use Symfony\Component\Finder\Finder;
  */
 
 /**
- * Pages that already have a tour. Remove this limit once all pages are done
- * so the test requires every page.
+ * Page-name prefixes whose tours are not written yet. Empty it once every
+ * page has a tour, so the test then requires all of them.
  */
-const TOUR_PAGES_DONE_SO_FAR = ['console/Dashboard', 'workspace/Dashboard'];
+const TOUR_PAGES_PENDING = ['console/finance/', 'workspace/', 'settings/'];
 
 /**
  * Shared layout targets that only some pages' tours point at.
  */
-const TOUR_SHARED_TARGETS = ['data-table-search', 'finance-nav'];
+const TOUR_SHARED_TARGETS = ['finance-nav'];
 
 /**
  * @return array<string, list<array{element?: string, title: string, body: string}>>
@@ -48,17 +48,29 @@ function signedInPages(): array
 }
 
 /**
- * Every data-tour value in the markup.
+ * Every data-tour value in the markup, including (by default) the four a
+ * DataTable tour prop adds.
  *
  * @return list<string>
  */
-function dataTourTargets(): array
+function dataTourTargets(bool $includeTableNames = true): array
 {
     $targets = [];
 
     foreach (Finder::create()->files()->in(dirname(__DIR__, 2).'/resources/js')->name('*.vue')->exclude('tours') as $file) {
         preg_match_all('/data-tour="([a-z0-9-]+)"/', $file->getContents(), $matches);
         array_push($targets, ...$matches[1]);
+
+        if (! $includeTableNames) {
+            continue;
+        }
+
+        // <DataTable tour="teams"> tags its own search, filters, actions and table.
+        preg_match_all('/<DataTable\b[^>]*?\stour="([a-z0-9-]+)"/s', $file->getContents(), $tables);
+
+        foreach ($tables[1] as $name) {
+            array_push($targets, "{$name}-search", "{$name}-filters", "{$name}-actions", "{$name}-table");
+        }
     }
 
     return array_values(array_unique($targets));
@@ -88,8 +100,13 @@ function tourText(string $locale, string $key): ?string
 it('has a tour for every page that should have one, and none for pages that do not exist', function () {
     $tours = tourDefinitions();
 
+    $required = array_filter(
+        signedInPages(),
+        fn (string $page): bool => ! collect(TOUR_PAGES_PENDING)->contains(fn (string $prefix): bool => str_starts_with($page, $prefix)),
+    );
+
     expect(array_diff(array_keys($tours), signedInPages()))->toBe([])
-        ->and(array_values(array_diff(TOUR_PAGES_DONE_SO_FAR, array_keys($tours))))->toBe([]);
+        ->and(array_values(array_diff($required, array_keys($tours))))->toBe([]);
 });
 
 it('gives each tour 3 to 10 steps that start with a centred introduction', function () {
@@ -130,7 +147,7 @@ it('has no data-tour attributes that no tour uses', function () {
         }
     }
 
-    expect(array_values(array_diff(dataTourTargets(), $used, TOUR_SHARED_TARGETS)))->toBe([]);
+    expect(array_values(array_diff(dataTourTargets(false), $used, TOUR_SHARED_TARGETS)))->toBe([]);
 });
 
 it('writes every step and the guide buttons in English and Arabic, within length limits', function () {

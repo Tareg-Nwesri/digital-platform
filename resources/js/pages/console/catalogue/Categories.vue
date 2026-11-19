@@ -117,6 +117,7 @@ const parents = computed(() =>
             <Button
                 v-if="can.manage"
                 data-test="new-category"
+                data-tour="categories-new"
                 @click="openForm(null)"
             >
                 <Plus class="size-4" />
@@ -128,7 +129,7 @@ const parents = computed(() =>
 
         <InputError :message="categoryError" />
 
-        <ul class="grid gap-3">
+        <ul class="grid gap-3" data-tour="categories-list">
             <li
                 v-if="categories.length === 0"
                 class="text-sm text-muted-foreground"

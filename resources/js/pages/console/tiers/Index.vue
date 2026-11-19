@@ -108,7 +108,11 @@ function confirmDelete(): void {
                     )
                 "
             />
-            <Button data-test="new-tier" @click="openCreate">
+            <Button
+                data-test="new-tier"
+                data-tour="tiers-new"
+                @click="openCreate"
+            >
                 <Plus class="size-4" />
                 {{ $t('New tier') }}
             </Button>
@@ -116,7 +120,10 @@ function confirmDelete(): void {
 
         <InputError :message="tierError" />
 
-        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div
+            class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+            data-tour="tiers-list"
+        >
             <Card
                 v-for="tier in tiers"
                 :key="tier.id"

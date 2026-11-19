@@ -30,7 +30,13 @@ export function usePageTour() {
     const visible = (id: string): boolean => {
         const element = document.querySelector(`[data-tour="${id}"]`);
 
-        return element !== null && element.getClientRects().length > 0;
+        if (element === null) {
+            return false;
+        }
+
+        const box = element.getBoundingClientRect();
+
+        return box.width > 0 && box.height > 0;
     };
 
     function start(): void {

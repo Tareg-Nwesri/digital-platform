@@ -95,5 +95,527 @@
             "body": "tour.common.guide.body",
             "side": "bottom"
         }
+    ],
+    "console/departments/Index": [
+        {
+            "title": "tour.departments.intro.title",
+            "body": "tour.departments.intro.body"
+        },
+        {
+            "element": "departments-search",
+            "title": "tour.departments.search.title",
+            "body": "tour.departments.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "departments-actions",
+            "title": "tour.departments.new.title",
+            "body": "tour.departments.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "departments-table",
+            "title": "tour.departments.table.title",
+            "body": "tour.departments.table.body",
+            "side": "top"
+        }
+    ],
+    "console/departments/Show": [
+        {
+            "title": "tour.department.intro.title",
+            "body": "tour.department.intro.body"
+        },
+        {
+            "element": "department-tabs",
+            "title": "tour.department.tabs.title",
+            "body": "tour.department.tabs.body",
+            "side": "bottom"
+        },
+        {
+            "element": "department-overview",
+            "title": "tour.department.overview.title",
+            "body": "tour.department.overview.body",
+            "side": "top"
+        },
+        {
+            "element": "department-report",
+            "title": "tour.department.report.title",
+            "body": "tour.department.report.body",
+            "side": "bottom"
+        }
+    ],
+    "console/teams/Index": [
+        {
+            "title": "tour.teams_list.intro.title",
+            "body": "tour.teams_list.intro.body"
+        },
+        {
+            "element": "teams-search",
+            "title": "tour.teams_list.search.title",
+            "body": "tour.teams_list.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "teams-filters",
+            "title": "tour.teams_list.filters.title",
+            "body": "tour.teams_list.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "teams-actions",
+            "title": "tour.teams_list.new.title",
+            "body": "tour.teams_list.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "teams-table",
+            "title": "tour.teams_list.table.title",
+            "body": "tour.teams_list.table.body",
+            "side": "top"
+        }
+    ],
+    "console/teams/Show": [
+        {
+            "title": "tour.team_show.intro.title",
+            "body": "tour.team_show.intro.body"
+        },
+        {
+            "element": "team-tabs",
+            "title": "tour.team_show.tabs.title",
+            "body": "tour.team_show.tabs.body",
+            "side": "bottom"
+        },
+        {
+            "element": "team-overview",
+            "title": "tour.team_show.overview.title",
+            "body": "tour.team_show.overview.body",
+            "side": "top"
+        },
+        {
+            "element": "team-status",
+            "title": "tour.team_show.status.title",
+            "body": "tour.team_show.status.body",
+            "side": "left"
+        }
+    ],
+    "console/tiers/Index": [
+        {
+            "title": "tour.tiers.intro.title",
+            "body": "tour.tiers.intro.body"
+        },
+        {
+            "element": "tiers-new",
+            "title": "tour.tiers.new.title",
+            "body": "tour.tiers.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "tiers-list",
+            "title": "tour.tiers.list.title",
+            "body": "tour.tiers.list.body",
+            "side": "top"
+        }
+    ],
+    "console/users/Index": [
+        {
+            "title": "tour.users.intro.title",
+            "body": "tour.users.intro.body"
+        },
+        {
+            "element": "users-search",
+            "title": "tour.users.search.title",
+            "body": "tour.users.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "users-filters",
+            "title": "tour.users.filters.title",
+            "body": "tour.users.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "users-table",
+            "title": "tour.users.table.title",
+            "body": "tour.users.table.body",
+            "side": "top"
+        }
+    ],
+    "console/events/Index": [
+        {
+            "title": "tour.events_list.intro.title",
+            "body": "tour.events_list.intro.body"
+        },
+        {
+            "element": "events-search",
+            "title": "tour.events_list.search.title",
+            "body": "tour.events_list.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "events-filters",
+            "title": "tour.events_list.filters.title",
+            "body": "tour.events_list.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "events-actions",
+            "title": "tour.events_list.new.title",
+            "body": "tour.events_list.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "events-table",
+            "title": "tour.events_list.table.title",
+            "body": "tour.events_list.table.body",
+            "side": "top"
+        }
+    ],
+    "console/events/Show": [
+        {
+            "title": "tour.event_show.intro.title",
+            "body": "tour.event_show.intro.body"
+        },
+        {
+            "element": "event-lifecycle",
+            "title": "tour.event_show.lifecycle.title",
+            "body": "tour.event_show.lifecycle.body",
+            "side": "bottom"
+        },
+        {
+            "element": "event-tabs",
+            "title": "tour.event_show.tabs.title",
+            "body": "tour.event_show.tabs.body",
+            "side": "bottom"
+        },
+        {
+            "element": "event-overview",
+            "title": "tour.event_show.overview.title",
+            "body": "tour.event_show.overview.body",
+            "side": "top"
+        }
+    ],
+    "console/catalogue/Parts": [
+        {
+            "title": "tour.parts.intro.title",
+            "body": "tour.parts.intro.body"
+        },
+        {
+            "element": "catalogue-nav",
+            "title": "tour.parts.nav.title",
+            "body": "tour.parts.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "parts-search",
+            "title": "tour.parts.search.title",
+            "body": "tour.parts.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "parts-filters",
+            "title": "tour.parts.filters.title",
+            "body": "tour.parts.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "parts-actions",
+            "title": "tour.parts.new.title",
+            "body": "tour.parts.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "parts-table",
+            "title": "tour.parts.table.title",
+            "body": "tour.parts.table.body",
+            "side": "top"
+        }
+    ],
+    "console/catalogue/PartShow": [
+        {
+            "title": "tour.part_show.intro.title",
+            "body": "tour.part_show.intro.body"
+        },
+        {
+            "element": "catalogue-nav",
+            "title": "tour.part_show.nav.title",
+            "body": "tour.part_show.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "part-details",
+            "title": "tour.part_show.details.title",
+            "body": "tour.part_show.details.body",
+            "side": "right"
+        },
+        {
+            "element": "part-offers",
+            "title": "tour.part_show.offers.title",
+            "body": "tour.part_show.offers.body",
+            "side": "left"
+        }
+    ],
+    "console/catalogue/Categories": [
+        {
+            "title": "tour.categories.intro.title",
+            "body": "tour.categories.intro.body"
+        },
+        {
+            "element": "catalogue-nav",
+            "title": "tour.categories.nav.title",
+            "body": "tour.categories.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "categories-new",
+            "title": "tour.categories.new.title",
+            "body": "tour.categories.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "categories-list",
+            "title": "tour.categories.list.title",
+            "body": "tour.categories.list.body",
+            "side": "top"
+        }
+    ],
+    "console/catalogue/Vendors": [
+        {
+            "title": "tour.vendors.intro.title",
+            "body": "tour.vendors.intro.body"
+        },
+        {
+            "element": "catalogue-nav",
+            "title": "tour.vendors.nav.title",
+            "body": "tour.vendors.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "vendors-search",
+            "title": "tour.vendors.search.title",
+            "body": "tour.vendors.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "vendors-actions",
+            "title": "tour.vendors.new.title",
+            "body": "tour.vendors.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "vendors-table",
+            "title": "tour.vendors.table.title",
+            "body": "tour.vendors.table.body",
+            "side": "top"
+        }
+    ],
+    "console/catalogue/Suggestions": [
+        {
+            "title": "tour.suggestions.intro.title",
+            "body": "tour.suggestions.intro.body"
+        },
+        {
+            "element": "catalogue-nav",
+            "title": "tour.suggestions.nav.title",
+            "body": "tour.suggestions.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "suggestions-filters",
+            "title": "tour.suggestions.filters.title",
+            "body": "tour.suggestions.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "suggestions-list",
+            "title": "tour.suggestions.list.title",
+            "body": "tour.suggestions.list.body",
+            "side": "top"
+        }
+    ],
+    "console/posts/Index": [
+        {
+            "title": "tour.posts_list.intro.title",
+            "body": "tour.posts_list.intro.body"
+        },
+        {
+            "element": "posts-search",
+            "title": "tour.posts_list.search.title",
+            "body": "tour.posts_list.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "posts-filters",
+            "title": "tour.posts_list.filters.title",
+            "body": "tour.posts_list.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "posts-actions",
+            "title": "tour.posts_list.new.title",
+            "body": "tour.posts_list.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "posts-table",
+            "title": "tour.posts_list.table.title",
+            "body": "tour.posts_list.table.body",
+            "side": "top"
+        }
+    ],
+    "console/posts/Edit": [
+        {
+            "title": "tour.post_edit.intro.title",
+            "body": "tour.post_edit.intro.body"
+        },
+        {
+            "element": "post-department",
+            "title": "tour.post_edit.department.title",
+            "body": "tour.post_edit.department.body",
+            "side": "bottom"
+        },
+        {
+            "element": "post-arabic",
+            "title": "tour.post_edit.arabic.title",
+            "body": "tour.post_edit.arabic.body",
+            "side": "top"
+        },
+        {
+            "element": "post-english",
+            "title": "tour.post_edit.english.title",
+            "body": "tour.post_edit.english.body",
+            "side": "top"
+        },
+        {
+            "element": "post-publishing",
+            "title": "tour.post_edit.publishing.title",
+            "body": "tour.post_edit.publishing.body",
+            "side": "left"
+        }
+    ],
+    "console/inbox/Index": [
+        {
+            "title": "tour.inbox_list.intro.title",
+            "body": "tour.inbox_list.intro.body"
+        },
+        {
+            "element": "inbox-search",
+            "title": "tour.inbox_list.search.title",
+            "body": "tour.inbox_list.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "inbox-filters",
+            "title": "tour.inbox_list.filters.title",
+            "body": "tour.inbox_list.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "inbox-table",
+            "title": "tour.inbox_list.table.title",
+            "body": "tour.inbox_list.table.body",
+            "side": "top"
+        }
+    ],
+    "console/inbox/Show": [
+        {
+            "title": "tour.inbox_show.intro.title",
+            "body": "tour.inbox_show.intro.body"
+        },
+        {
+            "element": "inbox-details",
+            "title": "tour.inbox_show.details.title",
+            "body": "tour.inbox_show.details.body",
+            "side": "left"
+        },
+        {
+            "element": "inbox-reply",
+            "title": "tour.inbox_show.reply.title",
+            "body": "tour.inbox_show.reply.body",
+            "side": "left"
+        },
+        {
+            "element": "inbox-notes",
+            "title": "tour.inbox_show.notes.title",
+            "body": "tour.inbox_show.notes.body",
+            "side": "top"
+        }
+    ],
+    "console/settings/Index": [
+        {
+            "title": "tour.settings.intro.title",
+            "body": "tour.settings.intro.body"
+        },
+        {
+            "element": "settings-inbox",
+            "title": "tour.settings.inbox.title",
+            "body": "tour.settings.inbox.body",
+            "side": "bottom"
+        },
+        {
+            "element": "settings-events",
+            "title": "tour.settings.events.title",
+            "body": "tour.settings.events.body",
+            "side": "bottom"
+        },
+        {
+            "element": "settings-retention",
+            "title": "tour.settings.retention.title",
+            "body": "tour.settings.retention.body",
+            "side": "top"
+        }
+    ],
+    "console/audit/Index": [
+        {
+            "title": "tour.audit.intro.title",
+            "body": "tour.audit.intro.body"
+        },
+        {
+            "element": "audit-search",
+            "title": "tour.audit.search.title",
+            "body": "tour.audit.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "audit-filters",
+            "title": "tour.audit.filters.title",
+            "body": "tour.audit.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "audit-table",
+            "title": "tour.audit.table.title",
+            "body": "tour.audit.table.body",
+            "side": "top"
+        }
+    ],
+    "console/reports/Department": [
+        {
+            "title": "tour.report.intro.title",
+            "body": "tour.report.intro.body"
+        },
+        {
+            "element": "report-range",
+            "title": "tour.report.range.title",
+            "body": "tour.report.range.body",
+            "side": "bottom"
+        },
+        {
+            "element": "report-tiles",
+            "title": "tour.report.tiles.title",
+            "body": "tour.report.tiles.body",
+            "side": "bottom"
+        },
+        {
+            "element": "report-members",
+            "title": "tour.report.members.title",
+            "body": "tour.report.members.body",
+            "side": "top"
+        },
+        {
+            "element": "report-export",
+            "title": "tour.report.export.title",
+            "body": "tour.report.export.body",
+            "side": "bottom"
+        }
     ]
 }

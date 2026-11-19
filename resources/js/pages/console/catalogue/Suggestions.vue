@@ -163,7 +163,7 @@ const types = [null, 'part', 'vendor', 'offer'] as const;
             :suggestions-count="suggestions.length"
         />
 
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2" data-tour="suggestions-filters">
             <Button
                 v-for="option in types"
                 :key="option ?? 'all'"
@@ -182,7 +182,7 @@ const types = [null, 'part', 'vendor', 'offer'] as const;
             {{ $t('Nothing waiting for review.') }}
         </p>
 
-        <ul class="grid gap-3">
+        <ul class="grid gap-3" data-tour="suggestions-list">
             <li
                 v-for="suggestion in suggestions"
                 :key="suggestion.key"

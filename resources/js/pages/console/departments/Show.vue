@@ -223,11 +223,16 @@ const isPublicDraft = ref(props.department.is_public);
                 :href="departmentReport(department.slug)"
                 class="ms-auto text-sm font-medium text-primary hover:underline"
                 data-test="department-report"
+                data-tour="department-report"
                 >{{ $t('Report') }}</Link
             >
         </div>
 
-        <nav class="flex gap-1 overflow-x-auto border-b" role="tablist">
+        <nav
+            class="flex gap-1 overflow-x-auto border-b"
+            role="tablist"
+            data-tour="department-tabs"
+        >
             <button
                 v-for="[key, label] in tabs"
                 :key="key"
@@ -248,7 +253,11 @@ const isPublicDraft = ref(props.department.is_public);
         </nav>
 
         <!-- Overview -->
-        <section v-if="tab === 'overview'" class="grid gap-6">
+        <section
+            v-if="tab === 'overview'"
+            class="grid gap-6"
+            data-tour="department-overview"
+        >
             <div class="grid gap-4 sm:grid-cols-3">
                 <div class="rounded-xl border bg-card p-5">
                     <p class="text-sm text-muted-foreground">

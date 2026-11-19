@@ -114,6 +114,7 @@ const columns: ListColumn<DepartmentRow>[] = [
         />
 
         <DataTable
+            tour="departments"
             :columns="columns"
             :rows="departments"
             :search-placeholder="$t('Search departments')"

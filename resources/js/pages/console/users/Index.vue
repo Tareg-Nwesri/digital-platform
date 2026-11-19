@@ -203,6 +203,7 @@ const columns: ListColumn<UserRow>[] = [
         />
 
         <DataTable
+            tour="users"
             :columns="columns"
             :rows="users"
             :search-placeholder="$t('Search by name or email')"

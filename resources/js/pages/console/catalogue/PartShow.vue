@@ -175,7 +175,10 @@ function restorePart(): void {
         <CatalogueNav current="parts" />
 
         <div class="grid gap-6 xl:grid-cols-2">
-            <section class="rounded-xl border bg-card p-5">
+            <section
+                class="rounded-xl border bg-card p-5"
+                data-tour="part-details"
+            >
                 <h3 class="mb-4 font-semibold">{{ $t('Details') }}</h3>
                 <PartForm
                     :part="part"
@@ -186,6 +189,7 @@ function restorePart(): void {
 
             <section
                 class="grid content-start gap-4 rounded-xl border bg-card p-5"
+                data-tour="part-offers"
             >
                 <div class="flex items-center justify-between gap-2">
                     <h3 class="font-semibold">{{ $t('Offers') }}</h3>

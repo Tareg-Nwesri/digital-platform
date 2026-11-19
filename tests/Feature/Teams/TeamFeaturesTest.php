@@ -68,6 +68,8 @@ it('treats a team as public only when active, marked public and the feature is o
     $starterPublic = Team::factory()->public()->create();
     $overridden = Team::factory()->public()->create();
     $this->features->override($overridden, TeamFeature::PublicProfile, true);
+    $switchedOff = Team::factory()->for($competition)->public()->create();
+    $this->features->override($switchedOff, TeamFeature::PublicProfile, false);
 
     expect(Team::query()->public()->pluck('id')->sort()->values()->all())
         ->toBe(collect([$visible->id, $overridden->id])->sort()->values()->all())

@@ -139,6 +139,7 @@ const columns: ListColumn<TeamRow>[] = [
         />
 
         <DataTable
+            tour="teams"
             :columns="columns"
             :rows="teams"
             :search-placeholder="$t('Search teams')"

@@ -60,7 +60,10 @@ function save(): void {
         />
 
         <form class="grid gap-6" @submit.prevent="save">
-            <section class="grid gap-4 rounded-xl border bg-card p-5">
+            <section
+                class="grid gap-4 rounded-xl border bg-card p-5"
+                data-tour="settings-inbox"
+            >
                 <h3 class="font-semibold">{{ $t('Inbox') }}</h3>
                 <div class="grid gap-2">
                     <Label for="inbox-department">{{
@@ -99,7 +102,10 @@ function save(): void {
                 </div>
             </section>
 
-            <section class="grid gap-4 rounded-xl border bg-card p-5">
+            <section
+                class="grid gap-4 rounded-xl border bg-card p-5"
+                data-tour="settings-events"
+            >
                 <h3 class="font-semibold">{{ $t('Events') }}</h3>
                 <label class="flex items-start gap-3 text-sm">
                     <Checkbox
@@ -120,7 +126,10 @@ function save(): void {
                 </label>
             </section>
 
-            <section class="grid gap-4 rounded-xl border bg-card p-5">
+            <section
+                class="grid gap-4 rounded-xl border bg-card p-5"
+                data-tour="settings-retention"
+            >
                 <h3 class="font-semibold">{{ $t('Data retention') }}</h3>
                 <div class="grid gap-2 sm:max-w-48">
                     <Label for="retention-months">{{

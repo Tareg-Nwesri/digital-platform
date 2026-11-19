@@ -164,6 +164,7 @@ const columns: ListColumn<EventRow>[] = [
         />
 
         <DataTable
+            tour="events"
             :columns="columns"
             :rows="events"
             :search-placeholder="$t('Search events')"

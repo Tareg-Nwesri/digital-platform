@@ -137,6 +137,7 @@ const columns: ListColumn<PartRow>[] = [
         <CatalogueNav current="parts" :suggestions-count="suggestionsCount" />
 
         <DataTable
+            tour="parts"
             :columns="columns"
             :rows="parts"
             :search-placeholder="$t('Search by name or part number')"

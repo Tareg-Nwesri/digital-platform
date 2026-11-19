@@ -142,6 +142,7 @@ const columns: ListColumn<PostRow>[] = [
         />
 
         <DataTable
+            tour="posts"
             :columns="columns"
             :rows="posts"
             :search-placeholder="$t('Search news')"

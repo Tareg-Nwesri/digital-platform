@@ -1,0 +1,20 @@
+# Hostinger: the project lives in public_html, so this file sends every
+# request into public/ and blocks dotfiles (.env, .git). The handler line
+# runs PHP 8.5; Hostinger's PHP selector cannot be switched for this site.
+AddHandler application/x-httpd-alt-php85 .php
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Allow SSL certificate renewal
+    RewriteRule ^\.well-known/ - [L]
+
+    # Block hidden files and folders (.env, .git, .github ...)
+    RewriteRule (^|/)\. - [F,L]
+
+    # Send everything else into Laravel's public folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

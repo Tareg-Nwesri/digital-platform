@@ -206,6 +206,9 @@ class Team extends Model implements HasMedia
 
     /**
      * Public teams: active, marked public and with the public.profile feature (LLD 03 §4).
+     * The team's override wins over its tier's value. Both are compared as
+     * unquoted text, which MySQL and MariaDB read alike (MariaDB has no
+     * JSON type to CAST to).
      *
      * @param  Builder<static>  $query
      */
@@ -216,9 +219,9 @@ class Team extends Model implements HasMedia
         $query->where('teams.status', TeamStatus::Active)
             ->where('teams.is_public', true)
             ->whereRaw("COALESCE(
-                (SELECT JSON_EXTRACT(o.value, '$') FROM team_feature_overrides o WHERE o.team_id = teams.id AND o.feature = ?),
-                (SELECT JSON_EXTRACT(t.features, CONCAT('$.\"', ?, '\"')) FROM tiers t WHERE t.id = teams.tier_id)
-            ) = CAST('true' AS JSON)", [$feature, $feature]);
+                (SELECT JSON_UNQUOTE(JSON_EXTRACT(o.value, '$')) FROM team_feature_overrides o WHERE o.team_id = teams.id AND o.feature = ?),
+                (SELECT JSON_UNQUOTE(JSON_EXTRACT(t.features, CONCAT('$.\"', ?, '\"'))) FROM tiers t WHERE t.id = teams.tier_id)
+            ) = 'true'", [$feature, $feature]);
     }
 
     /**

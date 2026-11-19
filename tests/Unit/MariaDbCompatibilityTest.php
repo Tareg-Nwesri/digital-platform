@@ -27,7 +27,7 @@ it('keeps raw SQL to what MariaDB also accepts', function (string $pattern) {
     expect($offenders)->toBe([]);
 })->with([
     'CAST(... AS JSON): MariaDB has no JSON type' => '/\bCAST\s*\(.*\bAS\s+JSON\b/i',
-    'the ->> and -> column operators' => '/[\'"][^\'"]*\w\s*->>?\s*[\'"$]/',
+    'the column->\'$.path\' and ->> operators' => '/\w\s*->>?\s*[\'"]\$/',
     'MEMBER OF()' => '/\bMEMBER\s+OF\s*\(/i',
     'ANY_VALUE()' => '/\bANY_VALUE\s*\(/i',
     'REGEXP_LIKE()' => '/\bREGEXP_LIKE\s*\(/i',

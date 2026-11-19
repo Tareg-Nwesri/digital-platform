@@ -132,7 +132,7 @@ function withdrawEntry(entry: Entry): void {
                     alt=""
                     class="aspect-[40/21] w-full object-cover sm:aspect-[5/2]"
                 />
-                <div class="grid gap-3 p-5">
+                <div class="grid gap-3 p-5" data-tour="wevent-facts">
                     <div class="flex flex-wrap items-center gap-2">
                         <h1 class="text-xl font-semibold">{{ event.title }}</h1>
                         <EventStatusBadge :status="event.status" />
@@ -150,6 +150,7 @@ function withdrawEntry(entry: Entry): void {
             <section
                 v-if="event.categories.length"
                 class="grid gap-3 rounded-xl border bg-card p-5"
+                data-tour="wevent-categories"
             >
                 <h2 class="font-semibold">{{ $t('Categories') }}</h2>
                 <ul class="grid gap-2 sm:grid-cols-2">
@@ -184,6 +185,7 @@ function withdrawEntry(entry: Entry): void {
             <section
                 v-if="event.rules"
                 class="grid gap-3 rounded-xl border bg-card p-5"
+                data-tour="wevent-rules"
             >
                 <h2 class="font-semibold">{{ $t('Rules') }}</h2>
                 <div class="rich-text" v-html="event.rules" />
@@ -193,7 +195,10 @@ function withdrawEntry(entry: Entry): void {
         </div>
 
         <aside class="grid content-start gap-4">
-            <section class="grid gap-3 rounded-xl border bg-card p-5">
+            <section
+                class="grid gap-3 rounded-xl border bg-card p-5"
+                data-tour="wevent-entries"
+            >
                 <h2 class="font-semibold">{{ $t('Your entries') }}</h2>
                 <p
                     v-if="entries.length === 0"
@@ -289,6 +294,7 @@ function withdrawEntry(entry: Entry): void {
                 v-if="can.apply && event.isOpen && event.categories.length"
                 class="grid gap-4 rounded-xl border bg-card p-5"
                 data-test="apply-form"
+                data-tour="wevent-apply"
                 @submit.prevent="submit"
             >
                 <h2 class="font-semibold">{{ $t('Apply to this event') }}</h2>

@@ -195,7 +195,11 @@ const urlPlaceholder = 'https:' + '//';
                         )
                     "
                 />
-                <div v-if="can.suggest" class="flex flex-wrap gap-2">
+                <div
+                    v-if="can.suggest"
+                    class="flex flex-wrap gap-2"
+                    data-tour="wcat-suggest"
+                >
                     <Button
                         variant="outline"
                         data-test="suggest-part"
@@ -212,6 +216,7 @@ const urlPlaceholder = 'https:' + '//';
 
             <div
                 class="grid gap-3 rounded-xl border bg-card p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center"
+                data-tour="wcat-filters"
             >
                 <div class="relative">
                     <Search
@@ -250,7 +255,7 @@ const urlPlaceholder = 'https:' + '//';
                 {{ $t('No parts match your search.') }}
             </p>
 
-            <ul class="grid gap-3 lg:grid-cols-2">
+            <ul class="grid gap-3 lg:grid-cols-2" data-tour="wcat-parts">
                 <li
                     v-for="part in parts.data"
                     :key="part.id"
@@ -370,7 +375,10 @@ const urlPlaceholder = 'https:' + '//';
             </nav>
         </div>
 
-        <aside class="grid content-start gap-3 rounded-xl border bg-card p-5">
+        <aside
+            class="grid content-start gap-3 rounded-xl border bg-card p-5"
+            data-tour="wcat-suggestions"
+        >
             <h2 class="font-semibold">{{ $t('Your suggestions') }}</h2>
             <p
                 v-if="suggestions.length === 0"

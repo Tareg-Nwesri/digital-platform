@@ -197,7 +197,10 @@ const sizeFields = [
             }}</Badge>
         </div>
 
-        <section class="grid gap-4 rounded-xl border bg-card p-5">
+        <section
+            class="grid gap-4 rounded-xl border bg-card p-5"
+            data-tour="robot-parts"
+        >
             <div class="flex flex-wrap items-end justify-between gap-3">
                 <h3 class="font-semibold">{{ $t('Parts list') }}</h3>
                 <div class="flex flex-wrap gap-3 text-sm">
@@ -377,6 +380,7 @@ const sizeFields = [
                     <Button
                         :disabled="bomForm.processing"
                         data-test="save-bom"
+                        data-tour="robot-save-parts"
                         @click="saveBom"
                         >{{ $t('Save parts list') }}</Button
                     >
@@ -387,6 +391,7 @@ const sizeFields = [
         <section
             v-if="bom.byVendor.length"
             class="grid gap-3 rounded-xl border bg-card p-5 print:border-0"
+            data-tour="robot-vendors"
         >
             <h3 class="font-semibold">{{ $t('Shopping list by vendor') }}</h3>
             <div
@@ -416,7 +421,10 @@ const sizeFields = [
             </div>
         </section>
 
-        <section class="grid gap-4 rounded-xl border bg-card p-5">
+        <section
+            class="grid gap-4 rounded-xl border bg-card p-5"
+            data-tour="robot-details"
+        >
             <h3 class="font-semibold">{{ $t('Details') }}</h3>
             <form class="grid gap-4" @submit.prevent="saveDetails">
                 <div class="grid gap-4 sm:grid-cols-3">

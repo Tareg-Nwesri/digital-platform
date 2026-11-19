@@ -768,4 +768,270 @@ return [
             'body' => 'Check each expense against its receipt, then approve it. The money leaves the team\'s budget; an expense larger than the budget is refused.',
         ],
     ],
+
+    'members' => [
+        'intro' => [
+            'title' => 'Team members',
+            'body' => 'Everyone on your team, with their role. The number shows how many places your tier allows.',
+        ],
+        'add' => [
+            'title' => 'Add people',
+            'body' => 'Invite someone by email so they can sign in, or add a member who has no login (for example a younger student). Only people allowed to manage the team see these buttons, and they are disabled when the team is full.',
+        ],
+        'list' => [
+            'title' => 'The members',
+            'body' => 'Each member shows their role and whether they can sign in. People who manage the team can change roles or remove members.',
+        ],
+        'leave' => [
+            'title' => 'Leave the team',
+            'body' => 'Everyone except the captain can leave the team from here.',
+        ],
+    ],
+
+    'projects' => [
+        'intro' => [
+            'title' => 'Projects',
+            'body' => 'What your team is building and writing about. Published projects can appear on the public website.',
+        ],
+        'new' => [
+            'title' => 'New project',
+            'body' => 'Start a project with an Arabic and an English title; you fill in the rest on its page. Only people who may create projects see this button.',
+        ],
+        'list' => [
+            'title' => 'Your projects',
+            'body' => 'Each card shows the status (draft or published), the number of robots and the publish date. Click one to edit it.',
+        ],
+    ],
+
+    'project_edit' => [
+        'intro' => [
+            'title' => 'Edit a project',
+            'body' => 'Write the project in Arabic and English. Nothing is public until it is published.',
+        ],
+        'arabic' => [
+            'title' => 'Arabic text',
+            'body' => 'Title, short summary and full text in Arabic. The editor supports headings, lists, links and images.',
+        ],
+        'english' => [
+            'title' => 'English text',
+            'body' => 'The same in English. Visitors see the language they chose, so fill both.',
+        ],
+        'save' => [
+            'title' => 'Save',
+            'body' => 'Saves your changes without publishing. If you may only view the project, this button is hidden.',
+        ],
+        'publishing' => [
+            'title' => 'Publishing and robots',
+            'body' => 'The captain or a coach publishes the project or moves it back to draft. Below are the robots linked to it, and you can delete the project.',
+        ],
+    ],
+
+    'robots' => [
+        'intro' => [
+            'title' => 'Robots',
+            'body' => 'Your team\'s robots. Each has a parts list priced from the catalogue, and robots entered in events need their measurements.',
+        ],
+        'new' => [
+            'title' => 'New robot',
+            'body' => 'Give the robot a name and a status, and optionally link it to a project. Only people who may create robots see this button.',
+        ],
+        'list' => [
+            'title' => 'Your robots',
+            'body' => 'Each card shows the status, how many parts are listed and the linked project. Click one to open its parts list and details.',
+        ],
+    ],
+
+    'robot_show' => [
+        'intro' => [
+            'title' => 'A robot',
+            'body' => 'The robot\'s parts list, its cost by vendor and its details, including the measurements events ask for.',
+        ],
+        'parts' => [
+            'title' => 'Parts list',
+            'body' => 'Add parts from the catalogue with a quantity. The total is the cheapest known price for each part, and parts without a price are counted separately.',
+        ],
+        'save_parts' => [
+            'title' => 'Save the parts list',
+            'body' => 'Your changes to the parts list are saved only when you press this.',
+        ],
+        'vendors' => [
+            'title' => 'Shopping list by vendor',
+            'body' => 'The same parts grouped by the vendor selling them cheapest, with the vendor\'s phone, so you can buy in one go. You can print this page.',
+        ],
+        'details' => [
+            'title' => 'Details',
+            'body' => 'Name, status, linked project, weight and the length, width and height in millimetres, and a description in Arabic and English. Event applications use the measurements.',
+        ],
+    ],
+
+    'team_settings' => [
+        'intro' => [
+            'title' => 'Team settings',
+            'body' => 'How your team appears on the website. The team name and tier are set by the organisers.',
+        ],
+        'logo' => [
+            'title' => 'Team logo',
+            'body' => 'Upload a PNG, JPG or WebP logo. It is shown on your public profile.',
+        ],
+        'basics' => [
+            'title' => 'City and website',
+            'body' => 'Where the team is based and its own website address, if it has one.',
+        ],
+        'texts' => [
+            'title' => 'Descriptions',
+            'body' => 'Say what the team works on, in Arabic and in English. Visitors see the language they chose.',
+        ],
+        'public' => [
+            'title' => 'Show on the website',
+            'body' => 'Tick this to publish your team profile. It is available only if your tier includes a public profile; then press Save.',
+        ],
+    ],
+
+    'wevents' => [
+        'intro' => [
+            'title' => 'Events',
+            'body' => 'Competitions and activities your team can join. Applications are made with your own members and robots.',
+        ],
+        'list' => [
+            'title' => 'Open events',
+            'body' => 'Each card shows the event, its dates and status. Click one to read the rules and apply.',
+        ],
+    ],
+
+    'wevent_show' => [
+        'intro' => [
+            'title' => 'An event',
+            'body' => 'Everything you need to decide and apply: the facts, the categories, the rules and your team\'s entries.',
+        ],
+        'facts' => [
+            'title' => 'The facts',
+            'body' => 'Name, status, dates and place of the event.',
+        ],
+        'categories' => [
+            'title' => 'Categories',
+            'body' => 'The competitions inside the event. You apply to a category, and each may limit the number of members, robots or teams.',
+        ],
+        'rules' => [
+            'title' => 'Rules',
+            'body' => 'Read these before applying. They are the rules the judges use.',
+        ],
+        'entries' => [
+            'title' => 'Your entries',
+            'body' => 'Your team\'s applications and their status. If you are invited you can accept; you can withdraw an entry while that is still allowed.',
+        ],
+        'apply' => [
+            'title' => 'Apply',
+            'body' => 'Choose the category, the members who take part and the robot. Warnings tell you about anything missing, such as robot measurements. Only people allowed to apply, and only while the event is open, see this form.',
+        ],
+    ],
+
+    'budget' => [
+        'intro' => [
+            'title' => 'Budget',
+            'body' => 'Your team asks the foundation for funding here, and records what it spends with the receipt.',
+        ],
+        'actions' => [
+            'title' => 'Request or spend',
+            'body' => 'Request funding to ask for money; once approved it sits in your team budget. Record an expense after you spend, with its receipt. Each button appears only for people allowed to use it.',
+        ],
+        'cards' => [
+            'title' => 'Your budgets',
+            'body' => 'The balance of each budget, with how much was funded and how much was spent. A budget is created when your first request is approved.',
+        ],
+        'requests' => [
+            'title' => 'Funding requests',
+            'body' => 'Your requests and where they stand: waiting, approved (maybe for less than you asked), sent back for changes, or rejected.',
+        ],
+        'expenses' => [
+            'title' => 'Expenses',
+            'body' => 'What you recorded and whether finance approved it. An approved expense leaves your budget; one larger than the balance is refused.',
+        ],
+    ],
+
+    'wcat' => [
+        'intro' => [
+            'title' => 'Catalogue',
+            'body' => 'Parts and where to buy them, with prices from the vendors. Use it to fill your robot\'s parts list.',
+        ],
+        'suggest' => [
+            'title' => 'Suggest something missing',
+            'body' => 'Can\'t find a part or a vendor? Suggest it and the organisers review it. Only people allowed to suggest see these buttons.',
+        ],
+        'filters' => [
+            'title' => 'Search and filter',
+            'body' => 'Search by name or part number, pick a category, or show only parts in stock.',
+        ],
+        'parts' => [
+            'title' => 'The parts',
+            'body' => 'Each part shows its offers from different vendors. You can also suggest a price for a part you found cheaper elsewhere.',
+        ],
+        'suggestions' => [
+            'title' => 'Your suggestions',
+            'body' => 'What you suggested and its status: waiting for review, approved or rejected.',
+        ],
+    ],
+
+    'profile' => [
+        'intro' => [
+            'title' => 'Your profile',
+            'body' => 'Your name and email address. The tabs beside or above list the other account settings.',
+        ],
+        'form' => [
+            'title' => 'Name and email',
+            'body' => 'Your name in English and Arabic, and the email you sign in with. If you change the email you must verify it again.',
+        ],
+        'save' => [
+            'title' => 'Save',
+            'body' => 'Applies your changes.',
+        ],
+        'delete' => [
+            'title' => 'Delete account',
+            'body' => 'Permanently removes your account after you confirm with your password. This cannot be undone.',
+        ],
+    ],
+
+    'security' => [
+        'intro' => [
+            'title' => 'Security',
+            'body' => 'Keep your account safe: a strong password, a second step at sign-in and passkeys.',
+        ],
+        'password' => [
+            'title' => 'Change your password',
+            'body' => 'Enter your current password, then a new long, random one twice.',
+        ],
+        'twofactor' => [
+            'title' => 'Two-factor authentication',
+            'body' => 'Adds a code from an authenticator app when you sign in. Shown only where it is available.',
+        ],
+        'passkeys' => [
+            'title' => 'Passkeys',
+            'body' => 'Sign in with your fingerprint, face or device lock instead of a password. Shown only where it is available.',
+        ],
+    ],
+
+    'appearance' => [
+        'intro' => [
+            'title' => 'Appearance',
+            'body' => 'Choose how the platform looks on this device.',
+        ],
+        'tabs' => [
+            'title' => 'Light, dark or system',
+            'body' => 'Light and dark are fixed; System follows your device. The choice is remembered in this browser.',
+        ],
+    ],
+
+    'earnings' => [
+        'intro' => [
+            'title' => 'My earnings',
+            'body' => 'Payments the foundation has approved or made to you. Only you can see this page.',
+        ],
+        'totals' => [
+            'title' => 'Totals by year',
+            'body' => 'What was paid to you in each year, per currency.',
+        ],
+        'list' => [
+            'title' => 'Your payments',
+            'body' => 'Each payment with its amount and status, so you can tell when it is approved and when it is paid.',
+        ],
+    ],
 ];

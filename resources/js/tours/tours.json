@@ -983,5 +983,353 @@
             "body": "tour.team_budgets.expenses.body",
             "side": "top"
         }
+    ],
+    "workspace/members/Index": [
+        {
+            "title": "tour.members.intro.title",
+            "body": "tour.members.intro.body"
+        },
+        {
+            "element": "members-add",
+            "title": "tour.members.add.title",
+            "body": "tour.members.add.body",
+            "side": "bottom"
+        },
+        {
+            "element": "members-list",
+            "title": "tour.members.list.title",
+            "body": "tour.members.list.body",
+            "side": "top"
+        },
+        {
+            "element": "members-leave",
+            "title": "tour.members.leave.title",
+            "body": "tour.members.leave.body",
+            "side": "top"
+        }
+    ],
+    "workspace/projects/Index": [
+        {
+            "title": "tour.projects.intro.title",
+            "body": "tour.projects.intro.body"
+        },
+        {
+            "element": "projects-new",
+            "title": "tour.projects.new.title",
+            "body": "tour.projects.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "projects-list",
+            "title": "tour.projects.list.title",
+            "body": "tour.projects.list.body",
+            "side": "top"
+        }
+    ],
+    "workspace/projects/Edit": [
+        {
+            "title": "tour.project_edit.intro.title",
+            "body": "tour.project_edit.intro.body"
+        },
+        {
+            "element": "project-arabic",
+            "title": "tour.project_edit.arabic.title",
+            "body": "tour.project_edit.arabic.body",
+            "side": "bottom"
+        },
+        {
+            "element": "project-english",
+            "title": "tour.project_edit.english.title",
+            "body": "tour.project_edit.english.body",
+            "side": "top"
+        },
+        {
+            "element": "project-save",
+            "title": "tour.project_edit.save.title",
+            "body": "tour.project_edit.save.body",
+            "side": "top"
+        },
+        {
+            "element": "project-publishing",
+            "title": "tour.project_edit.publishing.title",
+            "body": "tour.project_edit.publishing.body",
+            "side": "left"
+        }
+    ],
+    "workspace/robots/Index": [
+        {
+            "title": "tour.robots.intro.title",
+            "body": "tour.robots.intro.body"
+        },
+        {
+            "element": "robots-new",
+            "title": "tour.robots.new.title",
+            "body": "tour.robots.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "robots-list",
+            "title": "tour.robots.list.title",
+            "body": "tour.robots.list.body",
+            "side": "top"
+        }
+    ],
+    "workspace/robots/Show": [
+        {
+            "title": "tour.robot_show.intro.title",
+            "body": "tour.robot_show.intro.body"
+        },
+        {
+            "element": "robot-parts",
+            "title": "tour.robot_show.parts.title",
+            "body": "tour.robot_show.parts.body",
+            "side": "bottom"
+        },
+        {
+            "element": "robot-save-parts",
+            "title": "tour.robot_show.save_parts.title",
+            "body": "tour.robot_show.save_parts.body",
+            "side": "top"
+        },
+        {
+            "element": "robot-vendors",
+            "title": "tour.robot_show.vendors.title",
+            "body": "tour.robot_show.vendors.body",
+            "side": "top"
+        },
+        {
+            "element": "robot-details",
+            "title": "tour.robot_show.details.title",
+            "body": "tour.robot_show.details.body",
+            "side": "top"
+        }
+    ],
+    "workspace/settings/Edit": [
+        {
+            "title": "tour.team_settings.intro.title",
+            "body": "tour.team_settings.intro.body"
+        },
+        {
+            "element": "settings-logo",
+            "title": "tour.team_settings.logo.title",
+            "body": "tour.team_settings.logo.body",
+            "side": "bottom"
+        },
+        {
+            "element": "settings-basics",
+            "title": "tour.team_settings.basics.title",
+            "body": "tour.team_settings.basics.body",
+            "side": "bottom"
+        },
+        {
+            "element": "settings-texts",
+            "title": "tour.team_settings.texts.title",
+            "body": "tour.team_settings.texts.body",
+            "side": "top"
+        },
+        {
+            "element": "settings-public",
+            "title": "tour.team_settings.public.title",
+            "body": "tour.team_settings.public.body",
+            "side": "top"
+        }
+    ],
+    "workspace/events/Index": [
+        {
+            "title": "tour.wevents.intro.title",
+            "body": "tour.wevents.intro.body"
+        },
+        {
+            "element": "wevents-list",
+            "title": "tour.wevents.list.title",
+            "body": "tour.wevents.list.body",
+            "side": "top"
+        },
+        {
+            "element": "app-sidebar",
+            "title": "tour.common.sidebar.title",
+            "body": "tour.common.sidebar.body",
+            "side": "right"
+        }
+    ],
+    "workspace/events/Show": [
+        {
+            "title": "tour.wevent_show.intro.title",
+            "body": "tour.wevent_show.intro.body"
+        },
+        {
+            "element": "wevent-facts",
+            "title": "tour.wevent_show.facts.title",
+            "body": "tour.wevent_show.facts.body",
+            "side": "bottom"
+        },
+        {
+            "element": "wevent-categories",
+            "title": "tour.wevent_show.categories.title",
+            "body": "tour.wevent_show.categories.body",
+            "side": "top"
+        },
+        {
+            "element": "wevent-rules",
+            "title": "tour.wevent_show.rules.title",
+            "body": "tour.wevent_show.rules.body",
+            "side": "top"
+        },
+        {
+            "element": "wevent-entries",
+            "title": "tour.wevent_show.entries.title",
+            "body": "tour.wevent_show.entries.body",
+            "side": "left"
+        },
+        {
+            "element": "wevent-apply",
+            "title": "tour.wevent_show.apply.title",
+            "body": "tour.wevent_show.apply.body",
+            "side": "left"
+        }
+    ],
+    "workspace/budget/Index": [
+        {
+            "title": "tour.budget.intro.title",
+            "body": "tour.budget.intro.body"
+        },
+        {
+            "element": "budget-actions",
+            "title": "tour.budget.actions.title",
+            "body": "tour.budget.actions.body",
+            "side": "bottom"
+        },
+        {
+            "element": "budget-cards",
+            "title": "tour.budget.cards.title",
+            "body": "tour.budget.cards.body",
+            "side": "bottom"
+        },
+        {
+            "element": "budget-requests",
+            "title": "tour.budget.requests.title",
+            "body": "tour.budget.requests.body",
+            "side": "top"
+        },
+        {
+            "element": "budget-expenses",
+            "title": "tour.budget.expenses.title",
+            "body": "tour.budget.expenses.body",
+            "side": "top"
+        }
+    ],
+    "workspace/catalogue/Index": [
+        {
+            "title": "tour.wcat.intro.title",
+            "body": "tour.wcat.intro.body"
+        },
+        {
+            "element": "wcat-suggest",
+            "title": "tour.wcat.suggest.title",
+            "body": "tour.wcat.suggest.body",
+            "side": "bottom"
+        },
+        {
+            "element": "wcat-filters",
+            "title": "tour.wcat.filters.title",
+            "body": "tour.wcat.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "wcat-parts",
+            "title": "tour.wcat.parts.title",
+            "body": "tour.wcat.parts.body",
+            "side": "top"
+        },
+        {
+            "element": "wcat-suggestions",
+            "title": "tour.wcat.suggestions.title",
+            "body": "tour.wcat.suggestions.body",
+            "side": "left"
+        }
+    ],
+    "settings/Profile": [
+        {
+            "title": "tour.profile.intro.title",
+            "body": "tour.profile.intro.body"
+        },
+        {
+            "element": "profile-form",
+            "title": "tour.profile.form.title",
+            "body": "tour.profile.form.body",
+            "side": "bottom"
+        },
+        {
+            "element": "profile-save",
+            "title": "tour.profile.save.title",
+            "body": "tour.profile.save.body",
+            "side": "top"
+        },
+        {
+            "element": "profile-delete",
+            "title": "tour.profile.delete.title",
+            "body": "tour.profile.delete.body",
+            "side": "top"
+        }
+    ],
+    "settings/Security": [
+        {
+            "title": "tour.security.intro.title",
+            "body": "tour.security.intro.body"
+        },
+        {
+            "element": "security-password",
+            "title": "tour.security.password.title",
+            "body": "tour.security.password.body",
+            "side": "bottom"
+        },
+        {
+            "element": "security-twofactor",
+            "title": "tour.security.twofactor.title",
+            "body": "tour.security.twofactor.body",
+            "side": "top"
+        },
+        {
+            "element": "security-passkeys",
+            "title": "tour.security.passkeys.title",
+            "body": "tour.security.passkeys.body",
+            "side": "top"
+        }
+    ],
+    "settings/Appearance": [
+        {
+            "title": "tour.appearance.intro.title",
+            "body": "tour.appearance.intro.body"
+        },
+        {
+            "element": "appearance-tabs",
+            "title": "tour.appearance.tabs.title",
+            "body": "tour.appearance.tabs.body",
+            "side": "bottom"
+        },
+        {
+            "element": "user-menu",
+            "title": "tour.common.user_menu.title",
+            "body": "tour.common.user_menu.body",
+            "side": "top"
+        }
+    ],
+    "settings/Earnings": [
+        {
+            "title": "tour.earnings.intro.title",
+            "body": "tour.earnings.intro.body"
+        },
+        {
+            "element": "earnings-totals",
+            "title": "tour.earnings.totals.title",
+            "body": "tour.earnings.totals.body",
+            "side": "bottom"
+        },
+        {
+            "element": "earnings-list",
+            "title": "tour.earnings.list.title",
+            "body": "tour.earnings.list.body",
+            "side": "top"
+        }
     ]
 }

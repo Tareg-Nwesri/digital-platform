@@ -161,7 +161,7 @@ const editableRoles = ['coach', 'member', 'viewer'];
                     })
                 "
             />
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2" data-tour="members-add">
                 <Button
                     v-if="can.invite"
                     :disabled="full"
@@ -195,7 +195,7 @@ const editableRoles = ['coach', 'member', 'viewer'];
             }}
         </p>
 
-        <ul class="grid gap-2">
+        <ul class="grid gap-2" data-tour="members-list">
             <li
                 v-for="member in members"
                 :key="member.id"
@@ -306,7 +306,11 @@ const editableRoles = ['coach', 'member', 'viewer'];
             </ul>
         </section>
 
-        <div v-if="me && me.role !== 'captain'" class="border-t pt-4">
+        <div
+            v-if="me && me.role !== 'captain'"
+            class="border-t pt-4"
+            data-tour="members-leave"
+        >
             <Button
                 variant="ghost"
                 class="text-destructive"

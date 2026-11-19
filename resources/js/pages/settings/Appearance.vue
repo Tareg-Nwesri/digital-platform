@@ -27,6 +27,6 @@ defineOptions({
             :title="$t('Appearance settings')"
             :description="$t('Update the appearance settings for your account')"
         />
-        <AppearanceTabs />
+        <AppearanceTabs data-tour="appearance-tabs" />
     </div>
 </template>

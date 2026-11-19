@@ -40,7 +40,7 @@ defineProps<{
             {{ $t('No events are open right now.') }}
         </p>
 
-        <ul class="grid gap-4 md:grid-cols-2">
+        <ul class="grid gap-4 md:grid-cols-2" data-tour="wevents-list">
             <li v-for="event in events" :key="event.slug">
                 <Link
                     :href="show([team.slug, event.slug])"

@@ -49,6 +49,7 @@ defineOptions({
         />
 
         <Form
+            data-tour="security-password"
             v-bind="SecurityController.update.form()"
             :options="{
                 preserveScroll: true,
@@ -116,12 +117,14 @@ defineOptions({
     </div>
 
     <ManageTwoFactor
+        data-tour="security-twofactor"
         :canManageTwoFactor="canManageTwoFactor"
         :requiresConfirmation="requiresConfirmation"
         :twoFactorEnabled="twoFactorEnabled"
     />
 
     <ManagePasskeys
+        data-tour="security-passkeys"
         :canManagePasskeys="canManagePasskeys"
         :passkeys="passkeys"
     />

@@ -56,6 +56,7 @@ function create(): void {
             <Button
                 v-if="can.create"
                 data-test="new-project"
+                data-tour="projects-new"
                 @click="open = true"
             >
                 <Plus class="size-4" />
@@ -66,7 +67,10 @@ function create(): void {
         <p v-if="projects.length === 0" class="text-sm text-muted-foreground">
             {{ $t('No projects yet.') }}
         </p>
-        <ul class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <ul
+            class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
+            data-tour="projects-list"
+        >
             <li v-for="project in projects" :key="project.id">
                 <Link
                     :href="edit([team.slug, project.slug])"

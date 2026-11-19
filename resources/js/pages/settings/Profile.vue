@@ -40,6 +40,7 @@ const user = computed(() => page.props.auth.user);
         />
 
         <Form
+            data-tour="profile-form"
             v-bind="ProfileController.update.form()"
             class="space-y-6"
             v-slot="{ errors, processing }"
@@ -116,11 +117,12 @@ const user = computed(() => page.props.auth.user);
                 <Button
                     :disabled="processing"
                     data-test="update-profile-button"
+                    data-tour="profile-save"
                     >{{ $t('Save') }}</Button
                 >
             </div>
         </Form>
     </div>
 
-    <DeleteUser />
+    <DeleteUser data-tour="profile-delete" />
 </template>

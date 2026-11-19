@@ -12,7 +12,7 @@ use Symfony\Component\Finder\Finder;
  * Page-name prefixes whose tours are not written yet. Empty it once every
  * page has a tour, so the test then requires all of them.
  */
-const TOUR_PAGES_PENDING = ['workspace/', 'settings/'];
+const TOUR_PAGES_PENDING = [];
 
 /**
  * Shared layout targets that only some pages' tours point at.

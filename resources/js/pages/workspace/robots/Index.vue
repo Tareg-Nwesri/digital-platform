@@ -62,6 +62,7 @@ function create(): void {
             <Button
                 v-if="can.create"
                 data-test="new-robot"
+                data-tour="robots-new"
                 @click="open = true"
             >
                 <Plus class="size-4" />
@@ -72,7 +73,10 @@ function create(): void {
         <p v-if="robots.length === 0" class="text-sm text-muted-foreground">
             {{ $t('No robots yet.') }}
         </p>
-        <ul class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <ul
+            class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
+            data-tour="robots-list"
+        >
             <li v-for="robot in robots" :key="robot.id">
                 <Link
                     :href="show([team.slug, robot.slug])"

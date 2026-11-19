@@ -96,6 +96,7 @@ const textareaClass =
                 class="grid gap-4 rounded-xl border bg-card p-5"
                 lang="ar"
                 dir="rtl"
+                data-tour="project-arabic"
             >
                 <h3 class="font-semibold">{{ $t('Arabic') }}</h3>
                 <div class="grid gap-2">
@@ -130,6 +131,7 @@ const textareaClass =
                 class="grid gap-4 rounded-xl border bg-card p-5"
                 lang="en"
                 dir="ltr"
+                data-tour="project-english"
             >
                 <h3 class="font-semibold">{{ $t('English') }}</h3>
                 <div class="grid gap-2">
@@ -169,12 +171,16 @@ const textareaClass =
                     type="submit"
                     :disabled="form.processing"
                     data-test="save-project"
+                    data-tour="project-save"
                     >{{ $t('Save project') }}</Button
                 >
             </div>
         </form>
 
-        <aside class="grid content-start gap-4 rounded-xl border bg-card p-5">
+        <aside
+            class="grid content-start gap-4 rounded-xl border bg-card p-5"
+            data-tour="project-publishing"
+        >
             <Button
                 v-if="can.publish"
                 :variant="

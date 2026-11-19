@@ -213,7 +213,7 @@ const errorsOf = (form: { errors: object }): Record<string, string> =>
                     )
                 "
             />
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2" data-tour="budget-actions">
                 <Button
                     v-if="can.request && sources.length"
                     data-test="new-request"
@@ -244,7 +244,10 @@ const errorsOf = (form: { errors: object }): Record<string, string> =>
                 )
             }}
         </p>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+            class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            data-tour="budget-cards"
+        >
             <div
                 v-for="budget in budgets"
                 :key="budget.id"
@@ -267,6 +270,7 @@ const errorsOf = (form: { errors: object }): Record<string, string> =>
         <div class="grid gap-6 lg:grid-cols-2">
             <section
                 class="grid content-start gap-3 rounded-xl border bg-card p-5"
+                data-tour="budget-requests"
             >
                 <h2 class="font-semibold">{{ $t('Funding requests') }}</h2>
                 <p
@@ -335,6 +339,7 @@ const errorsOf = (form: { errors: object }): Record<string, string> =>
 
             <section
                 class="grid content-start gap-3 rounded-xl border bg-card p-5"
+                data-tour="budget-expenses"
             >
                 <h2 class="font-semibold">{{ $t('Expenses') }}</h2>
                 <p

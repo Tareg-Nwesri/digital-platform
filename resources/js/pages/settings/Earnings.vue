@@ -39,7 +39,11 @@ defineOptions({
             "
         />
 
-        <div v-if="totals.length > 0" class="grid gap-3 sm:grid-cols-2">
+        <div
+            v-if="totals.length > 0"
+            class="grid gap-3 sm:grid-cols-2"
+            data-tour="earnings-totals"
+        >
             <div
                 v-for="total in totals"
                 :key="`${total.year}-${total.amount.currency}`"
@@ -58,7 +62,7 @@ defineOptions({
             {{ $t('No payments yet.') }}
         </p>
 
-        <ul class="grid gap-2">
+        <ul class="grid gap-2" data-tour="earnings-list">
             <li
                 v-for="payout in payouts"
                 :key="payout.id"

@@ -102,6 +102,7 @@ const textareaClass =
 
         <section
             class="flex flex-wrap items-center gap-4 rounded-xl border bg-card p-5"
+            data-tour="settings-logo"
         >
             <img
                 v-if="team.logo"
@@ -151,7 +152,10 @@ const textareaClass =
         </section>
 
         <form class="grid gap-5" @submit.prevent="save">
-            <section class="grid gap-4 rounded-xl border bg-card p-5">
+            <section
+                class="grid gap-4 rounded-xl border bg-card p-5"
+                data-tour="settings-basics"
+            >
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div class="grid gap-2">
                         <Label for="location">{{ $t('City') }}</Label>
@@ -180,6 +184,7 @@ const textareaClass =
                 class="grid gap-4 rounded-xl border bg-card p-5"
                 lang="ar"
                 dir="rtl"
+                data-tour="settings-texts"
             >
                 <h3 class="font-semibold">{{ $t('Arabic') }}</h3>
                 <div class="grid gap-2">
@@ -236,7 +241,10 @@ const textareaClass =
                 </div>
             </section>
 
-            <section class="grid gap-2 rounded-xl border bg-card p-5">
+            <section
+                class="grid gap-2 rounded-xl border bg-card p-5"
+                data-tour="settings-public"
+            >
                 <Label class="flex items-center gap-3 font-normal">
                     <Checkbox
                         :model-value="form.is_public"

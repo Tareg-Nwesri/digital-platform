@@ -23,6 +23,9 @@ const page = usePage();
 const current = computed(() => page.props.workspace);
 const workspaces = computed(() => page.props.auth.workspaces ?? []);
 
+/** Organisation-wide console pages (/admin/...) have no workspace of their own. */
+const inConsole = computed(() => page.url.startsWith('/admin'));
+
 function href(workspace: { type: string; slug: string }) {
     return workspace.type === 'team'
         ? teamDashboard(workspace.slug)
@@ -55,7 +58,12 @@ function href(workspace: { type: string; slug: string }) {
                                 }}
                             </span>
                             <span class="truncate font-semibold">
-                                {{ current?.name ?? $t('Choose a workspace') }}
+                                {{
+                                    current?.name ??
+                                    (inConsole
+                                        ? $t('Organisation console')
+                                        : $t('Choose a workspace'))
+                                }}
                             </span>
                         </div>
                         <ChevronsUpDown class="ms-auto size-4" />
@@ -76,8 +84,12 @@ function href(workspace: { type: string; slug: string }) {
                         >
                             <span class="truncate">{{ workspace.name }}</span>
                             <span
-                                class="ms-auto text-xs text-muted-foreground capitalize"
-                                >{{ workspace.type }}</span
+                                class="ms-auto text-xs text-muted-foreground"
+                                >{{
+                                    workspace.type === 'team'
+                                        ? $t('Team')
+                                        : $t('Department')
+                                }}</span
                             >
                             <Check
                                 v-if="

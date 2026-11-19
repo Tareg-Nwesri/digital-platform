@@ -93,6 +93,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Approvals' },
         ],
     },
 });
@@ -252,7 +253,8 @@ const descriptions: Record<Action, string> = {
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Finance')"
+            eyebrow="Finance"
+            :title="$t('Approvals')"
             :description="
                 $t(
                     'Approve or reject what others prepared. You cannot approve your own work.',

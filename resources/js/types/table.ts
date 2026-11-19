@@ -33,12 +33,14 @@ export const tableFeaturesForLists = tableFeatures({});
 
 /**
  * A column of a server-driven list. Set meta.sortable to true (sort by the
- * column id) or to the server column name that TableQuery allows.
+ * column id) or to the server column name that TableQuery allows. Set
+ * meta.align to "end" for numbers and amounts, so they line up on the
+ * reading-end side in both languages.
  */
 export type ListColumn<T extends RowData> = ColumnDef<
     typeof tableFeaturesForLists,
     T,
     any
 > & {
-    meta?: { sortable?: boolean | string };
+    meta?: { sortable?: boolean | string; align?: 'start' | 'end' };
 };

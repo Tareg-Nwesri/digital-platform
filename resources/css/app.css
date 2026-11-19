@@ -11,7 +11,8 @@
     --font-sans:
         Manrope, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-arabic: 'IBM Plex Sans Arabic', Manrope, Tahoma, ui-sans-serif, sans-serif;
+    --font-arabic:
+        'IBM Plex Sans Arabic', Manrope, Tahoma, ui-sans-serif, sans-serif;
 
     --color-brand: var(--brand);
     --color-brand-strong: var(--brand-strong);
@@ -218,6 +219,43 @@
 
     .rich-text :where(a) {
         @apply underline;
+    }
+
+    /*
+      Left-to-right snippets (dates, numbers, codes, emails, links) inside a
+      grid or a column stack become blocks, and a block's "start" follows its
+      own direction: in Arabic they would hug the left edge. Keep them on the
+      page's reading-start side instead.
+    */
+    :where(.grid, .flex-col) > :is(span, a, code, time, bdi, small)[dir='ltr'] {
+        justify-self: start;
+        align-self: start;
+    }
+
+    /*
+      Section tabs: the sub-navigation under a page heading (Finance,
+      Catalogue) and the in-page tabs of department, team and event pages.
+      Scrolls sideways on small screens without showing a scrollbar.
+    */
+    .section-tabs {
+        @apply flex gap-1 overflow-x-auto border-b;
+        scrollbar-width: none;
+    }
+
+    .section-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .section-tab {
+        @apply -mb-px inline-flex items-center gap-2 rounded-t-md border-b-2 border-transparent px-3 py-2.5 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none;
+    }
+
+    .section-tab:is([aria-current='page'], [aria-selected='true']) {
+        @apply border-primary text-foreground hover:bg-transparent;
+    }
+
+    .section-tab-count {
+        @apply min-w-5 rounded-full bg-primary px-1.5 text-center text-xs leading-5 text-primary-foreground tabular-nums;
     }
 }
 

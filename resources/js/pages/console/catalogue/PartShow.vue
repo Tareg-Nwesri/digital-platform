@@ -2,7 +2,7 @@
 import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm, setLayoutProps } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
 import { computed } from 'vue';
@@ -56,13 +56,12 @@ const props = defineProps<{
     can: { manage: boolean };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: dashboard() },
-            { title: 'Catalogue', href: index() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: dashboard() },
+        { title: 'Catalogue', href: index() },
+        { title: props.part.name },
+    ],
 });
 
 const approvedOffers = computed(() =>

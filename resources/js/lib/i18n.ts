@@ -52,3 +52,12 @@ export function formatNumber(
         numberingSystem: 'latn',
     }).format(value);
 }
+
+/**
+ * Wraps text in a left-to-right isolate (U+2066 … U+2069). Use it for number
+ * ranges, ratios and codes placed inside Arabic sentences: without it "1–10"
+ * or "2 / 5" are reordered by the bidi algorithm and read backwards.
+ */
+export function isolateLtr(text: string | number): string {
+    return `\u2066${text}\u2069`;
+}

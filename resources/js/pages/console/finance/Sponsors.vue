@@ -48,6 +48,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Sponsors' },
         ],
     },
 });
@@ -126,7 +127,8 @@ const columns: ListColumn<SponsorRow>[] = [
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Finance')"
+            eyebrow="Finance"
+            :title="$t('Sponsors')"
             :description="
                 $t('Sponsors, their contacts and what they have pledged.')
             "

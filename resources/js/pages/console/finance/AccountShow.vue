@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DatePicker from '@/components/forms/DatePicker.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, setLayoutProps } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import FinanceNav from '@/components/finance/FinanceNav.vue';
 import Money from '@/components/finance/Money.vue';
@@ -46,13 +46,12 @@ const props = defineProps<{
     };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: consoleDashboard() },
-            { title: 'Finance', href: dashboard() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: consoleDashboard() },
+        { title: 'Finance', href: dashboard() },
+        { title: props.account.name },
+    ],
 });
 
 const from = ref(props.statement.from);
@@ -129,8 +128,8 @@ function apply(): void {
                 </thead>
                 <tbody>
                     <tr class="border-b bg-muted/40">
-                        <td class="px-4 py-2 tabular-nums" dir="ltr">
-                            {{ statement.from }}
+                        <td class="px-4 py-2 whitespace-nowrap tabular-nums">
+                            <span dir="ltr">{{ statement.from }}</span>
                         </td>
                         <td class="px-4 py-2 font-medium" colspan="2">
                             {{ $t('Opening balance') }}
@@ -155,11 +154,8 @@ function apply(): void {
                             row.reversed && 'text-muted-foreground line-through'
                         "
                     >
-                        <td
-                            class="px-4 py-3 whitespace-nowrap tabular-nums"
-                            dir="ltr"
-                        >
-                            {{ row.date }}
+                        <td class="px-4 py-3 whitespace-nowrap tabular-nums">
+                            <span dir="ltr">{{ row.date }}</span>
                         </td>
                         <td class="px-4 py-3">
                             <div>{{ row.description }}</div>
@@ -186,8 +182,8 @@ function apply(): void {
                         </td>
                     </tr>
                     <tr class="bg-muted/40">
-                        <td class="px-4 py-2 tabular-nums" dir="ltr">
-                            {{ statement.to }}
+                        <td class="px-4 py-2 whitespace-nowrap tabular-nums">
+                            <span dir="ltr">{{ statement.to }}</span>
                         </td>
                         <td class="px-4 py-2 font-medium" colspan="2">
                             {{ $t('Closing balance') }}

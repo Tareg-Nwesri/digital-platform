@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, setLayoutProps } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { computed } from 'vue';
 import FinanceNav from '@/components/finance/FinanceNav.vue';
@@ -45,13 +45,12 @@ const props = defineProps<{
     can: { edit: boolean };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: consoleDashboard() },
-            { title: 'Finance', href: dashboard() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: consoleDashboard() },
+        { title: 'Finance', href: dashboard() },
+        { title: props.receipt.number ?? 'Receipt' },
+    ],
 });
 
 const decimals = props.receipt.amount.currency === 'LYD' ? 3 : 2;

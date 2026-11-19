@@ -36,6 +36,7 @@ const { isCurrentOrParentUrl } = useCurrentUrl();
 <template>
     <div class="px-4 py-6">
         <Heading
+            class="mb-8"
             :title="$t('Settings')"
             :description="$t('Manage your profile and account settings')"
         />

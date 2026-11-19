@@ -44,6 +44,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: dashboard() },
             { title: 'Catalogue', href: partsIndex() },
+            { title: 'Categories' },
         ],
     },
 });
@@ -111,7 +112,8 @@ const parents = computed(() =>
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <div class="flex flex-wrap items-start justify-between gap-3">
             <Heading
-                :title="$t('Catalogue')"
+                eyebrow="Catalogue"
+                :title="$t('Categories')"
                 :description="$t('Part categories, two levels deep.')"
             />
             <Button

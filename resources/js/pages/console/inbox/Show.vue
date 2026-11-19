@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm, setLayoutProps } from '@inertiajs/vue3';
 import { Mail } from '@lucide/vue';
 import { computed } from 'vue';
 import PostStatusBadge from '@/components/content/PostStatusBadge.vue';
@@ -38,13 +38,12 @@ const props = defineProps<{
     can: { edit: boolean };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: dashboard() },
-            { title: 'Inbox', href: index() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: dashboard() },
+        { title: 'Inbox', href: index() },
+        { title: props.message.subject },
+    ],
 });
 
 function patch(data: Record<string, string | null>): void {

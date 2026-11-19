@@ -15,10 +15,12 @@ import {
 } from '@/components/ui/sidebar';
 import UserInfo from '@/components/UserInfo.vue';
 import UserMenuContent from '@/components/UserMenuContent.vue';
+import { useDirection } from '@/composables/useDirection';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 const { isMobile, state } = useSidebar();
+const { isRtl } = useDirection();
 </script>
 
 <template>
@@ -41,7 +43,9 @@ const { isMobile, state } = useSidebar();
                         isMobile
                             ? 'bottom'
                             : state === 'collapsed'
-                              ? 'left'
+                              ? isRtl
+                                  ? 'left'
+                                  : 'right'
                               : 'bottom'
                     "
                     align="end"

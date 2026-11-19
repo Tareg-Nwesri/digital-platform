@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Head, router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage, setLayoutProps } from '@inertiajs/vue3';
 import { X } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
 import { computed, ref } from 'vue';
@@ -87,13 +87,12 @@ const props = defineProps<{
     }[];
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: dashboard() },
-            { title: 'Events', href: index() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: dashboard() },
+        { title: 'Events', href: index() },
+        { title: props.event.title },
+    ],
 });
 
 const page = usePage();
@@ -248,23 +247,14 @@ function removeInvitation(teamId: number): void {
 
         <InputError :message="pageErrors.status ?? pageErrors.event" />
 
-        <nav
-            class="flex gap-1 overflow-x-auto border-b"
-            role="tablist"
-            data-tour="event-tabs"
-        >
+        <nav class="section-tabs" role="tablist" data-tour="event-tabs">
             <button
                 v-for="[key, label] in tabs"
                 :key="key"
                 type="button"
                 role="tab"
                 :aria-selected="tab === key"
-                class="-mb-px border-b-2 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors"
-                :class="
-                    tab === key
-                        ? 'border-primary text-foreground'
-                        : 'border-transparent text-muted-foreground hover:text-foreground'
-                "
+                class="section-tab"
                 :data-test="`tab-${key}`"
                 @click="tab = key"
             >

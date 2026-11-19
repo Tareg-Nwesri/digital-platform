@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Console\StoreDepartmentRequest;
 use App\Http\Requests\Console\UpdateDepartmentRequest;
 use App\Models\User;
+use App\Support\Activity\ActivityLabel;
 use App\Support\Tables\TableQuery;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -169,7 +170,7 @@ class DepartmentController extends Controller
             ->map(fn (Activity $activity): array => [
                 'id' => $activity->getKey(),
                 'event' => $activity->event,
-                'description' => $activity->description,
+                'description' => ActivityLabel::for($activity),
                 'causer' => $activity->causer?->name,
                 'at' => $activity->created_at?->toIso8601String(),
             ])

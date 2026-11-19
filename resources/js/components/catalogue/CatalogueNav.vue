@@ -19,23 +19,18 @@ const links = [
 </script>
 
 <template>
-    <nav class="flex gap-1 overflow-x-auto border-b" data-tour="catalogue-nav">
+    <nav class="section-tabs" data-tour="catalogue-nav">
         <Link
             v-for="[key, label, href] in links"
             :key="key"
             :href="href"
-            class="-mb-px flex items-center gap-2 border-b-2 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors"
-            :class="
-                current === key
-                    ? 'border-primary text-foreground'
-                    : 'border-transparent text-muted-foreground hover:text-foreground'
-            "
+            class="section-tab"
             :aria-current="current === key ? 'page' : undefined"
         >
             {{ $t(label) }}
             <span
                 v-if="key === 'suggestions' && suggestionsCount"
-                class="rounded-full bg-primary px-1.5 text-xs text-primary-foreground tabular-nums"
+                class="section-tab-count"
                 >{{ suggestionsCount }}</span
             >
         </Link>

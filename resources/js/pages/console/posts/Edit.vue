@@ -2,7 +2,7 @@
 import DatePicker from '@/components/forms/DatePicker.vue';
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm, setLayoutProps } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { ref } from 'vue';
 import PostStatusBadge from '@/components/content/PostStatusBadge.vue';
@@ -43,13 +43,12 @@ const props = defineProps<{
     can: { edit: boolean; publish: boolean };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: dashboard() },
-            { title: 'News', href: index() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: dashboard() },
+        { title: 'News', href: index() },
+        { title: props.post.titleAr || props.post.titleEn || 'News' },
+    ],
 });
 
 const form = useForm({

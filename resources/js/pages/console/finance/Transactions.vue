@@ -62,6 +62,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Transactions' },
         ],
     },
 });
@@ -178,6 +179,7 @@ const columns: ListColumn<TransactionRow>[] = [
     {
         id: 'amount',
         header: () => trans('Amount'),
+        meta: { align: 'end' },
         cell: ({ row }) =>
             h(
                 'div',
@@ -209,7 +211,8 @@ const columns: ListColumn<TransactionRow>[] = [
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Finance')"
+            eyebrow="Finance"
+            :title="$t('Transactions')"
             :description="
                 $t(
                     'Every movement between accounts. Posted entries never change; mistakes are reversed.',

@@ -2,7 +2,7 @@
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
 import { department as departmentReport } from '@/routes/console/reports';
-import { Form, Head, Link, router } from '@inertiajs/vue3';
+import { Form, Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { computed, reactive, ref, watch } from 'vue';
 import Heading from '@/components/Heading.vue';
@@ -77,13 +77,12 @@ const props = defineProps<{
     inviteRoles?: string[];
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: dashboard() },
-            { title: 'Departments', href: index() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: dashboard() },
+        { title: 'Departments', href: index() },
+        { title: props.department.name },
+    ],
 });
 
 type Tab = 'overview' | 'members' | 'permissions' | 'settings';
@@ -228,23 +227,14 @@ const isPublicDraft = ref(props.department.is_public);
             >
         </div>
 
-        <nav
-            class="flex gap-1 overflow-x-auto border-b"
-            role="tablist"
-            data-tour="department-tabs"
-        >
+        <nav class="section-tabs" role="tablist" data-tour="department-tabs">
             <button
                 v-for="[key, label] in tabs"
                 :key="key"
                 type="button"
                 role="tab"
                 :aria-selected="tab === key"
-                class="-mb-px border-b-2 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors"
-                :class="
-                    tab === key
-                        ? 'border-primary text-foreground'
-                        : 'border-transparent text-muted-foreground hover:text-foreground'
-                "
+                class="section-tab"
                 :data-test="`tab-${key}`"
                 @click="tab = key"
             >

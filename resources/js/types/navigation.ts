@@ -3,7 +3,8 @@ import type { LucideIcon } from '@lucide/vue';
 
 export type BreadcrumbItem = {
     title: string;
-    href: NonNullable<InertiaLinkProps['href']>;
+    /** Omit for the current page (the last crumb). */
+    href?: NonNullable<InertiaLinkProps['href']>;
 };
 
 export type NavGroup = {

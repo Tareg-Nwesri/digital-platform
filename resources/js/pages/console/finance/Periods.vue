@@ -28,6 +28,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Periods' },
         ],
     },
 });
@@ -53,7 +54,8 @@ const monthName = (date: string) =>
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Finance')"
+            eyebrow="Finance"
+            :title="$t('Periods')"
             :description="
                 $t(
                     'Each month is a period. Close a month once its accounts are checked.',

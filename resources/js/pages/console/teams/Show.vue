@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Form, Head, router } from '@inertiajs/vue3';
+import { Form, Head, router, setLayoutProps } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { computed, reactive, ref, watch } from 'vue';
 import TeamStatusBadge from '@/components/app/TeamStatusBadge.vue';
@@ -71,13 +71,12 @@ const props = defineProps<{
     }[];
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: dashboard() },
-            { title: 'Teams', href: index() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: dashboard() },
+        { title: 'Teams', href: index() },
+        { title: props.team.name },
+    ],
 });
 
 type Tab = 'overview' | 'members' | 'features' | 'settings';
@@ -229,23 +228,14 @@ function featureError(name: string): string | undefined {
             <Badge variant="outline">{{ team.tier.name }}</Badge>
         </div>
 
-        <nav
-            class="flex gap-1 overflow-x-auto border-b"
-            role="tablist"
-            data-tour="team-tabs"
-        >
+        <nav class="section-tabs" role="tablist" data-tour="team-tabs">
             <button
                 v-for="[key, label] in tabs"
                 :key="key"
                 type="button"
                 role="tab"
                 :aria-selected="tab === key"
-                class="-mb-px border-b-2 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors"
-                :class="
-                    tab === key
-                        ? 'border-primary text-foreground'
-                        : 'border-transparent text-muted-foreground hover:text-foreground'
-                "
+                class="section-tab"
                 :data-test="`tab-${key}`"
                 @click="tab = key"
             >

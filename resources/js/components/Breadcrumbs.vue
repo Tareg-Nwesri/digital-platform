@@ -15,27 +15,51 @@ type Props = {
 };
 
 defineProps<Props>();
+
+/**
+ * On phones only the parent and the current page fit in the top bar; the
+ * earlier crumbs appear from the md breakpoint up.
+ */
+function hiddenOnPhones(index: number, length: number): boolean {
+    return index < length - 2;
+}
 </script>
 
 <template>
-    <Breadcrumb>
-        <BreadcrumbList>
+    <Breadcrumb class="min-w-0">
+        <BreadcrumbList class="flex-nowrap">
             <template v-for="(item, index) in breadcrumbs" :key="index">
-                <BreadcrumbItem>
-                    <template v-if="index === breadcrumbs.length - 1">
-                        <BreadcrumbPage>{{
+                <BreadcrumbItem
+                    class="min-w-0"
+                    :class="
+                        hiddenOnPhones(index, breadcrumbs.length) &&
+                        'hidden md:inline-flex'
+                    "
+                >
+                    <template
+                        v-if="index === breadcrumbs.length - 1 || !item.href"
+                    >
+                        <BreadcrumbPage class="truncate">{{
                             $t(item.title ?? '')
                         }}</BreadcrumbPage>
                     </template>
                     <template v-else>
                         <BreadcrumbLink as-child>
-                            <Link :href="item.href">{{
-                                $t(item.title ?? '')
-                            }}</Link>
+                            <Link
+                                :href="item.href"
+                                class="truncate whitespace-nowrap"
+                                >{{ $t(item.title ?? '') }}</Link
+                            >
                         </BreadcrumbLink>
                     </template>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator v-if="index !== breadcrumbs.length - 1" />
+                <BreadcrumbSeparator
+                    v-if="index !== breadcrumbs.length - 1"
+                    :class="
+                        hiddenOnPhones(index, breadcrumbs.length) &&
+                        'hidden md:block'
+                    "
+                />
             </template>
         </BreadcrumbList>
     </Breadcrumb>

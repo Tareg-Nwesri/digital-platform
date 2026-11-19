@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +31,19 @@ it('schedules backups, the queue and the finance checks', function () {
         ->expectsOutputToContain('queue:work')
         ->expectsOutputToContain('finance:verify')
         ->assertSuccessful();
+});
+
+it('frees the overlap lock of a killed run within minutes, not a day', function () {
+    $expiryInMinutes = collect(app(Schedule::class)->events())
+        ->filter(fn (Event $event): bool => $event->withoutOverlapping)
+        ->mapWithKeys(fn (Event $event): array => [
+            (string) preg_replace('/^.*artisan[\'"]?\s+/', '', $event->command) => $event->expiresAt,
+        ])
+        ->all();
+
+    expect($expiryInMinutes)->toBe([
+        'posts:publish-due' => 10,
+        'backup:run' => 180,
+        'queue:work --stop-when-empty --max-time=50 --tries=3' => 10,
+    ]);
 });

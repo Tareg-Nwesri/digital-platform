@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { formatDate, formatNumber } from '@/lib/i18n';
+import { formatDate, formatNumber, isolateLtr } from '@/lib/i18n';
 import { dashboard } from '@/routes/console';
 import { index, show, store } from '@/routes/console/teams';
 import type { ListColumn, TableResult } from '@/types/table';
@@ -97,7 +97,7 @@ const columns: ListColumn<TeamRow>[] = [
     {
         id: 'members_count',
         header: () => trans('Members'),
-        meta: { sortable: true },
+        meta: { sortable: true, align: 'end' },
         cell: ({ row }) =>
             h(
                 'span',
@@ -108,7 +108,9 @@ const columns: ListColumn<TeamRow>[] = [
                             'font-semibold text-destructive',
                     ],
                 },
-                `${formatNumber(row.original.members)} / ${formatNumber(row.original.membersLimit)}`,
+                isolateLtr(
+                    `${formatNumber(row.original.members)} / ${formatNumber(row.original.membersLimit)}`,
+                ),
             ),
     },
     {

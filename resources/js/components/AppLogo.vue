@@ -4,16 +4,16 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 
 <template>
     <div
-        class="flex aspect-square size-8 items-center justify-center rounded-lg bg-white p-0.5 shadow-sm ring-1 ring-sidebar-border"
+        class="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-white p-0.5 shadow-sm ring-1 ring-sidebar-border"
     >
         <AppLogoIcon class="size-7" />
     </div>
     <div class="ms-1 grid flex-1 text-start text-sm leading-tight">
         <span class="truncate font-bold tracking-tight">{{
-            $t('Digital')
+            $t('Digital Robotics')
         }}</span>
         <span class="truncate text-xs text-muted-foreground">{{
-            $t('Robotics Foundation Libya')
+            $t('Foundation · Libya')
         }}</span>
     </div>
 </template>

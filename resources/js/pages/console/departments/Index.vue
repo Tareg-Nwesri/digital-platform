@@ -66,7 +66,7 @@ const columns: ListColumn<DepartmentRow>[] = [
     {
         id: 'members_count',
         header: () => trans('Members'),
-        meta: { sortable: true },
+        meta: { sortable: true, align: 'end' },
         cell: ({ row }) =>
             h(
                 'span',

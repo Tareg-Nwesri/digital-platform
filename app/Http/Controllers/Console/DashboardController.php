@@ -33,6 +33,7 @@ use App\Domain\Work\Models\Project;
 use App\Domain\Work\Models\Robot;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Support\Activity\ActivityLabel;
 use App\Support\Money\MoneyFormatter;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
@@ -226,8 +227,8 @@ class DashboardController extends Controller
         return Activity::query()->with('causer')->latest('id')->limit(8)->get()
             ->map(fn (Activity $entry): array => [
                 'id' => $entry->getKey(),
-                'description' => (string) $entry->description,
-                'area' => $entry->log_name,
+                'description' => ActivityLabel::for($entry),
+                'area' => ActivityLabel::area($entry->log_name),
                 'causer' => $entry->causer?->getAttribute('name'),
                 'at' => $entry->created_at?->toIso8601String(),
             ])

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, setLayoutProps } from '@inertiajs/vue3';
 import FinanceNav from '@/components/finance/FinanceNav.vue';
 import Money from '@/components/finance/Money.vue';
 import SponsorshipForm from '@/components/finance/SponsorshipForm.vue';
@@ -16,7 +16,7 @@ import { show as showSponsor } from '@/routes/console/finance/sponsors';
 
 type MoneyValue = { amountMinor: number; currency: string; formatted: string };
 
-defineProps<{
+const props = defineProps<{
     sponsorship: SponsorshipValue & { sponsor: { id: number; name: string } };
     totals: {
         pledged: MoneyValue;
@@ -35,13 +35,12 @@ defineProps<{
     can: { edit: boolean };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: consoleDashboard() },
-            { title: 'Finance', href: dashboard() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: consoleDashboard() },
+        { title: 'Finance', href: dashboard() },
+        { title: props.sponsorship.title },
+    ],
 });
 </script>
 

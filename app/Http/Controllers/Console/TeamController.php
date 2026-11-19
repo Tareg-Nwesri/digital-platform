@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Console\StoreTeamRequest;
 use App\Http\Requests\Console\UpdateTeamRequest;
 use App\Models\User;
+use App\Support\Activity\ActivityLabel;
 use App\Support\Tables\TableQuery;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -224,7 +225,7 @@ class TeamController extends Controller
         return Activity::query()->forSubject($team)->with('causer')->latest('id')->limit(10)->get()
             ->map(fn (Activity $activity): array => [
                 'id' => $activity->getKey(),
-                'description' => $activity->description,
+                'description' => ActivityLabel::for($activity),
                 'causer' => $activity->causer?->name,
                 'at' => $activity->created_at?->toIso8601String(),
             ])

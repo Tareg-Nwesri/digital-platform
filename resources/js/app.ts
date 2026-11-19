@@ -1,6 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { defineAsyncComponent } from 'vue';
-import { i18nVue } from 'laravel-vue-i18n';
+import { i18nVue, trans } from 'laravel-vue-i18n';
 import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
@@ -9,6 +9,13 @@ import { initializeFlashToast } from '@/lib/flashToast';
 import { currentLocale, resolveTranslations } from '@/lib/i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+/** The app name in the page language ("ديجيتال للروبوتات" in Arabic). */
+const localAppName = (): string => {
+    const name = trans('Digital Robotics');
+
+    return name && name !== 'Digital Robotics' ? name : appName;
+};
 
 /* Loaded on demand so the public site's stylesheet never reaches the console. */
 const PublicLayout = defineAsyncComponent(
@@ -21,8 +28,8 @@ void createInertiaApp({
         title
             ? title.includes(' | ')
                 ? title
-                : `${title} - ${appName}`
-            : appName,
+                : `${title} - ${localAppName()}`
+            : localAppName(),
     layout: (name) => {
         switch (true) {
             case name === 'Welcome':

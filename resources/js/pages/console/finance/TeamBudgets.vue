@@ -17,6 +17,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { formatDate } from '@/lib/i18n';
+import { dashboard as consoleDashboard } from '@/routes/console';
+import { dashboard } from '@/routes/console/finance';
 import { review } from '@/routes/console/finance/budgets';
 import {
     approve as approveExpense,
@@ -66,6 +68,16 @@ defineProps<{
     can: { edit: boolean; approve: boolean };
     confirmed: boolean;
 }>();
+
+defineOptions({
+    layout: {
+        breadcrumbs: [
+            { title: 'Organisation console', href: consoleDashboard() },
+            { title: 'Finance', href: dashboard() },
+            { title: 'Team budgets' },
+        ],
+    },
+});
 
 const statusVariant: Record<
     string,
@@ -150,9 +162,9 @@ function approve(row: ExpenseRow): void {
     <Head :title="$t('Team budgets')" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <FinanceNav current="budgets" :can-approve="can.approve" />
         <div class="flex flex-wrap items-start justify-between gap-3">
             <Heading
+                eyebrow="Finance"
                 :title="$t('Team budgets')"
                 :description="
                     $t('Funding requests and expenses sent by the teams.')
@@ -169,6 +181,8 @@ function approve(row: ExpenseRow): void {
                 </Link>
             </Button>
         </div>
+
+        <FinanceNav current="budgets" :can-approve="can.approve" />
 
         <section
             class="grid gap-3 rounded-xl border bg-card p-5"

@@ -47,6 +47,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Accounts' },
         ],
     },
 });
@@ -84,7 +85,8 @@ function create(): void {
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <div class="flex flex-wrap items-start justify-between gap-3">
             <Heading
-                :title="$t('Finance')"
+                eyebrow="Finance"
+                :title="$t('Accounts')"
                 :description="$t('Every account and its current balance.')"
             />
             <Button

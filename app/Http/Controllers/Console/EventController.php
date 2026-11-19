@@ -18,6 +18,7 @@ use App\Domain\Teams\Services\TeamMemberService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Console\EventRequest;
 use App\Models\User;
+use App\Support\Activity\ActivityLabel;
 use App\Support\Tables\TableQuery;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -330,7 +331,7 @@ class EventController extends Controller
             ->get()
             ->map(fn (Activity $activity): array => [
                 'id' => $activity->getKey(),
-                'description' => $activity->description,
+                'description' => ActivityLabel::for($activity),
                 'event' => $activity->event,
                 'causer' => $activity->causer?->name,
                 'at' => $activity->created_at?->toIso8601String(),

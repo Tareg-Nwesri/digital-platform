@@ -185,8 +185,8 @@ const tiles = computed(() => {
                 <p class="text-sm text-muted-foreground">
                     {{ $t(tile.label) }}
                 </p>
-                <p class="mt-1 text-2xl font-semibold tabular-nums" dir="ltr">
-                    {{ tile.value }}
+                <p class="mt-1 text-2xl font-semibold tabular-nums">
+                    <span dir="ltr">{{ tile.value }}</span>
                 </p>
             </div>
         </div>

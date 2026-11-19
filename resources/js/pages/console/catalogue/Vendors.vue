@@ -51,6 +51,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: dashboard() },
             { title: 'Catalogue', href: partsIndex() },
+            { title: 'Vendors' },
         ],
     },
 });
@@ -166,12 +167,13 @@ const columns: ListColumn<VendorRow>[] = [
         id: 'contact',
         header: () => trans('Contact'),
         cell: ({ row }) =>
-            h('div', { class: 'grid text-sm', dir: 'ltr' }, [
-                row.original.phone && h('span', row.original.phone),
+            h('div', { class: 'grid text-sm' }, [
+                row.original.phone &&
+                    h('span', { dir: 'ltr' }, row.original.phone),
                 row.original.email &&
                     h(
                         'span',
-                        { class: 'text-xs text-muted-foreground' },
+                        { class: 'text-xs text-muted-foreground', dir: 'ltr' },
                         row.original.email,
                     ),
             ]),
@@ -243,7 +245,8 @@ const columns: ListColumn<VendorRow>[] = [
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Catalogue')"
+            eyebrow="Catalogue"
+            :title="$t('Vendors')"
             :description="$t('Shops and suppliers teams buy parts from.')"
         />
 

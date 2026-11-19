@@ -18,7 +18,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { formatNumber } from '@/lib/i18n';
+import { formatNumber, isolateLtr } from '@/lib/i18n';
 import { formatZoned } from '@/lib/zonedDate';
 import { dashboard } from '@/routes/console';
 import { index, show } from '@/routes/console/events';
@@ -127,7 +127,9 @@ const columns: ListColumn<EventRow>[] = [
                         ? trans(':count approved', {
                               count: formatNumber(row.original.approved),
                           })
-                        : `${formatNumber(row.original.approved)} / ${formatNumber(row.original.capacity)}`,
+                        : isolateLtr(
+                              `${formatNumber(row.original.approved)} / ${formatNumber(row.original.capacity)}`,
+                          ),
                 ),
                 row.original.pending > 0 &&
                     h(

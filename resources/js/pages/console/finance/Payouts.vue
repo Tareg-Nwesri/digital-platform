@@ -59,6 +59,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Payouts' },
         ],
     },
 });
@@ -174,6 +175,7 @@ const columns: ListColumn<PayoutRow>[] = [
     {
         id: 'amount',
         header: () => trans('Amount'),
+        meta: { align: 'end' },
         cell: ({ row }) =>
             h('div', { class: 'grid justify-items-end' }, [
                 h(Money, { value: row.original.amount }),
@@ -226,7 +228,8 @@ const columns: ListColumn<PayoutRow>[] = [
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Finance')"
+            eyebrow="Finance"
+            :title="$t('Payouts')"
             :description="
                 $t(
                     'Bonuses, stipends and other payments to people. Money moves only when a payout is marked paid.',

@@ -18,6 +18,7 @@ type Entry = {
     description: string;
     event: string | null;
     log: string | null;
+    area: string | null;
     causer: string | null;
     impersonated: boolean;
     subject: string | null;
@@ -27,7 +28,7 @@ type Entry = {
 
 defineProps<{
     entries: TableResult<Entry>;
-    logs: string[];
+    logs: { value: string; label: string }[];
     subjects: { value: string; label: string }[];
 }>();
 
@@ -103,7 +104,7 @@ const columns: ListColumn<Entry>[] = [
         id: 'log',
         header: () => trans('Area'),
         cell: ({ row }) =>
-            h(Badge, { variant: 'outline' }, () => row.original.log ?? '—'),
+            h(Badge, { variant: 'outline' }, () => row.original.area ?? '—'),
     },
 ];
 </script>
@@ -138,8 +139,12 @@ const columns: ListColumn<Entry>[] = [
                     <FormOption :value="undefined">{{
                         $t('All areas')
                     }}</FormOption>
-                    <FormOption v-for="log in logs" :key="log" :value="log">
-                        {{ log }}
+                    <FormOption
+                        v-for="log in logs"
+                        :key="log.value"
+                        :value="log.value"
+                    >
+                        {{ log.label }}
                     </FormOption>
                 </FormSelect>
                 <FormSelect

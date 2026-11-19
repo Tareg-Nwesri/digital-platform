@@ -5,6 +5,7 @@ import { reactiveOmit } from "@vueuse/core"
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import SidebarMenuButtonChild from "./SidebarMenuButtonChild.vue"
 import { useSidebar } from "./utils"
+import { useDirection } from "@/composables/useDirection"
 
 defineOptions({
   inheritAttrs: false,
@@ -19,6 +20,9 @@ const props = withDefaults(defineProps<SidebarMenuButtonProps & {
 })
 
 const { isMobile, state } = useSidebar()
+
+/* The sidebar sits on the start side, so its tooltips open towards the end. */
+const { isRtl } = useDirection()
 
 const delegatedProps = reactiveOmit(props, "tooltip")
 </script>
@@ -35,7 +39,7 @@ const delegatedProps = reactiveOmit(props, "tooltip")
       </SidebarMenuButtonChild>
     </TooltipTrigger>
     <TooltipContent
-      side="right"
+      :side="isRtl ? 'left' : 'right'"
       align="center"
       :hidden="state !== 'collapsed' || isMobile"
     >

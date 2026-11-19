@@ -60,6 +60,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Organisation console', href: consoleDashboard() },
             { title: 'Finance', href: dashboard() },
+            { title: 'Receipts' },
         ],
     },
 });
@@ -173,6 +174,7 @@ const columns: ListColumn<ReceiptRow>[] = [
     {
         id: 'amount',
         header: () => trans('Amount'),
+        meta: { align: 'end' },
         cell: ({ row }) =>
             h(
                 'div',
@@ -188,7 +190,8 @@ const columns: ListColumn<ReceiptRow>[] = [
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <Heading
-            :title="$t('Finance')"
+            eyebrow="Finance"
+            :title="$t('Receipts')"
             :description="
                 $t(
                     'Money and gifts received. Each receipt is split into accounts, then approved.',

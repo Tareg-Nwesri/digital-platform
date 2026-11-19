@@ -143,3 +143,20 @@ it('lets the super admin search the whole audit log', function () {
 
     $this->actingAs($this->admin)->get(route('console.audit.index'))->assertForbidden();
 });
+
+it('shows audit entries, areas and record types in the reader’s language', function () {
+    activity('finance')->causedBy($this->admin)->performedOn($this->media)->event('finance.payout.paid')->log('Payout paid');
+    activity('finance')->causedBy($this->admin)->event('finance.unknown_event')->log('Kept as written');
+    activity('finance')->causedBy($this->admin)->performedOn($this->media)->event('updated')->log('updated');
+    $this->superAdmin->forceFill(['locale' => 'ar'])->save();
+
+    $this->actingAs($this->superAdmin)
+        ->get(route('console.audit.index', ['filter' => ['log' => 'finance']]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('entries.data', fn ($rows) => collect($rows)->contains(fn ($row) => $row['description'] === 'صُرفت دفعة' && $row['area'] === 'المالية'))
+            ->where('entries.data', fn ($rows) => collect($rows)->contains(fn ($row) => $row['description'] === 'Kept as written'))
+            ->where('entries.data', fn ($rows) => collect($rows)->contains(fn ($row) => $row['description'] === 'تعديل قسم'))
+            ->where('logs', fn ($logs) => collect($logs)->contains(['value' => 'finance', 'label' => 'المالية']))
+            ->where('subjects', fn ($subjects) => collect($subjects)->contains('label', 'قسم')));
+});

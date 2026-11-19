@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Console;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\User;
+use App\Support\Activity\ActivityLabel;
 use App\Support\Tables\TableQuery;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -34,23 +35,26 @@ class AuditController extends Controller
 
         return Inertia::render('console/audit/Index', [
             'entries' => $entries,
-            'logs' => Activity::query()->distinct()->orderBy('log_name')->pluck('log_name')->filter()->values()->all(),
+            'logs' => Activity::query()->distinct()->orderBy('log_name')->pluck('log_name')->filter()
+                ->map(fn (string $log): array => ['value' => $log, 'label' => (string) ActivityLabel::area($log)])
+                ->values()->all(),
             'subjects' => Activity::query()->distinct()->whereNotNull('subject_type')->orderBy('subject_type')->pluck('subject_type')
-                ->map(fn (string $type): array => ['value' => $type, 'label' => class_basename($type)])
+                ->map(fn (string $type): array => ['value' => $type, 'label' => ActivityLabel::subject($type)])
                 ->all(),
         ]);
     }
 
     /**
-     * @return array{id: int, description: string, event: string|null, log: string|null, causer: string|null, impersonated: bool, subject: string|null, at: string|null, properties: array<string, mixed>}
+     * @return array{id: int, description: string, event: string|null, log: string|null, area: string|null, causer: string|null, impersonated: bool, subject: string|null, at: string|null, properties: array<string, mixed>}
      */
     public static function row(Activity $entry): array
     {
         return [
             'id' => $entry->getKey(),
-            'description' => $entry->description,
+            'description' => ActivityLabel::for($entry),
             'event' => $entry->event,
             'log' => $entry->log_name,
+            'area' => ActivityLabel::area($entry->log_name),
             'causer' => $entry->causer?->name,
             'impersonated' => $entry->impersonator_id !== null,
             'subject' => $entry->subject_type === null ? null : class_basename($entry->subject_type).' #'.$entry->subject_id,

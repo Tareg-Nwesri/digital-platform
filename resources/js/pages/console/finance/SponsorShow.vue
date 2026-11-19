@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormOption from '@/components/forms/FormOption.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, setLayoutProps } from '@inertiajs/vue3';
 import { Plus, Trash2 } from '@lucide/vue';
 import { trans } from 'laravel-vue-i18n';
 import { ref } from 'vue';
@@ -67,13 +67,12 @@ const props = defineProps<{
     can: { edit: boolean };
 }>();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            { title: 'Organisation console', href: consoleDashboard() },
-            { title: 'Finance', href: dashboard() },
-        ],
-    },
+setLayoutProps({
+    breadcrumbs: [
+        { title: 'Organisation console', href: consoleDashboard() },
+        { title: 'Finance', href: dashboard() },
+        { title: props.sponsor.name },
+    ],
 });
 
 const details = useForm({
@@ -219,12 +218,14 @@ const creating = ref(false);
                                     · {{ person.role }}</span
                                 >
                             </p>
-                            <p class="text-muted-foreground" dir="ltr">
-                                {{
-                                    [person.phone, person.email]
-                                        .filter(Boolean)
-                                        .join(' · ')
-                                }}
+                            <p class="text-muted-foreground">
+                                <span dir="ltr">
+                                    {{
+                                        [person.phone, person.email]
+                                            .filter(Boolean)
+                                            .join(' · ')
+                                    }}
+                                </span>
                             </p>
                         </div>
                         <Button

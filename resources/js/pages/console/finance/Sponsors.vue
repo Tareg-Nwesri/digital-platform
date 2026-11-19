@@ -135,6 +135,7 @@ const columns: ListColumn<SponsorRow>[] = [
         <FinanceNav current="sponsors" />
 
         <DataTable
+            tour="sponsors"
             :columns="columns"
             :rows="sponsors"
             :search-placeholder="$t('Search sponsors')"

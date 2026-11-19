@@ -268,7 +268,11 @@ const descriptions: Record<Action, string> = {
 
         <InputError :message="pageError" />
 
-        <section v-if="payouts.length > 0" class="grid gap-3">
+        <section
+            v-if="payouts.length > 0"
+            class="grid gap-3"
+            data-tour="approvals-payouts"
+        >
             <h3 class="font-semibold">{{ $t('Payouts') }}</h3>
             <ul class="grid gap-3">
                 <li
@@ -414,7 +418,11 @@ const descriptions: Record<Action, string> = {
             </DialogContent>
         </Dialog>
 
-        <section v-if="receipts.length > 0" class="grid gap-3">
+        <section
+            v-if="receipts.length > 0"
+            class="grid gap-3"
+            data-tour="approvals-receipts"
+        >
             <h3 class="font-semibold">
                 {{ $t('Receipts waiting for approval') }}
             </h3>
@@ -488,7 +496,7 @@ const descriptions: Record<Action, string> = {
             </ul>
         </section>
 
-        <section class="grid gap-3">
+        <section class="grid gap-3" data-tour="approvals-transactions">
             <h3 class="font-semibold">{{ $t('Waiting for approval') }}</h3>
             <p
                 v-if="transactions.length === 0"
@@ -583,7 +591,7 @@ const descriptions: Record<Action, string> = {
             </ul>
         </section>
 
-        <section class="grid gap-3">
+        <section class="grid gap-3" data-tour="approvals-posted">
             <h3 class="font-semibold">{{ $t('Recently posted') }}</h3>
             <p class="text-sm text-muted-foreground">
                 {{

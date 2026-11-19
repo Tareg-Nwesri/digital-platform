@@ -159,14 +159,21 @@ function approve(row: ExpenseRow): void {
                 "
             />
             <Button v-if="can.approve && !confirmed" as-child>
-                <Link :href="review().url" data-test="review-approve">
+                <Link
+                    :href="review().url"
+                    data-test="review-approve"
+                    data-tour="budgets-review"
+                >
                     <ShieldCheck class="size-4" />
                     {{ $t('Review and approve') }}
                 </Link>
             </Button>
         </div>
 
-        <section class="grid gap-3 rounded-xl border bg-card p-5">
+        <section
+            class="grid gap-3 rounded-xl border bg-card p-5"
+            data-tour="budgets-requests"
+        >
             <h2 class="font-semibold">{{ $t('Funding requests') }}</h2>
             <p
                 v-if="requests.length === 0"
@@ -250,7 +257,10 @@ function approve(row: ExpenseRow): void {
             </article>
         </section>
 
-        <section class="grid gap-3 rounded-xl border bg-card p-5">
+        <section
+            class="grid gap-3 rounded-xl border bg-card p-5"
+            data-tour="budgets-expenses"
+        >
             <h2 class="font-semibold">{{ $t('Expenses') }}</h2>
             <p
                 v-if="expenses.length === 0"

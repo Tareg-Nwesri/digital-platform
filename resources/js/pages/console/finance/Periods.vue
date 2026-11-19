@@ -63,7 +63,7 @@ const monthName = (date: string) =>
 
         <FinanceNav current="periods" :can-approve="can.close" />
 
-        <ul class="grid gap-2">
+        <ul class="grid gap-2" data-tour="periods-list">
             <li
                 v-for="period in periods"
                 :key="period.id"
@@ -85,6 +85,7 @@ const monthName = (date: string) =>
                     }}</Badge>
                     <Button
                         v-if="can.close && !period.closedAt"
+                        data-tour="periods-close"
                         size="sm"
                         variant="outline"
                         @click="closePeriod(period)"

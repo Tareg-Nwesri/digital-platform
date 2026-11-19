@@ -77,7 +77,7 @@ defineOptions({
             </p>
         </div>
 
-        <div class="grid gap-4 sm:grid-cols-2">
+        <div class="grid gap-4 sm:grid-cols-2" data-tour="fin-dashboard-cards">
             <Link
                 v-if="can.approve"
                 :href="approvals()"
@@ -115,7 +115,7 @@ defineOptions({
             </Link>
         </div>
 
-        <section class="grid gap-3">
+        <section class="grid gap-3" data-tour="fin-dashboard-accounts">
             <h3 class="font-semibold">{{ $t('Foundation accounts') }}</h3>
             <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 <Link
@@ -138,7 +138,7 @@ defineOptions({
             </div>
         </section>
 
-        <section class="grid gap-3">
+        <section class="grid gap-3" data-tour="fin-dashboard-latest">
             <h3 class="font-semibold">{{ $t('Latest posted movements') }}</h3>
             <div class="overflow-x-auto rounded-xl border bg-card">
                 <table class="w-full text-sm">

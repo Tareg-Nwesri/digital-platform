@@ -199,6 +199,7 @@ const columns: ListColumn<ReceiptRow>[] = [
         <FinanceNav current="receipts" />
 
         <DataTable
+            tour="receipts"
             :columns="columns"
             :rows="receipts"
             :search-placeholder="$t('Search by number or reference')"

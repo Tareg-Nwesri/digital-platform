@@ -90,6 +90,7 @@ function create(): void {
             <Button
                 v-if="can.edit"
                 data-test="new-account"
+                data-tour="accounts-new"
                 @click="open = true"
             >
                 <Plus class="size-4" />
@@ -106,6 +107,7 @@ function create(): void {
             ] as const"
             :key="title"
             class="grid gap-3"
+            data-tour="accounts-list"
         >
             <h3 class="font-semibold">{{ $t(title) }}</h3>
             <div class="overflow-x-auto rounded-xl border bg-card">

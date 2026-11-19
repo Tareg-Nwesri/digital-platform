@@ -617,5 +617,371 @@
             "body": "tour.report.export.body",
             "side": "bottom"
         }
+    ],
+    "console/finance/Dashboard": [
+        {
+            "title": "tour.fin_dashboard.intro.title",
+            "body": "tour.fin_dashboard.intro.body"
+        },
+        {
+            "element": "finance-nav",
+            "title": "tour.fin_dashboard.nav.title",
+            "body": "tour.fin_dashboard.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "fin-dashboard-cards",
+            "title": "tour.fin_dashboard.cards.title",
+            "body": "tour.fin_dashboard.cards.body",
+            "side": "bottom"
+        },
+        {
+            "element": "fin-dashboard-accounts",
+            "title": "tour.fin_dashboard.accounts.title",
+            "body": "tour.fin_dashboard.accounts.body",
+            "side": "top"
+        },
+        {
+            "element": "fin-dashboard-latest",
+            "title": "tour.fin_dashboard.latest.title",
+            "body": "tour.fin_dashboard.latest.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/Accounts": [
+        {
+            "title": "tour.accounts.intro.title",
+            "body": "tour.accounts.intro.body"
+        },
+        {
+            "element": "finance-nav",
+            "title": "tour.accounts.nav.title",
+            "body": "tour.accounts.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "accounts-new",
+            "title": "tour.accounts.new.title",
+            "body": "tour.accounts.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "accounts-list",
+            "title": "tour.accounts.list.title",
+            "body": "tour.accounts.list.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/AccountShow": [
+        {
+            "title": "tour.account_show.intro.title",
+            "body": "tour.account_show.intro.body"
+        },
+        {
+            "element": "account-balance",
+            "title": "tour.account_show.balance.title",
+            "body": "tour.account_show.balance.body",
+            "side": "bottom"
+        },
+        {
+            "element": "account-range",
+            "title": "tour.account_show.range.title",
+            "body": "tour.account_show.range.body",
+            "side": "bottom"
+        },
+        {
+            "element": "account-statement",
+            "title": "tour.account_show.statement.title",
+            "body": "tour.account_show.statement.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/Transactions": [
+        {
+            "title": "tour.transactions.intro.title",
+            "body": "tour.transactions.intro.body"
+        },
+        {
+            "element": "finance-nav",
+            "title": "tour.transactions.nav.title",
+            "body": "tour.transactions.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "transactions-search",
+            "title": "tour.transactions.search.title",
+            "body": "tour.transactions.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "transactions-filters",
+            "title": "tour.transactions.filters.title",
+            "body": "tour.transactions.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "transactions-actions",
+            "title": "tour.transactions.new.title",
+            "body": "tour.transactions.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "transactions-table",
+            "title": "tour.transactions.table.title",
+            "body": "tour.transactions.table.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/Approvals": [
+        {
+            "title": "tour.approvals.intro.title",
+            "body": "tour.approvals.intro.body"
+        },
+        {
+            "element": "approvals-payouts",
+            "title": "tour.approvals.payouts.title",
+            "body": "tour.approvals.payouts.body",
+            "side": "top"
+        },
+        {
+            "element": "approvals-receipts",
+            "title": "tour.approvals.receipts.title",
+            "body": "tour.approvals.receipts.body",
+            "side": "top"
+        },
+        {
+            "element": "approvals-transactions",
+            "title": "tour.approvals.transactions.title",
+            "body": "tour.approvals.transactions.body",
+            "side": "top"
+        },
+        {
+            "element": "approvals-posted",
+            "title": "tour.approvals.posted.title",
+            "body": "tour.approvals.posted.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/Periods": [
+        {
+            "title": "tour.periods.intro.title",
+            "body": "tour.periods.intro.body"
+        },
+        {
+            "element": "finance-nav",
+            "title": "tour.periods.nav.title",
+            "body": "tour.periods.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "periods-list",
+            "title": "tour.periods.list.title",
+            "body": "tour.periods.list.body",
+            "side": "top"
+        },
+        {
+            "element": "periods-close",
+            "title": "tour.periods.close.title",
+            "body": "tour.periods.close.body",
+            "side": "left"
+        }
+    ],
+    "console/finance/Sponsors": [
+        {
+            "title": "tour.sponsors.intro.title",
+            "body": "tour.sponsors.intro.body"
+        },
+        {
+            "element": "sponsors-search",
+            "title": "tour.sponsors.search.title",
+            "body": "tour.sponsors.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "sponsors-filters",
+            "title": "tour.sponsors.filters.title",
+            "body": "tour.sponsors.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "sponsors-actions",
+            "title": "tour.sponsors.new.title",
+            "body": "tour.sponsors.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "sponsors-table",
+            "title": "tour.sponsors.table.title",
+            "body": "tour.sponsors.table.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/SponsorShow": [
+        {
+            "title": "tour.sponsor_show.intro.title",
+            "body": "tour.sponsor_show.intro.body"
+        },
+        {
+            "element": "sponsor-logo",
+            "title": "tour.sponsor_show.logo.title",
+            "body": "tour.sponsor_show.logo.body",
+            "side": "bottom"
+        },
+        {
+            "element": "sponsor-sponsorships",
+            "title": "tour.sponsor_show.sponsorships.title",
+            "body": "tour.sponsor_show.sponsorships.body",
+            "side": "right"
+        },
+        {
+            "element": "sponsor-contacts",
+            "title": "tour.sponsor_show.contacts.title",
+            "body": "tour.sponsor_show.contacts.body",
+            "side": "right"
+        },
+        {
+            "element": "sponsor-details",
+            "title": "tour.sponsor_show.details.title",
+            "body": "tour.sponsor_show.details.body",
+            "side": "left"
+        }
+    ],
+    "console/finance/SponsorshipShow": [
+        {
+            "title": "tour.sponsorship_show.intro.title",
+            "body": "tour.sponsorship_show.intro.body"
+        },
+        {
+            "element": "sponsorship-figures",
+            "title": "tour.sponsorship_show.figures.title",
+            "body": "tour.sponsorship_show.figures.body",
+            "side": "bottom"
+        },
+        {
+            "element": "sponsorship-form",
+            "title": "tour.sponsorship_show.form.title",
+            "body": "tour.sponsorship_show.form.body",
+            "side": "right"
+        },
+        {
+            "element": "sponsorship-receipts",
+            "title": "tour.sponsorship_show.receipts.title",
+            "body": "tour.sponsorship_show.receipts.body",
+            "side": "left"
+        }
+    ],
+    "console/finance/Receipts": [
+        {
+            "title": "tour.receipts.intro.title",
+            "body": "tour.receipts.intro.body"
+        },
+        {
+            "element": "receipts-search",
+            "title": "tour.receipts.search.title",
+            "body": "tour.receipts.search.body",
+            "side": "bottom"
+        },
+        {
+            "element": "receipts-filters",
+            "title": "tour.receipts.filters.title",
+            "body": "tour.receipts.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "receipts-actions",
+            "title": "tour.receipts.new.title",
+            "body": "tour.receipts.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "receipts-table",
+            "title": "tour.receipts.table.title",
+            "body": "tour.receipts.table.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/ReceiptShow": [
+        {
+            "title": "tour.receipt_show.intro.title",
+            "body": "tour.receipt_show.intro.body"
+        },
+        {
+            "element": "receipt-facts",
+            "title": "tour.receipt_show.facts.title",
+            "body": "tour.receipt_show.facts.body",
+            "side": "right"
+        },
+        {
+            "element": "receipt-split",
+            "title": "tour.receipt_show.split.title",
+            "body": "tour.receipt_show.split.body",
+            "side": "left"
+        },
+        {
+            "element": "receipt-submit",
+            "title": "tour.receipt_show.submit.title",
+            "body": "tour.receipt_show.submit.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/Payouts": [
+        {
+            "title": "tour.payouts.intro.title",
+            "body": "tour.payouts.intro.body"
+        },
+        {
+            "element": "finance-nav",
+            "title": "tour.payouts.nav.title",
+            "body": "tour.payouts.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "payouts-filters",
+            "title": "tour.payouts.filters.title",
+            "body": "tour.payouts.filters.body",
+            "side": "bottom"
+        },
+        {
+            "element": "payouts-actions",
+            "title": "tour.payouts.new.title",
+            "body": "tour.payouts.new.body",
+            "side": "bottom"
+        },
+        {
+            "element": "payouts-table",
+            "title": "tour.payouts.table.title",
+            "body": "tour.payouts.table.body",
+            "side": "top"
+        }
+    ],
+    "console/finance/TeamBudgets": [
+        {
+            "title": "tour.team_budgets.intro.title",
+            "body": "tour.team_budgets.intro.body"
+        },
+        {
+            "element": "finance-nav",
+            "title": "tour.team_budgets.nav.title",
+            "body": "tour.team_budgets.nav.body",
+            "side": "bottom"
+        },
+        {
+            "element": "budgets-review",
+            "title": "tour.team_budgets.review.title",
+            "body": "tour.team_budgets.review.body",
+            "side": "bottom"
+        },
+        {
+            "element": "budgets-requests",
+            "title": "tour.team_budgets.requests.title",
+            "body": "tour.team_budgets.requests.body",
+            "side": "top"
+        },
+        {
+            "element": "budgets-expenses",
+            "title": "tour.team_budgets.expenses.title",
+            "body": "tour.team_budgets.expenses.body",
+            "side": "top"
+        }
     ]
 }

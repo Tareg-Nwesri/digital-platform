@@ -66,7 +66,7 @@ defineOptions({
 
         <FinanceNav current="sponsors" />
 
-        <div class="grid gap-4 sm:grid-cols-3">
+        <div class="grid gap-4 sm:grid-cols-3" data-tour="sponsorship-figures">
             <div
                 v-for="[label, value] in [
                     ['Pledged', totals.pledged],
@@ -84,7 +84,10 @@ defineOptions({
         </div>
 
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
-            <section class="rounded-xl border bg-card p-5">
+            <section
+                class="rounded-xl border bg-card p-5"
+                data-tour="sponsorship-form"
+            >
                 <SponsorshipForm
                     :sponsor-id="sponsorship.sponsor.id"
                     :sponsorship="sponsorship"
@@ -95,6 +98,7 @@ defineOptions({
 
             <section
                 class="grid content-start gap-3 rounded-xl border bg-card p-5"
+                data-tour="sponsorship-receipts"
             >
                 <h3 class="font-semibold">{{ $t('Receipts') }}</h3>
                 <p

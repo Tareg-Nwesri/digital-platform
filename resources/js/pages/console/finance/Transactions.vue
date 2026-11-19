@@ -220,6 +220,7 @@ const columns: ListColumn<TransactionRow>[] = [
         <FinanceNav current="transactions" :can-approve="can.approve" />
 
         <DataTable
+            tour="transactions"
             :columns="columns"
             :rows="transactions"
             :search-placeholder="$t('Search by number, details or reference')"

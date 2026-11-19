@@ -237,6 +237,7 @@ const columns: ListColumn<PayoutRow>[] = [
         <FinanceNav current="payouts" />
 
         <DataTable
+            tour="payouts"
             :columns="columns"
             :rows="payouts"
             :search-placeholder="$t('Search by reason or reference')"

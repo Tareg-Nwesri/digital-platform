@@ -76,7 +76,7 @@ function apply(): void {
                 :title="account.name"
                 :description="`${$t(`finance.account_type.${account.type}`)} · ${account.currency}${account.purpose ? ' · ' + account.purpose : ''}`"
             />
-            <div class="text-end">
+            <div class="text-end" data-tour="account-balance">
                 <p class="text-xs text-muted-foreground">
                     {{ $t('Current balance') }}
                 </p>
@@ -88,7 +88,11 @@ function apply(): void {
 
         <FinanceNav current="accounts" />
 
-        <form class="flex flex-wrap items-end gap-3" @submit.prevent="apply">
+        <form
+            class="flex flex-wrap items-end gap-3"
+            data-tour="account-range"
+            @submit.prevent="apply"
+        >
             <div class="grid gap-1.5">
                 <Label for="statement-from">{{ $t('From') }}</Label>
                 <DatePicker id="statement-from" v-model="from" class="w-44" />
@@ -102,7 +106,10 @@ function apply(): void {
             }}</Button>
         </form>
 
-        <div class="overflow-x-auto rounded-xl border bg-card">
+        <div
+            class="overflow-x-auto rounded-xl border bg-card"
+            data-tour="account-statement"
+        >
             <table class="w-full text-sm">
                 <thead class="border-b text-xs text-muted-foreground">
                     <tr>

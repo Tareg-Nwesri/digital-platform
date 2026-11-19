@@ -104,6 +104,7 @@ function send(): void {
         <div class="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
             <dl
                 class="grid content-start gap-2 rounded-xl border bg-card p-5 text-sm"
+                data-tour="receipt-facts"
             >
                 <dt class="text-muted-foreground">{{ $t('Amount') }}</dt>
                 <dd class="text-xl font-semibold">
@@ -157,6 +158,7 @@ function send(): void {
             <section
                 v-if="receipt.status === 'draft'"
                 class="grid content-start gap-3 rounded-xl border bg-card p-5"
+                data-tour="receipt-split"
             >
                 <h3 class="font-semibold">
                     {{ $t('Split between accounts') }}
@@ -251,6 +253,7 @@ function send(): void {
                             form.lines.length === 0
                         "
                         data-test="submit-receipt"
+                        data-tour="receipt-submit"
                         @click="send"
                     >
                         {{ $t('Send for approval') }}
@@ -261,6 +264,7 @@ function send(): void {
             <section
                 v-else
                 class="grid content-start gap-3 rounded-xl border bg-card p-5"
+                data-tour="receipt-split"
             >
                 <h3 class="font-semibold">
                     {{ $t('Split between accounts') }}

@@ -485,4 +485,287 @@ return [
             'body' => 'Saves the report as a spreadsheet file. Only people who may export reports see this button.',
         ],
     ],
+
+    'fin_dashboard' => [
+        'intro' => [
+            'title' => 'Finance overview',
+            'body' => 'The foundation\'s money at a glance. Every movement is recorded in a ledger that is never edited, only reversed, and nobody approves their own work.',
+        ],
+        'nav' => [
+            'title' => 'Finance sections',
+            'body' => 'Accounts, transactions, sponsors, receipts, payouts, team budgets, approvals and fiscal periods. The number on Approvals is what waits for a decision.',
+        ],
+        'cards' => [
+            'title' => 'What is waiting',
+            'body' => 'Transactions submitted for approval, and drafts that were started but not yet submitted. Click a card to open the list.',
+        ],
+        'accounts' => [
+            'title' => 'Foundation accounts',
+            'body' => 'The funds the foundation holds, with their balances. Team and project budgets are listed under Accounts.',
+        ],
+        'latest' => [
+            'title' => 'Latest posted movements',
+            'body' => 'The most recent transactions that were approved and posted to the ledger.',
+        ],
+    ],
+
+    'accounts' => [
+        'intro' => [
+            'title' => 'Accounts',
+            'body' => 'Every account and its current balance: the foundation\'s funds, team and project budgets, and the outside parties money comes from or goes to.',
+        ],
+        'nav' => [
+            'title' => 'Finance sections',
+            'body' => 'Move between accounts, transactions, sponsors, receipts, payouts, team budgets, approvals and periods.',
+        ],
+        'new' => [
+            'title' => 'Open an account',
+            'body' => 'Create a new fund or budget account. Only finance editors see this button.',
+        ],
+        'list' => [
+            'title' => 'The accounts',
+            'body' => 'Foundation accounts are ours; outside parties mirror sponsors, vendors and people. Click an account to see its statement.',
+        ],
+    ],
+
+    'account_show' => [
+        'intro' => [
+            'title' => 'An account statement',
+            'body' => 'Every posted movement in and out of this account, with a running balance.',
+        ],
+        'balance' => [
+            'title' => 'Current balance',
+            'body' => 'What the account holds now, from posted movements only.',
+        ],
+        'range' => [
+            'title' => 'Choose the period',
+            'body' => 'Pick dates and press Show to see the statement for that period.',
+        ],
+        'statement' => [
+            'title' => 'The movements',
+            'body' => 'Date, description, money in and out, and the balance after each movement.',
+        ],
+    ],
+
+    'transactions' => [
+        'intro' => [
+            'title' => 'Transactions',
+            'body' => 'Money moving between accounts. A person drafts it, submits it, and a different person approves it; once posted it can only be reversed.',
+        ],
+        'nav' => [
+            'title' => 'Finance sections',
+            'body' => 'Approvals shows how many items wait for a decision.',
+        ],
+        'search' => [
+            'title' => 'Search',
+            'body' => 'Search descriptions and references.',
+        ],
+        'filters' => [
+            'title' => 'Filter the list',
+            'body' => 'Narrow by status (draft, submitted, posted, rejected) and by type.',
+        ],
+        'new' => [
+            'title' => 'New transaction',
+            'body' => 'Draft a movement between two accounts in the same currency, with a reason. It is saved as a draft until you submit it.',
+        ],
+        'table' => [
+            'title' => 'The transactions',
+            'body' => 'Open a row to submit a draft or, if you may approve, to approve, reject or reverse it. Approving asks for your password.',
+        ],
+    ],
+
+    'approvals' => [
+        'intro' => [
+            'title' => 'Approvals',
+            'body' => 'Everything others prepared and you may decide. You asked for your password because approving moves money; you can never approve your own work.',
+        ],
+        'payouts' => [
+            'title' => 'Payouts',
+            'body' => 'Payments to people. Approve or reject each one; large amounts need a second, different approver. Marking it paid is a separate step once the money is handed over.',
+        ],
+        'receipts' => [
+            'title' => 'Receipts',
+            'body' => 'Money received from sponsors and others, already split between accounts. Post it to book the money, or reject it with a reason.',
+        ],
+        'transactions' => [
+            'title' => 'Transactions',
+            'body' => 'Movements waiting for approval. Approve to post them to the ledger, or reject with a reason. A movement that would overdraw an account is refused.',
+        ],
+        'posted' => [
+            'title' => 'Recently posted',
+            'body' => 'What was approved lately, for reference.',
+        ],
+    ],
+
+    'periods' => [
+        'intro' => [
+            'title' => 'Fiscal periods',
+            'body' => 'The foundation books its money month by month. Each month is open until someone closes it.',
+        ],
+        'nav' => [
+            'title' => 'Finance sections',
+            'body' => 'Periods is the last tab.',
+        ],
+        'list' => [
+            'title' => 'The months',
+            'body' => 'Open months accept new movements. Closed months are locked: nothing can be posted with a date inside them.',
+        ],
+        'close' => [
+            'title' => 'Close a month',
+            'body' => 'Closing is final, so do it only after the month is reconciled. Only people with approval rights see this button, and it asks for your password.',
+        ],
+    ],
+
+    'sponsors' => [
+        'intro' => [
+            'title' => 'Sponsors',
+            'body' => 'Companies, organisations and individuals who support the foundation, with their sponsorships and contacts.',
+        ],
+        'search' => [
+            'title' => 'Search sponsors',
+            'body' => 'Search by name in Arabic or English.',
+        ],
+        'filters' => [
+            'title' => 'Filter the list',
+            'body' => 'Narrow by type (company, organisation, individual, government) or by active or inactive.',
+        ],
+        'new' => [
+            'title' => 'New sponsor',
+            'body' => 'Add a sponsor, then its logo, contacts and sponsorships on its page. Only finance editors see this button.',
+        ],
+        'table' => [
+            'title' => 'The sponsors',
+            'body' => 'Click a sponsor to open it. Sponsors are deactivated, never deleted, so the history stays.',
+        ],
+    ],
+
+    'sponsor_show' => [
+        'intro' => [
+            'title' => 'A sponsor',
+            'body' => 'Everything about one sponsor: logo, sponsorships, contacts and details.',
+        ],
+        'logo' => [
+            'title' => 'Logo',
+            'body' => 'Upload the sponsor\'s logo (PNG, JPG or WebP). It shows on the public home page only while the sponsor is active and has agreed to be named.',
+        ],
+        'sponsorships' => [
+            'title' => 'Sponsorships',
+            'body' => 'Each agreement with this sponsor: what was pledged and how much has been received. Add one with its split rules.',
+        ],
+        'contacts' => [
+            'title' => 'Contacts',
+            'body' => 'The people at the sponsor to call or write to, with their role, phone and email. Their details are visible only to finance staff.',
+        ],
+        'details' => [
+            'title' => 'Details',
+            'body' => 'Names in both languages, type, website, notes, whether the sponsor may be named publicly, and whether it is active.',
+        ],
+    ],
+
+    'sponsorship_show' => [
+        'intro' => [
+            'title' => 'A sponsorship',
+            'body' => 'One agreement with a sponsor: how much was pledged, how much arrived, and how incoming money is split.',
+        ],
+        'figures' => [
+            'title' => 'Pledged and received',
+            'body' => 'The amount promised, the amount received so far and what is still outstanding.',
+        ],
+        'form' => [
+            'title' => 'Terms and split rules',
+            'body' => 'Title, kind, dates and the rules that split each receipt between accounts: a percentage or a fixed amount to each, with the remainder going to the general fund.',
+        ],
+        'receipts' => [
+            'title' => 'Receipts',
+            'body' => 'Payments received under this sponsorship. Record a new one from the Receipts tab.',
+        ],
+    ],
+
+    'receipts' => [
+        'intro' => [
+            'title' => 'Receipts',
+            'body' => 'Money the foundation received, from sponsors, donations, prizes and fees. Each receipt is split between accounts, then posted.',
+        ],
+        'search' => [
+            'title' => 'Search receipts',
+            'body' => 'Search by reference or payer.',
+        ],
+        'filters' => [
+            'title' => 'Filter the list',
+            'body' => 'Narrow by status (draft, submitted, posted, rejected) or by source.',
+        ],
+        'new' => [
+            'title' => 'New receipt',
+            'body' => 'Record money received: who paid, how much, when and how. Link it to a sponsorship so its split rules apply.',
+        ],
+        'table' => [
+            'title' => 'The receipts',
+            'body' => 'Open a receipt to review the proposed split, submit it, and see it through to posting.',
+        ],
+    ],
+
+    'receipt_show' => [
+        'intro' => [
+            'title' => 'A receipt',
+            'body' => 'Review how an incoming payment is split between accounts, then send it for approval.',
+        ],
+        'facts' => [
+            'title' => 'The payment',
+            'body' => 'Who paid, how much, when, how and which sponsorship it belongs to.',
+        ],
+        'split' => [
+            'title' => 'Split between accounts',
+            'body' => 'The platform proposes a split from the sponsorship rules. You may change it, but the lines must add up to the receipt exactly.',
+        ],
+        'submit' => [
+            'title' => 'Submit for approval',
+            'body' => 'Sends the receipt to someone who can approve it. Once they post it, the money is booked into the accounts.',
+        ],
+    ],
+
+    'payouts' => [
+        'intro' => [
+            'title' => 'Payouts',
+            'body' => 'Bonuses, stipends and other payments to people. Money leaves the ledger only when a payout is marked paid.',
+        ],
+        'nav' => [
+            'title' => 'Finance sections',
+            'body' => 'Approved payouts are decided on the Approvals tab.',
+        ],
+        'filters' => [
+            'title' => 'Filter the list',
+            'body' => 'Narrow by status (draft, submitted, approved, paid, rejected, cancelled) or by type.',
+        ],
+        'new' => [
+            'title' => 'New payout',
+            'body' => 'Choose who is paid, the amount and the account it comes from. For someone under 18 you must name a guardian who receives the payment.',
+        ],
+        'table' => [
+            'title' => 'The payouts',
+            'body' => 'Submit a draft, then a different person approves it (two approvers for large amounts). After paying, mark it paid with the method and reference.',
+        ],
+    ],
+
+    'team_budgets' => [
+        'intro' => [
+            'title' => 'Team budgets',
+            'body' => 'Funding requests and expenses sent by the teams. Teams ask for money; once approved it sits in the team\'s budget, and they record what they spend with a receipt.',
+        ],
+        'nav' => [
+            'title' => 'Finance sections',
+            'body' => 'This is the Team budgets tab.',
+        ],
+        'review' => [
+            'title' => 'Review and approve',
+            'body' => 'Approving needs your password, so it happens on a protected view. Asking for changes and rejecting need no password.',
+        ],
+        'requests' => [
+            'title' => 'Funding requests',
+            'body' => 'Approve in full or in part with a note, ask the team to change the request, or reject it. You cannot approve a request you made.',
+        ],
+        'expenses' => [
+            'title' => 'Expenses',
+            'body' => 'Check each expense against its receipt, then approve it. The money leaves the team\'s budget; an expense larger than the budget is refused.',
+        ],
+    ],
 ];

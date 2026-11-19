@@ -142,7 +142,7 @@ const creating = ref(false);
 
         <FinanceNav current="sponsors" />
 
-        <section class="rounded-xl border bg-card p-5">
+        <section class="rounded-xl border bg-card p-5" data-tour="sponsor-logo">
             <h3 class="mb-3 font-semibold">{{ $t('Logo') }}</h3>
             <LogoField
                 :logo="sponsor.logo"
@@ -164,6 +164,7 @@ const creating = ref(false);
         <div class="grid gap-6 xl:grid-cols-2">
             <section
                 class="grid content-start gap-4 rounded-xl border bg-card p-5"
+                data-tour="sponsor-sponsorships"
             >
                 <div class="flex items-center justify-between gap-2">
                     <h3 class="font-semibold">{{ $t('Sponsorships') }}</h3>
@@ -199,7 +200,9 @@ const creating = ref(false);
                     </li>
                 </ul>
 
-                <h3 class="mt-2 font-semibold">{{ $t('Contacts') }}</h3>
+                <h3 class="mt-2 font-semibold" data-tour="sponsor-contacts">
+                    {{ $t('Contacts') }}
+                </h3>
                 <ul class="grid gap-2 text-sm">
                     <li
                         v-for="person in contacts"
@@ -279,7 +282,10 @@ const creating = ref(false);
                 </form>
             </section>
 
-            <section class="rounded-xl border bg-card p-5">
+            <section
+                class="rounded-xl border bg-card p-5"
+                data-tour="sponsor-details"
+            >
                 <h3 class="mb-4 font-semibold">{{ $t('Details') }}</h3>
                 <form class="grid gap-4" @submit.prevent="saveDetails">
                     <div class="grid gap-2">

@@ -41,8 +41,8 @@ const props = defineProps<{
     editable: boolean;
 }>();
 
-const form = useForm<{ categories: Row[] }>({
-    categories: props.categories.map((category) => ({
+function toRows(categories: Category[]): Row[] {
+    return categories.map((category) => ({
         id: category.id,
         name_en: category.nameEn,
         name_ar: category.nameAr ?? '',
@@ -52,7 +52,11 @@ const form = useForm<{ categories: Row[] }>({
         members_max: category.membersMax,
         robots_per_team: category.robotsPerTeam,
         capacity: category.capacity ?? '',
-    })),
+    }));
+}
+
+const form = useForm<{ categories: Row[] }>({
+    categories: toRows(props.categories),
 });
 
 const errors = computed(
@@ -88,7 +92,18 @@ function save(): void {
             age_max: blank(row.age_max),
             capacity: blank(row.capacity),
         })),
-    })).put(categoriesRoute(props.eventSlug).url, { preserveScroll: true });
+    })).put(categoriesRoute(props.eventSlug).url, {
+        preserveScroll: true,
+        /*
+         * Take the saved categories (now with ids) back into the form; rows
+         * added before the save would otherwise keep id: null and be created
+         * a second time by the next save.
+         */
+        onSuccess: () => {
+            form.defaults({ categories: toRows(props.categories) });
+            form.reset();
+        },
+    });
 }
 
 const numberClass = 'w-20 tabular-nums';

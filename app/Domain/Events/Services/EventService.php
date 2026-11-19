@@ -77,6 +77,7 @@ final class EventService
         DB::transaction(function () use ($event, $items, $by): void {
             $existing = $event->categories()->get()->keyBy('id');
             $keptIds = collect($items)->pluck('id')->filter()->map(fn ($id): int => (int) $id)->all();
+            /* Eloquent's except() re-indexes the collection, so removed rows are deleted by modelKeys(), not keys(). */
             $removed = $existing->except($keptIds);
 
             $blocked = $removed->filter(fn (EventCategory $category): bool => $category->registrations()->exists());
@@ -87,7 +88,7 @@ final class EventService
                 ])]);
             }
 
-            EventCategory::query()->whereKey($removed->keys())->delete();
+            EventCategory::query()->whereKey($removed->modelKeys())->delete();
 
             foreach (array_values($items) as $position => $item) {
                 $attributes = [

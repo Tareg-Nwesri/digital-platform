@@ -101,6 +101,23 @@ it('saves categories but keeps those with active registrations', function () {
     ], $this->user))->toThrow(DomainRuleViolation::class);
 });
 
+it('removes only the categories left out, never another event’s', function () {
+    $other = Event::factory()->for($this->department)->create();
+    $elsewhere = EventCategory::factory()->for($other)->create(['name_en' => 'Elsewhere']);
+
+    $event = Event::factory()->for($this->department)->create();
+    EventCategory::factory()->for($event)->create(['name_en' => 'Padding']);
+    $kept = EventCategory::factory()->for($event)->create(['name_en' => 'Kept']);
+    EventCategory::factory()->for($event)->create(['name_en' => 'Dropped']);
+
+    $this->service->saveCategories($event, [
+        ['id' => $kept->id, 'name_en' => 'Kept', 'members_min' => 1, 'members_max' => 4, 'robots_per_team' => 1],
+    ], $this->user);
+
+    expect($event->categories()->pluck('name_en')->all())->toBe(['Kept'])
+        ->and($elsewhere->fresh())->not->toBeNull();
+});
+
 it('invites and uninvites teams for invite-only events', function () {
     $event = Event::factory()->for($this->department)->open()->create(['visibility' => EventVisibility::InviteOnly]);
     $team = Team::factory()->create();

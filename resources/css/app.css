@@ -198,6 +198,62 @@
     ::selection {
         background: color-mix(in srgb, var(--brand) 25%, transparent);
     }
+
+    /* Native controls and scrollbars follow the theme. */
+    :root {
+        color-scheme: light;
+    }
+
+    .dark {
+        color-scheme: dark;
+    }
+
+    /*
+      Thin, theme-coloured scrollbars: a rounded thumb on a clear track that
+      darkens on hover. Firefox reads scrollbar-*, Chromium and Safari the
+      ::-webkit-scrollbar rules.
+    */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: color-mix(
+                in srgb,
+                var(--muted-foreground) 35%,
+                transparent
+            )
+            transparent;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid transparent;
+        border-radius: 9999px;
+        background-color: color-mix(
+            in srgb,
+            var(--muted-foreground) 35%,
+            transparent
+        );
+        background-clip: padding-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: color-mix(
+            in srgb,
+            var(--muted-foreground) 60%,
+            transparent
+        );
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
 }
 
 @layer components {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ProtectAgainstBots;
 use Symfony\Component\Finder\Finder;
 
 /*
@@ -79,6 +80,22 @@ it('has an Arabic translation for every key the frontend translates', function (
     }
 
     expect($missing)->toBe([]);
+});
+
+it('lists every page whose BotGuard asks for turnstile, so the script loads with the page', function () {
+    $pages = Finder::create()
+        ->files()
+        ->in(dirname(__DIR__, 2).'/resources/js/pages')
+        ->name('*.vue')
+        ->contains('/<BotGuard\b[^>]*\bwith-turnstile\b/');
+
+    $components = collect(iterator_to_array($pages, false))
+        ->map(fn ($file): string => str_replace(['\\', '.vue'], ['/', ''], $file->getRelativePathname()))
+        ->sort()
+        ->values()
+        ->all();
+
+    expect($components)->toBe(collect(ProtectAgainstBots::TURNSTILE_PAGES)->sort()->values()->all());
 });
 
 it('uses DatePicker instead of native date and time inputs', function () {

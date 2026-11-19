@@ -328,7 +328,7 @@ function removeMember(key: number): void {
                 </section>
 
                 <InputError :message="errors.registration" />
-                <BotGuard :errors="errors" />
+                <BotGuard :errors="errors" with-turnstile />
 
                 <Button
                     type="submit"

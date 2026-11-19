@@ -105,7 +105,7 @@ const fields = [
                         }}</span>
                     </div>
                     <div class="wide">
-                        <BotGuard :errors="errors" />
+                        <BotGuard :errors="errors" with-turnstile />
                     </div>
                     <div class="wide form-actions">
                         <button

@@ -37,6 +37,11 @@
         <link rel="manifest" href="/site.webmanifest">
         <meta name="theme-color" content="#f8660b">
 
+        @if(config('turnstile.enabled') && in_array($page['component'], \App\Http\Middleware\ProtectAgainstBots::TURNSTILE_PAGES, true))
+            <link rel="preconnect" href="https://challenges.cloudflare.com">
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+        @endif
+
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])

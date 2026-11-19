@@ -39,6 +39,7 @@ const links = [
 
 <template>
     <nav
+        data-tour="finance-nav"
         class="flex [scrollbar-width:none] gap-1 overflow-x-auto border-b [&::-webkit-scrollbar]:hidden"
     >
         <template v-for="[key, label, href] in links" :key="key">

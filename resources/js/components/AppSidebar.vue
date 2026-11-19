@@ -64,7 +64,7 @@ const { start } = useDirection();
             <WorkspaceSwitcher />
         </SidebarHeader>
 
-        <SidebarContent>
+        <SidebarContent data-tour="app-sidebar">
             <NavMain :groups="navGroups" />
         </SidebarContent>
 

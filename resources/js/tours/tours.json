@@ -1,0 +1,99 @@
+{
+    "console/Dashboard": [
+        {
+            "title": "tour.dashboard.intro.title",
+            "body": "tour.dashboard.intro.body"
+        },
+        {
+            "element": "dashboard-attention",
+            "title": "tour.dashboard.attention.title",
+            "body": "tour.dashboard.attention.body",
+            "side": "bottom"
+        },
+        {
+            "element": "dashboard-events",
+            "title": "tour.dashboard.events.title",
+            "body": "tour.dashboard.events.body",
+            "side": "top"
+        },
+        {
+            "element": "dashboard-registrations",
+            "title": "tour.dashboard.registrations.title",
+            "body": "tour.dashboard.registrations.body",
+            "side": "top"
+        },
+        {
+            "element": "dashboard-money",
+            "title": "tour.dashboard.money.title",
+            "body": "tour.dashboard.money.body",
+            "side": "top"
+        },
+        {
+            "element": "dashboard-community",
+            "title": "tour.dashboard.community.title",
+            "body": "tour.dashboard.community.body",
+            "side": "top"
+        },
+        {
+            "element": "dashboard-activity",
+            "title": "tour.dashboard.activity.title",
+            "body": "tour.dashboard.activity.body",
+            "side": "top"
+        },
+        {
+            "element": "app-sidebar",
+            "title": "tour.common.sidebar.title",
+            "body": "tour.common.sidebar.body"
+        },
+        {
+            "element": "user-menu",
+            "title": "tour.common.user_menu.title",
+            "body": "tour.common.user_menu.body"
+        },
+        {
+            "element": "tour-button",
+            "title": "tour.common.guide.title",
+            "body": "tour.common.guide.body",
+            "side": "bottom"
+        }
+    ],
+    "workspace/Dashboard": [
+        {
+            "title": "tour.team_dashboard.intro.title",
+            "body": "tour.team_dashboard.intro.body"
+        },
+        {
+            "element": "team-dashboard-tiles",
+            "title": "tour.team_dashboard.tiles.title",
+            "body": "tour.team_dashboard.tiles.body",
+            "side": "bottom"
+        },
+        {
+            "element": "team-dashboard-events",
+            "title": "tour.team_dashboard.events.title",
+            "body": "tour.team_dashboard.events.body",
+            "side": "top"
+        },
+        {
+            "element": "workspace-switcher",
+            "title": "tour.common.switcher.title",
+            "body": "tour.common.switcher.body"
+        },
+        {
+            "element": "app-sidebar",
+            "title": "tour.common.sidebar.title",
+            "body": "tour.common.sidebar.body"
+        },
+        {
+            "element": "user-menu",
+            "title": "tour.common.user_menu.title",
+            "body": "tour.common.user_menu.body"
+        },
+        {
+            "element": "tour-button",
+            "title": "tour.common.guide.title",
+            "body": "tour.common.guide.body",
+            "side": "bottom"
+        }
+    ]
+}

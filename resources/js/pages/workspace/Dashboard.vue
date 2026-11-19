@@ -62,7 +62,10 @@ defineProps<{
             </div>
         </div>
 
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+            class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            data-tour="team-dashboard-tiles"
+        >
             <div class="rounded-xl border bg-card p-5" data-test="members-tile">
                 <p class="text-sm text-muted-foreground">{{ $t('Members') }}</p>
                 <p class="mt-1 text-3xl font-semibold tabular-nums">
@@ -127,7 +130,10 @@ defineProps<{
             </div>
         </div>
 
-        <section class="grid gap-3 rounded-xl border bg-card p-5">
+        <section
+            class="grid gap-3 rounded-xl border bg-card p-5"
+            data-tour="team-dashboard-events"
+        >
             <h2 class="font-semibold">{{ $t('Upcoming events') }}</h2>
             <p
                 v-if="upcoming.length === 0"

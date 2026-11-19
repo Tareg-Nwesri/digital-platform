@@ -128,6 +128,7 @@ const shortDate = (date: string) =>
 
         <!-- What waits for someone -->
         <section
+            data-tour="dashboard-attention"
             :aria-label="$t('Needs your attention')"
             class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
         >
@@ -170,6 +171,7 @@ const shortDate = (date: string) =>
         <div class="grid gap-6 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
             <!-- Upcoming events -->
             <section
+                data-tour="dashboard-events"
                 class="grid content-start gap-4 rounded-xl border bg-card p-5"
             >
                 <h2 class="flex items-center gap-2 font-semibold">
@@ -297,6 +299,7 @@ const shortDate = (date: string) =>
             <section
                 class="grid content-start gap-3 rounded-xl border bg-card p-5"
                 data-test="registrations-chart"
+                data-tour="dashboard-registrations"
             >
                 <div class="flex items-baseline justify-between gap-2">
                     <h2 class="font-semibold">
@@ -387,6 +390,7 @@ const shortDate = (date: string) =>
         <div class="grid gap-6 xl:grid-cols-2">
             <!-- Money -->
             <section
+                data-tour="dashboard-money"
                 class="grid content-start gap-4 rounded-xl border bg-card p-5"
             >
                 <h2 class="flex items-center gap-2 font-semibold">
@@ -471,6 +475,7 @@ const shortDate = (date: string) =>
 
             <!-- Community -->
             <section
+                data-tour="dashboard-community"
                 class="grid content-start gap-4 rounded-xl border bg-card p-5"
             >
                 <h2 class="flex items-center gap-2 font-semibold">
@@ -531,7 +536,10 @@ const shortDate = (date: string) =>
         </div>
 
         <!-- Recent activity -->
-        <section class="grid gap-3 rounded-xl border bg-card p-5">
+        <section
+            class="grid gap-3 rounded-xl border bg-card p-5"
+            data-tour="dashboard-activity"
+        >
             <h2 class="flex items-center gap-2 font-semibold">
                 <ActivityIcon class="size-4 text-muted-foreground" />
                 {{ $t('Recent activity') }}

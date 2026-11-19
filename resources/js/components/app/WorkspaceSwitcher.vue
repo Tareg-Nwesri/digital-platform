@@ -31,7 +31,7 @@ function href(workspace: { type: string; slug: string }) {
 </script>
 
 <template>
-    <SidebarMenu v-if="workspaces.length">
+    <SidebarMenu v-if="workspaces.length" data-tour="workspace-switcher">
         <SidebarMenuItem>
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>

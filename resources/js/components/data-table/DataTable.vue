@@ -68,7 +68,11 @@ function sortKey(column: {
 <template>
     <div class="grid gap-3" data-test="data-table">
         <div class="flex flex-wrap items-center gap-2">
-            <div v-if="searchable" class="relative w-full max-w-xs">
+            <div
+                v-if="searchable"
+                class="relative w-full max-w-xs"
+                data-tour="data-table-search"
+            >
                 <Search
                     class="pointer-events-none absolute start-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
                 />
